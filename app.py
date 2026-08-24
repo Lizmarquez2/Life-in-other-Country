@@ -48,6 +48,15 @@ def load_data():
 
 datos = load_data()
 
+# --- SINCRONIZACIÓN DE MOVIMIENTOS EN SESIÓN ---
+if "movimientos_session" not in st.session_state:
+    st.session_state.movimientos_session = datos.get("movimientos", {}).get("movimientos", [])
+
+# Inyectamos los movimientos actuales al diccionario global para que todas las páginas y KPIs los lean
+if "movimientos" not in datos:
+    datos["movimientos"] = {}
+datos["movimientos"]["movimientos"] = st.session_state.movimientos_session
+
 # ===== HEADER =====
 st.markdown("# 🚀 Dashboard de Migración Calgary 2026-2027")
 st.markdown("**2 Personas** | Objetivo: Junio 2027")
