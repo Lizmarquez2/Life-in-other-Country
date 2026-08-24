@@ -499,15 +499,16 @@ elif pagina == "📋 Trámites y Mapeo":
             nombre_tramite = t.get('nombre', '')
             costo_presupuestado = t.get('costo', 0.0)
             
-            # --- CÁLCULO AUTOMÁTICO FLEXIBLE ---
-            # Sumamos los gastos cuyo concepto incluya la palabra clave del trámite (ej. "Pasaporte")
-            palabra_clave = nombre_tramite.split(" ")[0].lower() # Toma la primera palabra (ej. "Pasaporte")
+            # --- DETECCIÓN INTELIGENTE POR PALABRA CLAVE ---
+            # Extraemos la raíz del nombre (ej. "pasaporte" de "Pasaportes (2 personas)")
+            palabra_clave = nombre_tramite.split(" ")[0].lower().replace("s", "") # Remueve plurales simples
             
             total_pagado = sum(
                 m.get("monto_original", 0) for m in movimientos_actuales 
                 if m.get("tipo") == "GASTO" and palabra_clave in m.get("concepto", "").lower()
             )
             
+            # --- DEFINICIÓN DE ESTADOS ---
             if total_pagado <= 0:
                 estado_calculado = "Pendiente"
             elif costo_presupuestado > 0 and total_pagado >= costo_presupuestado:
@@ -515,7 +516,6 @@ elif pagina == "📋 Trámites y Mapeo":
             else:
                 estado_calculado = "En Proceso"
             
-            # Actualizamos el estado automáticamente
             t['estado'] = estado_calculado
             
             # --- RENDERIZADO EN PANTALLA ---
