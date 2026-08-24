@@ -269,20 +269,21 @@ elif pagina == "💰 Ahorro & Gastos":
 
     st.subheader("📝 Registrar Nuevo Movimiento")
 
-    with st.form("form_movimiento"):
+    with st.form("form_movimiento", clear_on_submit=True):
         col1, col2 = st.columns(2)
         with col1:
             fecha = st.date_input("Fecha")
             persona = st.selectbox("Persona", ["Persona_L_01", "Persona_J_02"])
             tipo = st.selectbox("Tipo de Movimiento", ["AHORRO", "GASTO"])
         with col2:
-            monto = st.number_input("Monto (S/)", min_value=0.0, step=10.0)
+            monto = st.number_input("Monto", min_value=0.0, step=10.0)
             moneda = st.selectbox("Moneda", ["PEN", "CAD", "USD"])
             
         concepto = st.selectbox(
             "Concepto / Descripción", 
             [
                 "Sueldo / Ahorro mensual", 
+                "Bolsa de Viaje", 
                 "Pasaporte (Perú)", 
                 "Apostillas títulos (Perú)",
                 "Antecedentes penales (Perú)",
@@ -293,8 +294,7 @@ elif pagina == "💰 Ahorro & Gastos":
                 "Tasas de visado / Express Entry (Pago online en CAD)", 
                 "Seguro médico",
                 "Pasajes aéreos Perú - Canadá",
-                "Gastos varios / Contingencia",
-                "Bolsa de Viaje"
+                "Gastos varios / Contingencia"
             ]
         )
         
@@ -313,19 +313,29 @@ elif pagina == "💰 Ahorro & Gastos":
                 "observaciones": observaciones
             }
             
-            # Aseguramos que la estructura general sea un diccionario válido
-            if not isinstance(datos.get("movimientos"), dict):
-                datos["movimientos"] = {}
-                
-            # Aseguramos que exista la lista interna de movimientos
-            if "movimientos" not in datos["movimientos"]:
-                datos["movimientos"]["movimientos"] = []
-                
-            # Agregamos el nuevo registro
-            datos["movimientos"]["movimientos"].append(nuevo_registro)
+            # 1. Cargamos el archivo JSON de movimientos actual directamente de la ruta absoluta para evitar desfases
+            from pathlib import Path
+            import json
             
-            # Guardamos en el archivo JSON correspondiente
-            guardar_datos_json("data/movimientos.json", datos["movimientos"])
+            ruta_movs = Path(__file__).parent / "data" / "movimientos.json"
+            
+            try:
+                if ruta_movs.exists():
+                    with open(ruta_movs, 'r', encoding='utf-8') as f:
+                        contenido_json = json.load(f)
+                else:
+                    contenido_json = {"movimientos": []}
+            except Exception:
+                contenido_json = {"movimientos": []}
+                
+            # 2. Aseguramos la estructura y añadimos el registro
+            if "movimientos" not in contenido_json:
+                contenido_json["movimientos"] = []
+                
+            contenido_json["movimientos"].append(nuevo_registro)
+            
+            # 3. Guardamos inmediatamente usando la función segura
+            guardar_datos_json("data/movimientos.json", contenido_json)
             
             st.success("¡Movimiento registrado y guardado con éxito!")
             st.rerun()
