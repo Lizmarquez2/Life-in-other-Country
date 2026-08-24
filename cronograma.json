@@ -62,7 +62,7 @@
         "tareas": [
           {
             "tarea_id": "2.1",
-            "nombre": "ECA - Liz",
+            "nombre": "ECA - Persona_L_01",
             "asignado_a": ["Persona_L_01"],
             "costo_soles": 0,
             "costo_cad": 329,
@@ -71,7 +71,7 @@
           },
           {
             "tarea_id": "2.2",
-            "nombre": "ECA - Josue",
+            "nombre": "ECA - Persona_J_02",
             "asignado_a": ["Persona_J_02"],
             "costo_soles": 0,
             "costo_cad": 329,
@@ -80,7 +80,7 @@
           },
           {
             "tarea_id": "2.3",
-            "nombre": "IELTS CLB 7 - Liz",
+            "nombre": "IELTS CLB 7 - Persona_L_01",
             "asignado_a": ["Persona_L_01"],
             "costo_soles": 0,
             "costo_cad": 350,
@@ -89,7 +89,7 @@
           },
           {
             "tarea_id": "2.4",
-            "nombre": "IELTS CLB 7 - Josue",
+            "nombre": "IELTS CLB 7 - Persona_J_02",
             "asignado_a": ["Persona_J_02"],
             "costo_soles": 0,
             "costo_cad": 350,
