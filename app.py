@@ -28,7 +28,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ===== ESTILOS PERSONAPersona_L_01ADOS =====
+# ===== ESTILOS CSS =====
 st.markdown("""
 <style>
     .main { padding: 1rem; }
@@ -168,14 +168,14 @@ if pagina == "📊 Resumen Ejecutivo":
 elif pagina == "📅 Línea de Tiempo":
     st.header("📅 Línea de Tiempo del Proyecto")
     
-    Persona_L_01, Persona_J_02 = st.columns(2)
+    col_l1, col_l2 = st.columns(2)
     
-    with Persona_L_01:
-        st.subheader("👩‍💼 Persona_L_01")
+    with col_l1:
+        st.subheader("👩‍💼 Liz")
         cronograma = datos.get("cronograma", {}).get("cronograma", {})
-        Persona_L_01_timeline = cronograma.get("linea_tiempo_persona", {}).get("Persona_L_01", [])
+        liz_timeline = cronograma.get("linea_tiempo_persona", {}).get("Liz", [])
         
-        for item in Persona_L_01_timeline:
+        for item in liz_timeline:
             mes = item.get("mes", "")
             hito = item.get("hito", "")
             costo_soles = item.get("costo_soles", 0)
@@ -190,11 +190,11 @@ elif pagina == "📅 Línea de Tiempo":
             else:
                 st.write(f"**{mes}:** {hito}")
     
-    with Persona_J_02:
-        st.subheader("👨‍💻 Persona_J_02 (Técnico IT)")
-        Persona_J_02_timeline = cronograma.get("linea_tiempo_persona", {}).get("Persona_J_02", [])
+    with col_l2:
+        st.subheader("👨‍💻 Jhon (Técnico IT)")
+        jhon_timeline = cronograma.get("linea_tiempo_persona", {}).get("Jhon", [])
         
-        for item in Persona_J_02_timeline:
+        for item in jhon_timeline:
             mes = item.get("mes", "")
             hito = item.get("hito", "")
             costo_soles = item.get("costo_soles", 0)
@@ -213,26 +213,24 @@ elif pagina == "📅 Línea de Tiempo":
 elif pagina == "💰 Ahorro & Gastos":
     st.header("💰 Registro de Ahorro & Gastos")
     
-    # Comparación por persona
-    Persona_L_01, Persona_J_02 = st.columns(2)
+    col_a1, col_a2 = st.columns(2)
     
-    with Persona_L_01:
-        st.subheader("👩‍💼 Persona_L_01")
-        info_Persona_L_01 = calcular_por_persona(datos, "Persona_L_01")
-        st.metric("Ahorrado", formato_moneda_soles(info_Persona_L_01["total_ahorrado_soles"]))
-        st.metric("Gastado", formato_moneda_soles(info_Persona_L_01["total_gastado_soles"]))
-        st.metric("Saldo", formato_moneda_soles(info_Persona_L_01["saldo_soles"]))
+    with col_a1:
+        st.subheader("👩‍💼 Liz")
+        info_liz = calcular_por_persona(datos, "Liz")
+        st.metric("Ahorrado", formato_moneda_soles(info_liz["total_ahorrado_soles"]))
+        st.metric("Gastado", formato_moneda_soles(info_liz["total_gastado_soles"]))
+        st.metric("Saldo", formato_moneda_soles(info_liz["saldo_soles"]))
     
-    with Persona_J_02:
-        st.subheader("👨‍💻 Persona_J_02")
-        info_Persona_J_02 = calcular_por_persona(datos, "Persona_J_02")
-        st.metric("Ahorrado", formato_moneda_soles(info_Persona_J_02["total_ahorrado_soles"]))
-        st.metric("Gastado", formato_moneda_soles(info_Persona_J_02["total_gastado_soles"]))
-        st.metric("Saldo", formato_moneda_soles(info_Persona_J_02["saldo_soles"]))
+    with col_a2:
+        st.subheader("👨‍💻 Jhon")
+        info_jhon = calcular_por_persona(datos, "Jhon")
+        st.metric("Ahorrado", formato_moneda_soles(info_jhon["total_ahorrado_soles"]))
+        st.metric("Gastado", formato_moneda_soles(info_jhon["total_gastado_soles"]))
+        st.metric("Saldo", formato_moneda_soles(info_jhon["saldo_soles"]))
     
     st.markdown("---")
     
-    # Tabla de movimientos
     st.subheader("📊 Tabla de Movimientos")
     movimientos = datos.get("movimientos", {}).get("movimientos", [])
     
@@ -250,7 +248,6 @@ elif pagina == "💵 Presupuesto":
     
     presupuesto = datos.get("presupuesto", {}).get("presupuesto", {})
     
-    # Gastos en Soles
     st.subheader("💱 Gastos en Soles (Perú)")
     gastos_soles = presupuesto.get("gastos_en_soles", {}).get("items", [])
     
@@ -263,7 +260,6 @@ elif pagina == "💵 Presupuesto":
     
     st.markdown("---")
     
-    # Gastos en CAD
     st.subheader("🍁 Gastos en CAD$ (Canadá)")
     gastos_cad = presupuesto.get("gastos_en_cad", {}).get("items", [])
     
@@ -283,7 +279,6 @@ elif pagina == "🎫 Bolsa Migratoria":
     
     st.info(f"**Meta:** {formato_moneda_soles(objetivo.get('meta_soles', 0))} ≈ {formato_moneda_cad(objetivo.get('meta_cad', 0))}")
     
-    # Progreso
     progreso_bolsa = calcular_progreso_bolsa(datos)
     
     col_prog1, col_prog2 = st.columns(2)
@@ -294,24 +289,22 @@ elif pagina == "🎫 Bolsa Migratoria":
     with col_prog2:
         st.metric("Falta", formato_moneda_soles(progreso_bolsa["falta_soles"]))
     
-    # Barra de progreso
     st.progress(min(progreso_bolsa["progreso_pct"] / 100, 1.0))
     st.write(f"**Progreso:** {progreso_bolsa['progreso_pct']:.1f}%")
     
     st.markdown("---")
     
-    # Proyección mensual
     st.subheader("📈 Proyección Mensual")
     proyeccion = bolsa.get("proyeccion_mensual", [])
     
     if proyeccion:
         df_proyeccion = pd.DataFrame(proyeccion)
         df_proyeccion_display = df_proyeccion[[
-            "mes", "Persona_L_01_ahorro_soles", "Persona_J_02_ahorro_soles", 
+            "mes", "liz_ahorro_soles", "jhon_ahorro_soles", 
             "gastos_soles", "saldo_acumulado_soles", "progreso_pct"
         ]].copy()
         df_proyeccion_display.columns = [
-            "Mes", "Persona_L_01 Ahorro", "Persona_J_02 Ahorro", "Gastos", "Saldo Acumulado", "Progreso %"
+            "Mes", "Liz Ahorro", "Jhon Ahorro", "Gastos", "Saldo Acumulado", "Progreso %"
         ]
         st.dataframe(df_proyeccion_display, use_container_width=True)
 
@@ -321,7 +314,6 @@ elif pagina == "⚙️ Configuración":
     
     config = datos.get("config", {})
     
-    # Información del proyecto
     st.subheader("📌 Información del Proyecto")
     col_info1, col_info2 = st.columns(2)
     
@@ -341,7 +333,6 @@ elif pagina == "⚙️ Configuración":
     
     st.markdown("---")
     
-    # Tasas de cambio
     st.subheader("💱 Tasas de Cambio (Última actualización)")
     tasas = config.get("tasas_cambio", {})
     
@@ -360,7 +351,6 @@ elif pagina == "⚙️ Configuración":
     
     st.markdown("---")
     
-    # Metas
     st.subheader("🎯 Metas Financieras")
     metas = config.get("metas_financieras", {})
     
