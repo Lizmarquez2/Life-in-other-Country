@@ -331,6 +331,27 @@ elif pagina == "🎫 Bolsa Migratoria":
     
     st.markdown("---")
     
+    # --- SIMULADOR DINÁMICO DE APORTES PROMEDIO ---
+    st.subheader("⚙️ Simulador de Aportes Mensuales")
+    st.write("Modifica los aportes mensuales promedio para evaluar el tiempo estimado hacia la meta.")
+    
+    col_s1, col_s2 = st.columns(2)
+    with col_s1:
+        nuevo_ahorro_liz = st.number_input("Aporte promedio Persona_L_01 (S/)", value=700.0, step=50.0)
+    with col_s2:
+        nuevo_ahorro_jhon = st.number_input("Aporte promedio Persona_J_02 (S/)", value=250.0, step=50.0)
+        
+    aporte_mensual_total = nuevo_ahorro_liz + nuevo_ahorro_jhon
+    meta_faltante = objetivo.get('meta_soles', 60000) - progreso_bolsa["ahorrado_soles"]
+    
+    if aporte_mensual_total > 0:
+        meses_estimados = meta_faltante / aporte_mensual_total
+        st.success(f"💡 Con un aporte conjunto de S/ {aporte_mensual_total:,.2f} mensuales, te tomaría aproximadamente {meses_estimados:.1f} meses cubrir el saldo restante.")
+    else:
+        st.warning("⚠️ Ingresa aportes mayores a cero para calcular la estimación.")
+        
+    st.markdown("---")
+    
     st.subheader("📈 Proyección Mensual")
     proyeccion = bolsa.get("proyeccion_mensual", [])
     
