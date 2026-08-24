@@ -111,11 +111,21 @@ if pagina == "📊 Resumen Ejecutivo":
         )
     
     with col4:
-        st.metric(
-            "📅 Días para Viaje",
-            kpis["dias_faltantes"],
-            "Junio 15, 2027"
-        )
+        progreso_bolsa = calcular_progreso_bolsa(datos)
+        meta_cumplida = progreso_bolsa["ahorrado_soles"] >= progreso_bolsa["meta_soles"]
+        
+        if meta_cumplida:
+            st.metric(
+                "📅 Estado del Viaje",
+                "¡Meta Completa!",
+                "Listos para viajar ✈️"
+            )
+        else:
+            st.metric(
+                "📅 Días para Viaje",
+                kpis["dias_faltantes"],
+                f"Falta meta: {formato_moneda_soles(progreso_bolsa['falta_soles'])}"
+            )
     
     st.markdown("---")
     
