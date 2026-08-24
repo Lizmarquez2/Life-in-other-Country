@@ -300,7 +300,7 @@ elif pagina == "🎫 Bolsa Migratoria":
     if proyeccion:
         df_proyeccion = pd.DataFrame(proyeccion)
         df_proyeccion_display = df_proyeccion[[
-            "mes", "liz_ahorro_soles", "jhon_ahorro_soles", 
+            "mes", "Persona_L_01_ahorro_soles", "Persona_J_02_ahorro_soles", 
             "gastos_soles", "saldo_acumulado_soles", "progreso_pct"
         ]].copy()
         df_proyeccion_display.columns = [
