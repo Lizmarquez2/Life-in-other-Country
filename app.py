@@ -245,47 +245,45 @@ elif pagina == "💰 Ahorro & Gastos":
 
     st.subheader("📝 Registrar Nuevo Movimiento")
 
-with st.form("form_movimiento"):
-    col1, col2 = st.columns(2)
-    with col1:
-        fecha = st.date_input("Fecha")
-        persona = st.selectbox("Persona", ["Persona_L_01", "Persona_J_02"])
-        tipo = st.selectbox("Tipo de Movimiento", ["AHORRO", "GASTO"])
-    with col2:
-        monto = st.number_input("Monto (S/)", min_value=0.0, step=10.0)
-        moneda = st.selectbox("Moneda", ["PEN", "CAD", "USD"])
+    with st.form("form_movimiento"):
+        col1, col2 = st.columns(2)
+        with col1:
+            fecha = st.date_input("Fecha")
+            persona = st.selectbox("Persona", ["Persona_L_01", "Persona_J_02"])
+            tipo = st.selectbox("Tipo de Movimiento", ["AHORRO", "GASTO"])
+        with col2:
+            monto = st.number_input("Monto (S/)", min_value=0.0, step=10.0)
+            moneda = st.selectbox("Moneda", ["PEN", "CAD", "USD"])
+            
+        concepto = st.selectbox(
+            "Concepto / Descripción", 
+            [
+                "Sueldo / Ahorro mensual", 
+                "Bolsa de Viaje", 
+                "Pasaporte", 
+                "Traducciones oficiales", 
+                "Exámenes médicos (IRCC)", 
+                "Tasas de visado / Express Entry", 
+                "Pasajes aéreos Perú - Canadá",
+                "Gastos varios / Contingencia"
+            ]
+        )
         
-    # Categoría o Concepto basado en tus necesidades de Perú y Canadá
-    concepto = st.selectbox(
-        "Concepto / Descripción", 
-        [
-            "Sueldo / Ahorro mensual", 
-            "Bolsa de Viaje", 
-            "Pasaporte", 
-            "Traducciones oficiales", 
-            "Exámenes médicos (IRCC)", 
-            "Tasas de visado / Express Entry", 
-            "Pasajes aéreos Perú - Canadá",
-            "Gastos varios / Contingencia"
-        ]
-    )
-    
-    observaciones = st.text_input("Observaciones (Opcional)")
-    
-    submitted = st.form_submit_button("Guardar Movimiento")
-    
-    if submitted:
-        # Aquí procesas y guardas el diccionario en tu archivo movimientos.json
-        nuevo_registro = {
-            "fecha": str(fecha),
-            "persona": persona,
-            "tipo": tipo,
-            "concepto": concepto,
-            "monto_original": monto,
-            "moneda_original": moneda,
-            "observaciones": observaciones
-        }
-        st.success("¡Movimiento registrado con éxito!")
+        observaciones = st.text_input("Observaciones (Opcional)")
+        
+        submitted = st.form_submit_button("Guardar Movimiento")
+        
+        if submitted:
+            nuevo_registro = {
+                "fecha": str(fecha),
+                "persona": persona,
+                "tipo": tipo,
+                "concepto": concepto,
+                "monto_original": monto,
+                "moneda_original": moneda,
+                "observaciones": observaciones
+            }
+            st.success("¡Movimiento registrado con éxito!")
 
 # ===== PÁGINA 4: PRESUPUESTO =====
 elif pagina == "💵 Presupuesto":
