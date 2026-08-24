@@ -489,30 +489,58 @@ elif pagina == "🎫 Bolsa Migratoria":
 # ===== PÁGINA 5: TRAMITES Y MAPEO =====
 elif pagina == "📋 Trámites y Mapeo":
     st.header("📋 Seguimiento de Trámites Migratorios")
-    st.write("Gestiona el estado de tus documentos y requisitos para Canadá.")
+    st.write("Gestiona y visualiza automáticamente el estado de tus documentos según los gastos registrados.")
     
     lista_tramites = datos.get("tramites", {}).get("tramites", [])
+    movimientos_actuales = st.session_state.get("movimientos_session", [])
     
     if lista_tramites:
         for i, t in enumerate(lista_tramites):
-            col_t1, col_t2 = st.columns([3, 1])
+            nombre_tramite = t.get('nombre', '')
+            costo_presupuestado = t.get('costo', 0.0) # Asegúrate de que tu JSON de trámites tenga un campo 'costo' o adáptalo aquí
+            
+            # --- CÁLCULO AUTOMÁTICO DEL ESTADO ---
+            # Sumamos lo gastado para este concepto específico en la sesión
+            total_pagado = sum(
+                m.get("monto_original", 0) for m in movimientos_actuales 
+                if m.get("concepto") == nombre_tramite and m.get("tipo") == "GASTO"
+            )
+            
+            if total_pagado <= 0:
+                estado_calculado = "Pendiente"
+            elif total_pagado >= costo_presupuestado and costo_presupuestado > 0:
+                estado_calculado = "Completado"
+            else:
+                estado_calculado = "En Proceso"
+            
+            # Actualizamos el estado automáticamente en el diccionario del trámite
+            t['estado'] = estado_calculado
+            
+            # --- RENDERIZADO EN PANTALLA ---
+            col_t1, col_t2, col_t3 = st.columns([2, 1, 1])
             with col_t1:
-                st.write(f"**{t.get('nombre', '')}**")
+                st.write(f"**{nombre_tramite}**")
+                if costo_presupuestado > 0:
+                    st.caption(f"Pagado: S/ {total_pagado:.2f} / Meta: S/ {costo_presupuestado:.2f}")
             with col_t2:
-                estado_actual = t.get('estado', 'Pendiente')
-                opciones = ["Pendiente", "En Proceso", "Completado"]
-                indice = opciones.index(estado_actual) if estado_actual in opciones else 0
-                
-                nuevo_estado = st.selectbox("Estado", opciones, index=indice, key=f"tramite_{i}")
-                
-                if nuevo_estado != estado_actual:
-                    lista_tramites[i]["estado"] = nuevo_estado
-                    guardar_datos_json("tramites.json", {"tramites": lista_tramites})
-                    st.success("¡Estado actualizado!")
-                    st.rerun()
+                # Mostramos el estado calculado visualmente con insignias o texto claro
+                if estado_calculado == "Completado":
+                    st.success("✅ Completado")
+                elif estado_calculado == "En Proceso":
+                    st.warning("🔄 En Proceso")
+                else:
+                    st.info("⏳ Pendiente")
+            with col_t3:
+                # Opcional: Mostramos quién realizó los pagos recientes para este trámite si los hubiera
+                pagadores = set(m.get("persona") for m in movimientos_actuales if m.get("concepto") == nombre_tramite and m.get("tipo") == "GASTO")
+                if pagadores:
+                    st.caption(f"Pagado por: {', '.join(pagadores)}")
+                else:
+                    st.caption("Sin pagos aún")
+            
+            st.markdown("---")
     else:
-        st.info("No hay trámites registrados en el archivo `tramites.json`.")
-
+        st.info("No hay trámites registrados en el archivo de trámites.")
 # ===== PÁGINA 6: CONFIGURACIÓN =====
 elif pagina == "⚙️ Configuración":
     st.header("⚙️ Configuración del Proyecto")
