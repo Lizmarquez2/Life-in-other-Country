@@ -13,7 +13,7 @@ PROYECTO = {
 
 # ===== PERSONAS =====
 PERSONAS = {
-    "Liz": {
+    "Persona_L_01": {
         "nombre_completo": "Liz Esthefanny Márquez Panuera",
         "rol": "Contador Público",
         "experiencia_años": 7,
@@ -21,7 +21,7 @@ PERSONAS = {
         "perfil_migracion": "Profesional TEER 1",
         "email": "esthef356@gmail.com"
     },
-    "Josue": {
+    "Persona_J_02": {
         "nombre_completo": "Josue (Esposo)",
         "rol": "Técnico en Informática",
         "experiencia_años": 10,

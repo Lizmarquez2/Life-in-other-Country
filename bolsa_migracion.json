@@ -11,7 +11,7 @@
     },
 
     "distribucion_por_persona": {
-      "Liz": {
+      "Persona_L_01": {
         "meta_soles": 30000,
         "meta_cad": 8100,
         "criterio": "50% del total",
@@ -19,7 +19,7 @@
         "falta_soles": 27620.90,
         "progreso_pct": 7.93
       },
-      "Josue": {
+      "Persona_J_02": {
         "meta_soles": 30000,
         "meta_cad": 8100,
         "criterio": "50% del total",

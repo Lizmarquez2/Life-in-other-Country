@@ -1,6 +1,6 @@
 # 🚀 Dashboard de Migración Calgary 2026-2027
 
-Dashboard interactivo para planificar y monitorear la migración de **Liz Esthefanny Márquez Panuera + Josue** a Calgary, Alberta, Canadá.
+Dashboard interactivo para planificar y monitorear la migración de **Persona_L_01 Esthefanny Márquez Panuera + Persona_J_02** a Calgary, Alberta, Canadá.
 
 ## 📋 Descripción
 
@@ -61,7 +61,7 @@ Life-in-other-Country/
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone https://github.com/Lizmarquez2/Life-in-other-Country.git
+   git clone https://github.com/Persona_L_01marquez2/Life-in-other-Country.git
    cd Life-in-other-Country
    ```
 
@@ -100,7 +100,7 @@ Life-in-other-Country/
    - Próximos pasos
 
 2. **Línea de Tiempo**
-   - Timeline separada para Liz y Josue
+   - Timeline separada para Persona_L_01 y Persona_J_02
    - Fechas de trámites
    - Costos asociados
 
@@ -134,7 +134,7 @@ Para agregar un movimiento, edita `data/movimientos.json`:
 {
   "id": 5,
   "fecha": "2026-08-20",
-  "persona": "Liz",
+  "persona": "Persona_L_01",
   "tipo": "AHORRO",
   "concepto": "Sueldo septiembre",
   "monto_original": 2500,
@@ -163,7 +163,7 @@ Para agregar un movimiento, edita `data/movimientos.json`:
 
 3. **Crear nueva app:**
    - Click en "New app"
-   - Repository: `Lizmarquez2/Life-in-other-Country`
+   - Repository: `Persona_L_01marquez2/Life-in-other-Country`
    - Branch: `main`
    - File path: `app.py`
    - Click "Deploy"
@@ -183,11 +183,11 @@ Streamlit Cloud auto-actualiza cada vez que hagas push a `main` (en ~2 minutos).
 
 1. **Registrar ahorro mensual:**
    - Edita `data/movimientos.json`
-   - Agrega entrada: `{ "fecha": "2026-09-05", "persona": "Liz", "tipo": "AHORRO", ...}`
+   - Agrega entrada: `{ "fecha": "2026-09-05", "persona": "Persona_L_01", "tipo": "AHORRO", ...}`
 
 2. **Registrar gasto en trámite:**
    - Edita `data/movimientos.json`
-   - Agrega entrada: `{ "fecha": "2026-08-20", "persona": "Liz", "tipo": "GASTO", ...}`
+   - Agrega entrada: `{ "fecha": "2026-08-20", "persona": "Persona_L_01", "tipo": "GASTO", ...}`
 
 3. **Push a GitHub:**
    ```bash
@@ -219,7 +219,7 @@ Streamlit Cloud auto-actualiza cada vez que hagas push a `main` (en ~2 minutos).
 
 ## 🔐 Privacidad
 
-El repositorio es **PRIVADO**. Solo Liz, Josue y colaboradores autorizados tienen acceso.
+El repositorio es **PRIVADO**. Solo Persona_L_01, Persona_J_02 y colaboradores autorizados tienen acceso.
 
 Para agregar colaboradores:
 1. GitHub → Settings → Collaborators
@@ -249,9 +249,9 @@ streamlit cache clear
 
 ## 📧 Contacto
 
-**Creado para:** Liz Esthefanny Márquez Panuera + Josue  
+**Creado para:** Persona_L_01 Esthefanny Márquez Panuera + Persona_J_02  
 **Email:** esthef356@gmail.com  
-**GitHub:** https://github.com/Lizmarquez2/Life-in-other-Country
+**GitHub:** https://github.com/Persona_L_01marquez2/Life-in-other-Country
 
 ## 📝 Notas Importantes
 

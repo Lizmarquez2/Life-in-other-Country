@@ -7,15 +7,15 @@
   },
 
   "personas": {
-    "Liz": {
+    "Persona_L_01": {
       "nombre_completo": "Liz Esthefanny Márquez Panuera",
       "rol": "Contador Público",
       "experiencia_anos": 7,
       "especialidad": "Costos Hospitalarios",
       "perfil_migracion": "Profesional TEER 1"
     },
-    "Josue": {
-      "nombre_completo": "Josue",
+    "Persona_J_02": {
+      "nombre_completo": "Persona_J_02",
       "rol": "Técnico en Informática",
       "experiencia_anos": 10,
       "especialidad": "IT Support (Linux/Windows)",

@@ -173,7 +173,7 @@ elif pagina == "📅 Línea de Tiempo":
     with col_liz:
         st.subheader("👩‍💼 Liz Esthefanny Márquez Panuera")
         cronograma = datos.get("cronograma", {}).get("cronograma", {})
-        liz_timeline = cronograma.get("linea_tiempo_persona", {}).get("Liz", [])
+        liz_timeline = cronograma.get("linea_tiempo_persona", {}).get("Persona_L_01", [])
         
         for item in liz_timeline:
             mes = item.get("mes", "")
@@ -192,7 +192,7 @@ elif pagina == "📅 Línea de Tiempo":
     
     with col_josue:
         st.subheader("👨‍💻 Josue (Técnico IT)")
-        josue_timeline = cronograma.get("linea_tiempo_persona", {}).get("Josue", [])
+        josue_timeline = cronograma.get("linea_tiempo_persona", {}).get("Persona_J_02", [])
         
         for item in josue_timeline:
             mes = item.get("mes", "")
@@ -218,14 +218,14 @@ elif pagina == "💰 Ahorro & Gastos":
     
     with col_liz:
         st.subheader("👩‍💼 Liz")
-        info_liz = calcular_por_persona(datos, "Liz")
+        info_liz = calcular_por_persona(datos, "Persona_L_01")
         st.metric("Ahorrado", formato_moneda_soles(info_liz["total_ahorrado_soles"]))
         st.metric("Gastado", formato_moneda_soles(info_liz["total_gastado_soles"]))
         st.metric("Saldo", formato_moneda_soles(info_liz["saldo_soles"]))
     
     with col_josue:
         st.subheader("👨‍💻 Josue")
-        info_josue = calcular_por_persona(datos, "Josue")
+        info_josue = calcular_por_persona(datos, "Persona_J_02")
         st.metric("Ahorrado", formato_moneda_soles(info_josue["total_ahorrado_soles"]))
         st.metric("Gastado", formato_moneda_soles(info_josue["total_gastado_soles"]))
         st.metric("Saldo", formato_moneda_soles(info_josue["saldo_soles"]))

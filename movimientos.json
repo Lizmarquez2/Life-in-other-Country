@@ -3,7 +3,7 @@
     {
       "id": 1,
       "fecha": "2026-08-05",
-      "persona": "Liz",
+      "persona": "Persona_L_01",
       "tipo": "AHORRO",
       "concepto": "Sueldo agosto (50% a fondo migración)",
       "monto_original": 2500,
@@ -17,7 +17,7 @@
     {
       "id": 2,
       "fecha": "2026-08-05",
-      "persona": "Josue",
+      "persona": "Persona_J_02",
       "tipo": "AHORRO",
       "concepto": "Sueldo agosto (50% a fondo migración)",
       "monto_original": 2300,
@@ -31,7 +31,7 @@
     {
       "id": 3,
       "fecha": "2026-08-15",
-      "persona": "Liz",
+      "persona": "Persona_L_01",
       "tipo": "GASTO",
       "concepto": "Pasaporte",
       "monto_original": 120.90,
@@ -46,7 +46,7 @@
     {
       "id": 4,
       "fecha": "2026-08-15",
-      "persona": "Josue",
+      "persona": "Persona_J_02",
       "tipo": "GASTO",
       "concepto": "Pasaporte",
       "monto_original": 120.90,
@@ -60,13 +60,13 @@
   ],
 
   "resumen_por_persona": {
-    "Liz": {
+    "Persona_L_01": {
       "total_ahorrado_soles": 2500,
       "total_gastado_soles": 120.90,
       "saldo_neto_soles": 2379.10,
       "ultimo_movimiento": "2026-08-15"
     },
-    "Josue": {
+    "Persona_J_02": {
       "total_ahorrado_soles": 2300,
       "total_gastado_soles": 120.90,
       "saldo_neto_soles": 2179.10,

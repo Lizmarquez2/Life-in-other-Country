@@ -5,7 +5,7 @@
       "nombre": "Pasaportes (2 personas)",
       "descripcion": "Renovación de pasaportes en RENIEC",
       "categoria": "Documentación Base",
-      "personas_afectadas": ["Liz", "Josue"],
+      "personas_afectadas": ["Persona_L_01", "Persona_J_02"],
       "cantidad": 2,
       "costos": {
         "moneda": "PEN",
@@ -39,7 +39,7 @@
       "nombre": "Apostillas - Títulos (2 personas)",
       "descripcion": "Apostilla de títulos universitarios en Cancillería",
       "categoria": "Documentación Base",
-      "personas_afectadas": ["Liz", "Josue"],
+      "personas_afectadas": ["Persona_L_01", "Persona_J_02"],
       "cantidad": 2,
       "costos": {
         "moneda": "PEN",
@@ -73,7 +73,7 @@
       "nombre": "Antecedentes Penales Apostillados (2 personas)",
       "descripcion": "Certificado de antecedentes penales con apostilla",
       "categoria": "Documentación Base",
-      "personas_afectadas": ["Liz", "Josue"],
+      "personas_afectadas": ["Persona_L_01", "Persona_J_02"],
       "cantidad": 2,
       "costos": {
         "moneda": "PEN",
@@ -107,7 +107,7 @@
       "nombre": "ECA - Liz (Evaluación Credenciales)",
       "descripcion": "World Education Services - Evaluación de título Contador",
       "categoria": "Evaluaciones Canadá",
-      "personas_afectadas": ["Liz"],
+      "personas_afectadas": ["Persona_L_01"],
       "cantidad": 1,
       "costos": {
         "moneda": "CAD",
@@ -136,7 +136,7 @@
       "estado_actual": {
         "completado": false,
         "fecha_completado": null,
-        "responsable": "Liz"
+        "responsable": "Persona_L_01"
       }
     },
 
@@ -145,7 +145,7 @@
       "nombre": "ECA - Josue (Evaluación Credenciales)",
       "descripcion": "World Education Services - Evaluación de diploma técnico",
       "categoria": "Evaluaciones Canadá",
-      "personas_afectadas": ["Josue"],
+      "personas_afectadas": ["Persona_J_02"],
       "cantidad": 1,
       "costos": {
         "moneda": "CAD",
@@ -174,7 +174,7 @@
       "estado_actual": {
         "completado": false,
         "fecha_completado": null,
-        "responsable": "Josue"
+        "responsable": "Persona_J_02"
       }
     },
 
@@ -183,7 +183,7 @@
       "nombre": "IELTS CLB 7 - Liz",
       "descripcion": "Examen de inglés (6.0 en cada sección)",
       "categoria": "Exámenes de Idioma",
-      "personas_afectadas": ["Liz"],
+      "personas_afectadas": ["Persona_L_01"],
       "cantidad": 1,
       "costos": {
         "moneda": "CAD",
@@ -212,7 +212,7 @@
       "estado_actual": {
         "completado": false,
         "fecha_completado": null,
-        "responsable": "Liz"
+        "responsable": "Persona_L_01"
       }
     },
 
@@ -221,7 +221,7 @@
       "nombre": "IELTS CLB 7 - Josue",
       "descripcion": "Examen de inglés (6.0 en cada sección)",
       "categoria": "Exámenes de Idioma",
-      "personas_afectadas": ["Josue"],
+      "personas_afectadas": ["Persona_J_02"],
       "cantidad": 1,
       "costos": {
         "moneda": "CAD",
@@ -250,7 +250,7 @@
       "estado_actual": {
         "completado": false,
         "fecha_completado": null,
-        "responsable": "Josue"
+        "responsable": "Persona_J_02"
       }
     },
 
@@ -259,7 +259,7 @@
       "nombre": "Express Entry - Solicitud",
       "descripcion": "Solicitud conjunta de Express Entry (Liz principal, Josue acompañante)",
       "categoria": "Solicitud Inmigración",
-      "personas_afectadas": ["Liz", "Josue"],
+      "personas_afectadas": ["Persona_L_01", "Persona_J_02"],
       "cantidad": 1,
       "costos": {
         "moneda": "CAD",
@@ -298,7 +298,7 @@
       "nombre": "Seguro Médico de Viaje (3 meses)",
       "descripcion": "Seguro médico para entrada a Canadá",
       "categoria": "Seguro y Viaje",
-      "personas_afectadas": ["Liz", "Josue"],
+      "personas_afectadas": ["Persona_L_01", "Persona_J_02"],
       "cantidad": 2,
       "costos": {
         "moneda": "CAD",
@@ -334,7 +334,7 @@
       "nombre": "Vuelos Lima → Calgary (2 personas)",
       "descripcion": "Pasajes aéreos internacionales ida",
       "categoria": "Transporte",
-      "personas_afectadas": ["Liz", "Josue"],
+      "personas_afectadas": ["Persona_L_01", "Persona_J_02"],
       "cantidad": 2,
       "costos": {
         "moneda": "PEN",
