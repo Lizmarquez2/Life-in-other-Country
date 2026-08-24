@@ -279,7 +279,6 @@ with st.form("form_nuevo_aporte", clear_on_submit=True):
             st.error(f"Error al guardar el archivo: {e}")
 
 # ===== PÁGINA 4: PRESUPUESTO =====
-elif pagina == "🟩 Presupuesto":
 elif pagina == "💵 Presupuesto":
     st.header("💵 Presupuesto Detallado")
     
