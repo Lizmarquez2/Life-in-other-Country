@@ -277,8 +277,9 @@ with st.form("form_nuevo_aporte", clear_on_submit=True):
             st.rerun() # Recarga la app para mostrar los cambios actualizados
         except Exception as e:
             st.error(f"Error al guardar el archivo: {e}")
-            
+
 # ===== PÁGINA 4: PRESUPUESTO =====
+elif pagina == "🟩 Presupuesto":
 elif pagina == "💵 Presupuesto":
     st.header("💵 Presupuesto Detallado")
     
