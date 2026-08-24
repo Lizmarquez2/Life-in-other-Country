@@ -104,7 +104,7 @@
 
     {
       "id": 4,
-      "nombre": "ECA - Liz (Evaluación Credenciales)",
+      "nombre": "ECA - Persona_L_01 (Evaluación Credenciales)",
       "descripcion": "World Education Services - Evaluación de título Contador",
       "categoria": "Evaluaciones Canadá",
       "personas_afectadas": ["Persona_L_01"],
@@ -142,7 +142,7 @@
 
     {
       "id": 5,
-      "nombre": "ECA - Josue (Evaluación Credenciales)",
+      "nombre": "ECA - Persona_P_02 (Evaluación Credenciales)",
       "descripcion": "World Education Services - Evaluación de diploma técnico",
       "categoria": "Evaluaciones Canadá",
       "personas_afectadas": ["Persona_J_02"],
@@ -180,7 +180,7 @@
 
     {
       "id": 6,
-      "nombre": "IELTS CLB 7 - Liz",
+      "nombre": "IELTS CLB 7 - Persona_L_01",
       "descripcion": "Examen de inglés (6.0 en cada sección)",
       "categoria": "Exámenes de Idioma",
       "personas_afectadas": ["Persona_L_01"],
@@ -218,7 +218,7 @@
 
     {
       "id": 7,
-      "nombre": "IELTS CLB 7 - Josue",
+      "nombre": "IELTS CLB 7 - Persona_P_02",
       "descripcion": "Examen de inglés (6.0 en cada sección)",
       "categoria": "Exámenes de Idioma",
       "personas_afectadas": ["Persona_J_02"],
@@ -257,7 +257,7 @@
     {
       "id": 8,
       "nombre": "Express Entry - Solicitud",
-      "descripcion": "Solicitud conjunta de Express Entry (Liz principal, Josue acompañante)",
+      "descripcion": "Solicitud conjunta de Express Entry (Persona_L_01 principal, Persona_P_02 acompañante)",
       "categoria": "Solicitud Inmigración",
       "personas_afectadas": ["Persona_L_01", "Persona_J_02"],
       "cantidad": 1,
