@@ -1,0 +1,179 @@
+{
+  "bolsa_migracion": {
+    "objetivo": {
+      "descripcion": "Fondos para llegar y establecerse inicialmente en Calgary",
+      "meta_soles": 60000,
+      "meta_cad": 16200,
+      "justificacion": "Inmigración Canadá requiere CAD $20,000-25,000 de settlement funds. Meta conservadora: S/ 60,000 ≈ CAD $16,200",
+      "fecha_meta": "2027-06-15",
+      "meses_disponibles": 10,
+      "ahorro_mensual_requerido": 6000
+    },
+
+    "distribucion_por_persona": {
+      "Persona_L_01": {
+        "meta_soles": 30000,
+        "meta_cad": 8100,
+        "criterio": "50% del total",
+        "ahorrado_a_fecha_soles": 2379.10,
+        "falta_soles": 27620.90,
+        "progreso_pct": 7.93
+      },
+      "Persona_J_02": {
+        "meta_soles": 30000,
+        "meta_cad": 8100,
+        "criterio": "50% del total",
+        "ahorrado_a_fecha_soles": 2179.10,
+        "falta_soles": 27820.90,
+        "progreso_pct": 7.26
+      }
+    },
+
+    "proyeccion_mensual": [
+      {
+        "mes": "Agosto 2026",
+        "Persona_L_01_ahorro_soles": 2500,
+        "Persona_J_02_ahorro_soles": 2300,
+        "gastos_soles": 241.80,
+        "saldo_neto_mes": 4558.20,
+        "saldo_acumulado_soles": 4558.20,
+        "saldo_acumulado_cad": 1231.95,
+        "progreso_pct": 7.60,
+        "alcanza_meta": false
+      },
+      {
+        "mes": "Septiembre 2026",
+        "Persona_L_01_ahorro_soles": 3000,
+        "Persona_J_02_ahorro_soles": 2800,
+        "gastos_soles": 300,
+        "saldo_neto_mes": 5500,
+        "saldo_acumulado_soles": 10058.20,
+        "saldo_acumulado_cad": 2718.43,
+        "progreso_pct": 16.76,
+        "alcanza_meta": false
+      },
+      {
+        "mes": "Octubre 2026",
+        "Persona_L_01_ahorro_soles": 3000,
+        "Persona_J_02_ahorro_soles": 2800,
+        "gastos_soles": 350,
+        "saldo_neto_mes": 5450,
+        "saldo_acumulado_soles": 15508.20,
+        "saldo_acumulado_cad": 4191.41,
+        "progreso_pct": 25.85,
+        "alcanza_meta": false
+      },
+      {
+        "mes": "Noviembre 2026",
+        "Persona_L_01_ahorro_soles": 3200,
+        "Persona_J_02_ahorro_soles": 3000,
+        "gastos_soles": 400,
+        "saldo_neto_mes": 5800,
+        "saldo_acumulado_soles": 21308.20,
+        "saldo_acumulado_cad": 5758.97,
+        "progreso_pct": 35.51,
+        "alcanza_meta": false
+      },
+      {
+        "mes": "Diciembre 2026",
+        "Persona_L_01_ahorro_soles": 3200,
+        "Persona_J_02_ahorro_soles": 3000,
+        "gastos_soles": 400,
+        "saldo_neto_mes": 5800,
+        "saldo_acumulado_soles": 27108.20,
+        "saldo_acumulado_cad": 7326.54,
+        "progreso_pct": 45.18,
+        "alcanza_meta": false
+      },
+      {
+        "mes": "Enero 2027",
+        "Persona_L_01_ahorro_soles": 3500,
+        "Persona_J_02_ahorro_soles": 3300,
+        "gastos_soles": 1250,
+        "saldo_neto_mes": 5550,
+        "saldo_acumulado_soles": 32658.20,
+        "saldo_acumulado_cad": 8826.54,
+        "progreso_pct": 54.43,
+        "alcanza_meta": false
+      },
+      {
+        "mes": "Febrero 2027",
+        "Persona_L_01_ahorro_soles": 3500,
+        "Persona_J_02_ahorro_soles": 3300,
+        "gastos_soles": 200,
+        "saldo_neto_mes": 6600,
+        "saldo_acumulado_soles": 39258.20,
+        "saldo_acumulado_cad": 10610.32,
+        "progreso_pct": 65.43,
+        "alcanza_meta": false
+      },
+      {
+        "mes": "Marzo 2027",
+        "Persona_L_01_ahorro_soles": 3500,
+        "Persona_J_02_ahorro_soles": 3300,
+        "gastos_soles": 200,
+        "saldo_neto_mes": 6600,
+        "saldo_acumulado_soles": 45858.20,
+        "saldo_acumulado_cad": 12394.11,
+        "progreso_pct": 76.43,
+        "alcanza_meta": false
+      },
+      {
+        "mes": "Abril 2027",
+        "Persona_L_01_ahorro_soles": 3500,
+        "Persona_J_02_ahorro_soles": 3300,
+        "gastos_soles": 200,
+        "saldo_neto_mes": 6600,
+        "saldo_acumulado_soles": 52458.20,
+        "saldo_acumulado_cad": 14177.89,
+        "progreso_pct": 87.43,
+        "alcanza_meta": false
+      },
+      {
+        "mes": "Mayo 2027",
+        "Persona_L_01_ahorro_soles": 3500,
+        "Persona_J_02_ahorro_soles": 3300,
+        "gastos_soles": 600,
+        "saldo_neto_mes": 6200,
+        "saldo_acumulado_soles": 58658.20,
+        "saldo_acumulado_cad": 15853.57,
+        "progreso_pct": 97.76,
+        "alcanza_meta": false
+      },
+      {
+        "mes": "Junio 2027",
+        "Persona_L_01_ahorro_soles": 2000,
+        "Persona_J_02_ahorro_soles": 1800,
+        "gastos_soles": 3500,
+        "saldo_neto_mes": 300,
+        "saldo_acumulado_soles": 58958.20,
+        "saldo_acumulado_cad": 15934.65,
+        "progreso_pct": 98.26,
+        "alcanza_meta": false,
+        "nota": "Mes parcial + gastos vuelos"
+      }
+    ],
+
+    "estrategia_ahorro": {
+      "enfoque": "Ahorro consistente mes a mes + gestión de gastos por trámites",
+      "meta_mensual": 6000,
+      "ahorro_por_persona_mensual": 3000,
+      "consideraciones": [
+        "Agosto-Septiembre: Gastos documentación base (S/ 241.80-300)",
+        "Enero: Gasto Express Entry (CAD $1,250 ≈ S/ 4,625)",
+        "Mayo-Junio: Gastos finales + vuelos (S/ 12,000)"
+      ],
+      "contingencia": "Se recomienda un 10% extra (S/ 6,000) para emergencias"
+    },
+
+    "analisis_viabilidad": {
+      "meta_inicial": 60000,
+      "ahorro_proyectado": 58958.20,
+      "diferencia": -1041.80,
+      "porcentaje_cumplimiento": 98.26,
+      "es_viable": true,
+      "ajustes_sugeridos": "Si hay variaciones en tasas de cambio o gastos, reajustar en meses posteriores",
+      "fecha_proyectada_alcance": "2027-05-31"
+    }
+  }
+}

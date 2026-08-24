@@ -1,0 +1,67 @@
+{
+  "proyecto": {
+    "nombre": "Migración Calgary 2026-2027",
+    "descripcion": "Plan de migración para Persona_L_01 + Persona_J_02 a Calgary, Alberta",
+    "version": "1.0.0",
+    "fecha_creacion": "2026-08-01"
+  },
+
+  "personas": {
+    "Persona_L_01": {
+      "nombre_completo": "Persona_L_01",
+      "rol": "Contador Público",
+      "experiencia_anos": 7,
+      "especialidad": "Costos Hospitalarios",
+      "perfil_migracion": "Profesional TEER 1"
+    },
+    "Persona_J_02": {
+      "nombre_completo": "Persona_J_02",
+      "rol": "Técnico en Informática",
+      "experiencia_anos": 10,
+      "especialidad": "IT Support (Linux/Windows)",
+      "perfil_migracion": "Técnico TEER 2"
+    }
+  },
+
+  "ubicaciones": {
+    "origen": {
+      "pais": "Perú",
+      "ciudad": "Lima",
+      "moneda": "PEN",
+      "simbolo": "S/"
+    },
+    "destino": {
+      "pais": "Canadá",
+      "provincia": "Alberta",
+      "ciudad": "Calgary",
+      "moneda": "CAD",
+      "simbolo": "CAD $"
+    }
+  },
+
+  "tasas_cambio": {
+    "sol_a_cad": 0.27,
+    "cad_a_sol": 3.70,
+    "sol_a_usd": 0.20,
+    "usd_a_cad": 1.35,
+    "fecha_actualizacion": "2026-08-01",
+    "fuente": "XE.com",
+    "nota": "Actualizar regularmente"
+  },
+
+  "fechas_clave": {
+    "fecha_inicio_proyecto": "2026-08-01",
+    "fecha_objetivo_viaje": "2027-06-15",
+    "meses_disponibles": 10,
+    "dias_disponibles": 318
+  },
+
+  "metas_financieras": {
+    "bolsa_migracion_meta_soles": 60000,
+    "bolsa_migracion_meta_cad": 16200,
+    "justificacion": "CAD $20,000-25,000 requerido por Inmigración Canadá",
+    "presupuesto_tramites_soles": 24366.20,
+    "ahorro_mensual_meta_soles": 6000,
+    "ahorro_por_persona_mes_soles": 3000
+  }
+}
