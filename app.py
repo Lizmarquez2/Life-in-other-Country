@@ -347,24 +347,40 @@ elif pagina == "🎫 Bolsa Migratoria":
     
     if aporte_mensual_total > 0:
         meses_estimados = meta_faltante / aporte_mensual_total
-        anos_estimados = meses_estimados / 12  # Convertimos a años
+        anos_estimados = meses_estimados / 12  
         st.success(f"💡 Con un aporte conjunto de S/ {aporte_mensual_total:,.2f} mensuales, te tomaría aproximadamente **{anos_estimados:.1f} años** ({meses_estimados:.1f} meses) cubrir el saldo restante.")
     else:
         st.warning("⚠️ Ingresa aportes mayores a cero para calcular la estimación.")
         
     st.markdown("---")
     
-    st.subheader("📈 Proyección Mensual")
+    st.subheader("📈 Proyección Mensual Dinámica")
     proyeccion = bolsa.get("proyeccion_mensual", [])
     
     if proyeccion:
         df_proyeccion = pd.DataFrame(proyeccion)
         
-        # Actualizamos valores de ahorro dinámicamente
+        # Si los meses estimados superan la cantidad de filas actuales en el JSON, generamos los meses faltantes automáticamente
+        meses_necesarios = int(meses_estimados) + 1 if aporte_mensual_total > 0 else len(df_proyeccion)
+        
+        if len(df_proyeccion) < meses_necesarios:
+            # Tomamos la base del último mes para extender la lista de meses futuros
+            ultimo_mes = pd.to_datetime("2026-08-01") # Partiendo de agosto 2026
+            fechas_extendidas = pd.date_range(start=ultimo_mes, periods=meses_necesarios, freq='MS')
+            
+            df_extendido = pd.DataFrame({
+                "mes": fechas_extendidas.strftime("%B %Y"),
+                "gastos_soles": 200.0 # Gasto base promedio para meses futuros proyectados
+            })
+            df_proyeccion = df_extendido
+            
+        # Actualizamos valores de ahorro dinámicamente para toda la tabla
         df_proyeccion["Persona_L_01_ahorro_soles"] = nuevo_ahorro_liz
         df_proyeccion["Persona_J_02_ahorro_soles"] = nuevo_ahorro_jhon
-        
-        # Recalculamos saldos y el porcentaje de progreso acumulado respecto a la meta total
+        if "gastos_soles" not in df_proyeccion.columns:
+            df_proyeccion["gastos_soles"] = 200.0
+            
+        # Recalculamos saldos restando los gastos de forma realista
         df_proyeccion["saldo_neto_mes"] = (df_proyeccion["Persona_L_01_ahorro_soles"] + df_proyeccion["Persona_J_02_ahorro_soles"]) - df_proyeccion["gastos_soles"]
         df_proyeccion["saldo_acumulado_soles"] = df_proyeccion["saldo_neto_mes"].cumsum() + progreso_bolsa["ahorrado_soles"]
         df_proyeccion["progreso_pct"] = (df_proyeccion["saldo_acumulado_soles"] / meta_total) * 100
@@ -378,11 +394,9 @@ elif pagina == "🎫 Bolsa Migratoria":
             "Mes", "Persona_L_01 Ahorro", "Persona_J_02 Ahorro", "Gastos", "Saldo Acumulado", "Progreso %"
         ]
         
-        # Formatear el progreso a un decimal con símbolo %
         df_proyeccion_display["Progreso %"] = df_proyeccion_display["Progreso %"].apply(lambda x: f"{x:.2f}%")
         
         st.dataframe(df_proyeccion_display, use_container_width=True)
-
 # ===== PÁGINA 5: TRAMITES Y MAPEO =====
 elif pagina == "📋 Trámites y Mapeo":
     st.header("📋 Seguimiento de Trámites Migratorios")
