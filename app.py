@@ -58,7 +58,7 @@ st.sidebar.title("📌 Navegación")
 pagina = st.sidebar.radio(
     "Selecciona una sección:",
     ["📊 Resumen Ejecutivo", "📅 Línea de Tiempo", "💰 Ahorro & Gastos", 
-     "💵 Presupuesto", "🎫 Bolsa Migratoria", "⚙️ Configuración"]
+     "💵 Presupuesto", "🎫 Bolsa Migratoria", "📋 Trámites y Mapeo","⚙️ Configuración"]
 )
 
 st.sidebar.markdown("---")
@@ -343,6 +343,33 @@ elif pagina == "🎫 Bolsa Migratoria":
             "Mes", "Persona_L_01 Ahorro", "Persona_J_02 Ahorro", "Gastos", "Saldo Acumulado", "Progreso %"
         ]
         st.dataframe(df_proyeccion_display, use_container_width=True)
+
+# ===== PÁGINA 5: TRAMITES Y MAPEO =====
+elif pagina == "📋 Trámites y Mapeo":
+    st.header("📋 Seguimiento de Trámites Migratorios")
+    st.write("Gestiona el estado de tus documentos y requisitos para Canadá.")
+    
+    lista_tramites = datos.get("tramites", {}).get("tramites", [])
+    
+    if lista_tramites:
+        for i, t in enumerate(lista_tramites):
+            col_t1, col_t2 = st.columns([3, 1])
+            with col_t1:
+                st.write(f"**{t.get('nombre', '')}**")
+            with col_t2:
+                estado_actual = t.get('estado', 'Pendiente')
+                opciones = ["Pendiente", "En Proceso", "Completado"]
+                indice = opciones.index(estado_actual) if estado_actual in opciones else 0
+                
+                nuevo_estado = st.selectbox("Estado", opciones, index=indice, key=f"tramite_{i}")
+                
+                if nuevo_estado != estado_actual:
+                    lista_tramites[i]["estado"] = nuevo_estado
+                    guardar_datos_json("tramites.json", {"tramites": lista_tramites})
+                    st.success("¡Estado actualizado!")
+                    st.rerun()
+    else:
+        st.info("No hay trámites registrados en el archivo `tramites.json`.")
 
 # ===== PÁGINA 6: CONFIGURACIÓN =====
 elif pagina == "⚙️ Configuración":
