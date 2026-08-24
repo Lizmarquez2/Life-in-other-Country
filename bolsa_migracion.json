@@ -37,11 +37,10 @@
         "gastos_soles": 241.80,
         "saldo_neto_mes": 4558.20,
         "saldo_acumulado_soles": 4558.20,
-        "saldo_acumulado_cad": 1230.72,
+        "saldo_acumulado_cad": 1231.95,
         "progreso_pct": 7.60,
         "alcanza_meta": false
       },
-
       {
         "mes": "Septiembre 2026",
         "Persona_L_01_ahorro_soles": 3000,
@@ -49,11 +48,10 @@
         "gastos_soles": 300,
         "saldo_neto_mes": 5500,
         "saldo_acumulado_soles": 10058.20,
-        "saldo_acumulado_cad": 2715.71,
+        "saldo_acumulado_cad": 2718.43,
         "progreso_pct": 16.76,
         "alcanza_meta": false
       },
-
       {
         "mes": "Octubre 2026",
         "Persona_L_01_ahorro_soles": 3000,
@@ -61,11 +59,10 @@
         "gastos_soles": 350,
         "saldo_neto_mes": 5450,
         "saldo_acumulado_soles": 15508.20,
-        "saldo_acumulado_cad": 4187.42,
+        "saldo_acumulado_cad": 4191.41,
         "progreso_pct": 25.85,
         "alcanza_meta": false
       },
-
       {
         "mes": "Noviembre 2026",
         "Persona_L_01_ahorro_soles": 3200,
@@ -73,11 +70,10 @@
         "gastos_soles": 400,
         "saldo_neto_mes": 5800,
         "saldo_acumulado_soles": 21308.20,
-        "saldo_acumulado_cad": 5753.42,
+        "saldo_acumulado_cad": 5758.97,
         "progreso_pct": 35.51,
         "alcanza_meta": false
       },
-
       {
         "mes": "Diciembre 2026",
         "Persona_L_01_ahorro_soles": 3200,
@@ -85,11 +81,10 @@
         "gastos_soles": 400,
         "saldo_neto_mes": 5800,
         "saldo_acumulado_soles": 27108.20,
-        "saldo_acumulado_cad": 7319.42,
+        "saldo_acumulado_cad": 7326.54,
         "progreso_pct": 45.18,
         "alcanza_meta": false
       },
-
       {
         "mes": "Enero 2027",
         "Persona_L_01_ahorro_soles": 3500,
@@ -97,11 +92,10 @@
         "gastos_soles": 1250,
         "saldo_neto_mes": 5550,
         "saldo_acumulado_soles": 32658.20,
-        "saldo_acumulado_cad": 8818.72,
+        "saldo_acumulado_cad": 8826.54,
         "progreso_pct": 54.43,
         "alcanza_meta": false
       },
-
       {
         "mes": "Febrero 2027",
         "Persona_L_01_ahorro_soles": 3500,
@@ -109,11 +103,10 @@
         "gastos_soles": 200,
         "saldo_neto_mes": 6600,
         "saldo_acumulado_soles": 39258.20,
-        "saldo_acumulado_cad": 10599.73,
+        "saldo_acumulado_cad": 10610.32,
         "progreso_pct": 65.43,
         "alcanza_meta": false
       },
-
       {
         "mes": "Marzo 2027",
         "Persona_L_01_ahorro_soles": 3500,
@@ -121,11 +114,10 @@
         "gastos_soles": 200,
         "saldo_neto_mes": 6600,
         "saldo_acumulado_soles": 45858.20,
-        "saldo_acumulado_cad": 12382.92,
+        "saldo_acumulado_cad": 12394.11,
         "progreso_pct": 76.43,
         "alcanza_meta": false
       },
-
       {
         "mes": "Abril 2027",
         "Persona_L_01_ahorro_soles": 3500,
@@ -133,11 +125,10 @@
         "gastos_soles": 200,
         "saldo_neto_mes": 6600,
         "saldo_acumulado_soles": 52458.20,
-        "saldo_acumulado_cad": 14166.11,
+        "saldo_acumulado_cad": 14177.89,
         "progreso_pct": 87.43,
         "alcanza_meta": false
       },
-
       {
         "mes": "Mayo 2027",
         "Persona_L_01_ahorro_soles": 3500,
@@ -145,11 +136,10 @@
         "gastos_soles": 600,
         "saldo_neto_mes": 6200,
         "saldo_acumulado_soles": 58658.20,
-        "saldo_acumulado_cad": 15838.14,
+        "saldo_acumulado_cad": 15853.57,
         "progreso_pct": 97.76,
         "alcanza_meta": false
       },
-
       {
         "mes": "Junio 2027",
         "Persona_L_01_ahorro_soles": 2000,
@@ -157,7 +147,7 @@
         "gastos_soles": 3500,
         "saldo_neto_mes": 300,
         "saldo_acumulado_soles": 58958.20,
-        "saldo_acumulado_cad": 15927.51,
+        "saldo_acumulado_cad": 15934.65,
         "progreso_pct": 98.26,
         "alcanza_meta": false,
         "nota": "Mes parcial + gastos vuelos"
