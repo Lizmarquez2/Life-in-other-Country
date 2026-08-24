@@ -1,81 +1,23 @@
 {
-  "movimientos": [
-    {
-      "id": 1,
-      "fecha": "2026-08-05",
-      "persona": "Persona_L_01",
-      "tipo": "AHORRO",
-      "concepto": "Sueldo agosto (50% a fondo migración)",
-      "monto_original": 2500,
-      "moneda_original": "PEN",
-      "actividad": "Depósito",
-      "observaciones": "Ahorro mes 1",
-      "completado": false
-    },
-
-    {
-      "id": 2,
-      "fecha": "2026-08-05",
-      "persona": "Persona_J_02",
-      "tipo": "AHORRO",
-      "concepto": "Sueldo agosto (50% a fondo migración)",
-      "monto_original": 2300,
-      "moneda_original": "PEN",
-      "actividad": "Depósito",
-      "observaciones": "Ahorro mes 1",
-      "completado": false
-    },
-
-    {
-      "id": 3,
-      "fecha": "2026-08-15",
-      "persona": "Persona_L_01",
-      "tipo": "GASTO",
-      "concepto": "Pasaporte",
-      "monto_original": 120.90,
-      "moneda_original": "PEN",
-      "tramite_asociado": 1,
-      "categoria": "Documentación Base",
-      "actividad": "Trámite",
-      "observaciones": "Primer trámite completado",
-      "completado": false
-    },
-
-    {
-      "id": 4,
-      "fecha": "2026-08-15",
-      "persona": "Persona_J_02",
-      "tipo": "GASTO",
-      "concepto": "Pasaporte",
-      "monto_original": 120.90,
-      "moneda_original": "PEN",
-      "tramite_asociado": 1,
-      "categoria": "Documentación Base",
-      "actividad": "Trámite",
-      "observaciones": "Primer trámite completado",
-      "completado": false
-    }
-  ],
-
+  "movimientos": [],
   "resumen_por_persona": {
     "Persona_L_01": {
-      "total_ahorrado_soles": 2500,
-      "total_gastado_soles": 120.90,
-      "saldo_neto_soles": 2379.10,
-      "ultimo_movimiento": "2026-08-15"
+      "total_ahorrado_soles": 0.0,
+      "total_gastado_soles": 0.0,
+      "saldo_neto_soles": 0.0,
+      "ultimo_movimiento": ""
     },
     "Persona_J_02": {
-      "total_ahorrado_soles": 2300,
-      "total_gastado_soles": 120.90,
-      "saldo_neto_soles": 2179.10,
-      "ultimo_movimiento": "2026-08-15"
+      "total_ahorrado_soles": 0.0,
+      "total_gastado_soles": 0.0,
+      "saldo_neto_soles": 0.0,
+      "ultimo_movimiento": ""
     }
   },
-
   "totales": {
-    "total_ahorrado_pareja_soles": 4800,
-    "total_gastado_pareja_soles": 241.80,
-    "saldo_neto_pareja_soles": 4558.20,
-    "saldo_neto_pareja_cad": 1230.72
+    "total_ahorrado_pareja_soles": 0.0,
+    "total_gastado_pareja_pareja_soles": 0.0,
+    "saldo_neto_pareja_soles": 0.0,
+    "saldo_neto_pareja_cad": 0.0
   }
 }
