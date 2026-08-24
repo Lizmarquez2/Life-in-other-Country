@@ -9,7 +9,7 @@ from pathlib import Path
 # Agregar módulos al path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from modules.data_loader import cargar_todos_datos, obtener_personas
+from modules.data_loader import cargar_todos_datos, obtener_personas, guardar_datos_json
 from modules.calculadora import (
     calcular_totales_movimientos,
     calcular_progreso_bolsa,
