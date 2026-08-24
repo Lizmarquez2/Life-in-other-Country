@@ -214,6 +214,12 @@ elif pagina == "📅 Línea de Tiempo":
 elif pagina == "💰 Ahorro & Gastos":
     st.header("💰 Registro de Ahorro & Gastos")
     
+    # Inicializamos la lista de movimientos en la sesión si no existe
+    if "movimientos_session" not in st.session_state:
+        # Intentamos cargar los iniciales del JSON si los hubiera, o lista vacía
+        movs_iniciales = datos.get("movimientos", {}).get("movimientos", [])
+        st.session_state.movimientos_session = movs_iniciales
+
     col_a1, col_a2 = st.columns(2)
     
     with col_a1:
@@ -233,35 +239,28 @@ elif pagina == "💰 Ahorro & Gastos":
     st.markdown("---")
     
     st.subheader("📊 Tabla de Movimientos")
-    movimientos = datos.get("movimientos", {}).get("movimientos", [])
     
-    if movimientos:
-        df = pd.DataFrame(movimientos)
+    # Mostramos los movimientos desde la sesión activa
+    movimientos_actuales = st.session_state.movimientos_session
+    
+    if movimientos_actuales:
+        df = pd.DataFrame(movimientos_actuales)
         df_display = df[["fecha", "persona", "tipo", "concepto", "monto_original", "moneda_original"]].copy()
         df_display.columns = ["Fecha", "Persona", "Tipo", "Concepto", "Monto", "Moneda"]
         st.dataframe(df_display, use_container_width=True)
         
         # --- SECCIÓN PARA ELIMINAR MOVIMIENTOS ERRÓNEOS ---
         with st.expander("🗑️ Eliminar un movimiento equivocado"):
-            # Creamos una lista de opciones claras para identificar el registro a borrar
             opciones_movimientos = [
                 f"#{i} - {m.get('fecha')} | {m.get('persona')} | {m.get('concepto')} | S/ {m.get('monto_original')}"
-                for i, m in enumerate(movimientos)
+                for i, m in enumerate(movimientos_actuales)
             ]
             
             movimiento_a_borrar = st.selectbox("Selecciona el movimiento a eliminar", opciones_movimientos)
             
             if st.button("Eliminar Registro Seleccionado", type="primary"):
-                # Extraemos el índice del movimiento seleccionado
                 indice_a_borrar = int(movimiento_a_borrar.split(" - ")[0].replace("#", ""))
-                
-                # Eliminamos el elemento de la lista
-                movimientos.pop(indice_a_borrar)
-                datos["movimientos"]["movimientos"] = movimientos
-                
-                # Guardamos los cambios actualizados en el archivo JSON
-                guardar_datos_json("data/movimientos.json", datos["movimientos"])
-                
+                st.session_state.movimientos_session.pop(indice_a_borrar)
                 st.success("¡Movimiento eliminado con éxito!")
                 st.rerun()
     else:
@@ -313,31 +312,10 @@ elif pagina == "💰 Ahorro & Gastos":
                 "observaciones": observaciones
             }
             
-            # 1. Cargamos el archivo JSON de movimientos actual directamente de la ruta absoluta para evitar desfases
-            from pathlib import Path
-            import json
+            # Guardamos el registro directamente en la memoria de la sesión
+            st.session_state.movimientos_session.append(nuevo_registro)
             
-            ruta_movs = Path(__file__).parent / "data" / "movimientos.json"
-            
-            try:
-                if ruta_movs.exists():
-                    with open(ruta_movs, 'r', encoding='utf-8') as f:
-                        contenido_json = json.load(f)
-                else:
-                    contenido_json = {"movimientos": []}
-            except Exception:
-                contenido_json = {"movimientos": []}
-                
-            # 2. Aseguramos la estructura y añadimos el registro
-            if "movimientos" not in contenido_json:
-                contenido_json["movimientos"] = []
-                
-            contenido_json["movimientos"].append(nuevo_registro)
-            
-            # 3. Guardamos inmediatamente usando la función segura
-            guardar_datos_json("data/movimientos.json", contenido_json)
-            
-            st.success("¡Movimiento registrado y guardado con éxito!")
+            st.success("¡Movimiento registrado con éxito!")
             st.rerun()
 
 # ===== PÁGINA 4: PRESUPUESTO =====
