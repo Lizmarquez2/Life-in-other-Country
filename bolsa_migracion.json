@@ -32,8 +32,8 @@
     "proyeccion_mensual": [
       {
         "mes": "Agosto 2026",
-        "liz_ahorro_soles": 2500,
-        "josue_ahorro_soles": 2300,
+        "Persona_L_01_ahorro_soles": 2500,
+        "Persona_J_02_ahorro_soles": 2300,
         "gastos_soles": 241.80,
         "saldo_neto_mes": 4558.20,
         "saldo_acumulado_soles": 4558.20,
@@ -44,8 +44,8 @@
 
       {
         "mes": "Septiembre 2026",
-        "liz_ahorro_soles": 3000,
-        "josue_ahorro_soles": 2800,
+        "Persona_L_01_ahorro_soles": 3000,
+        "Persona_J_02_ahorro_soles": 2800,
         "gastos_soles": 300,
         "saldo_neto_mes": 5500,
         "saldo_acumulado_soles": 10058.20,
@@ -56,8 +56,8 @@
 
       {
         "mes": "Octubre 2026",
-        "liz_ahorro_soles": 3000,
-        "josue_ahorro_soles": 2800,
+        "Persona_L_01_ahorro_soles": 3000,
+        "Persona_J_02_ahorro_soles": 2800,
         "gastos_soles": 350,
         "saldo_neto_mes": 5450,
         "saldo_acumulado_soles": 15508.20,
@@ -68,8 +68,8 @@
 
       {
         "mes": "Noviembre 2026",
-        "liz_ahorro_soles": 3200,
-        "josue_ahorro_soles": 3000,
+        "Persona_L_01_ahorro_soles": 3200,
+        "Persona_J_02_ahorro_soles": 3000,
         "gastos_soles": 400,
         "saldo_neto_mes": 5800,
         "saldo_acumulado_soles": 21308.20,
@@ -80,8 +80,8 @@
 
       {
         "mes": "Diciembre 2026",
-        "liz_ahorro_soles": 3200,
-        "josue_ahorro_soles": 3000,
+        "Persona_L_01_ahorro_soles": 3200,
+        "Persona_J_02_ahorro_soles": 3000,
         "gastos_soles": 400,
         "saldo_neto_mes": 5800,
         "saldo_acumulado_soles": 27108.20,
@@ -92,8 +92,8 @@
 
       {
         "mes": "Enero 2027",
-        "liz_ahorro_soles": 3500,
-        "josue_ahorro_soles": 3300,
+        "Persona_L_01_ahorro_soles": 3500,
+        "Persona_J_02_ahorro_soles": 3300,
         "gastos_soles": 1250,
         "saldo_neto_mes": 5550,
         "saldo_acumulado_soles": 32658.20,
@@ -104,8 +104,8 @@
 
       {
         "mes": "Febrero 2027",
-        "liz_ahorro_soles": 3500,
-        "josue_ahorro_soles": 3300,
+        "Persona_L_01_ahorro_soles": 3500,
+        "Persona_J_02_ahorro_soles": 3300,
         "gastos_soles": 200,
         "saldo_neto_mes": 6600,
         "saldo_acumulado_soles": 39258.20,
@@ -116,8 +116,8 @@
 
       {
         "mes": "Marzo 2027",
-        "liz_ahorro_soles": 3500,
-        "josue_ahorro_soles": 3300,
+        "Persona_L_01_ahorro_soles": 3500,
+        "Persona_J_02_ahorro_soles": 3300,
         "gastos_soles": 200,
         "saldo_neto_mes": 6600,
         "saldo_acumulado_soles": 45858.20,
@@ -128,8 +128,8 @@
 
       {
         "mes": "Abril 2027",
-        "liz_ahorro_soles": 3500,
-        "josue_ahorro_soles": 3300,
+        "Persona_L_01_ahorro_soles": 3500,
+        "Persona_J_02_ahorro_soles": 3300,
         "gastos_soles": 200,
         "saldo_neto_mes": 6600,
         "saldo_acumulado_soles": 52458.20,
@@ -140,8 +140,8 @@
 
       {
         "mes": "Mayo 2027",
-        "liz_ahorro_soles": 3500,
-        "josue_ahorro_soles": 3300,
+        "Persona_L_01_ahorro_soles": 3500,
+        "Persona_J_02_ahorro_soles": 3300,
         "gastos_soles": 600,
         "saldo_neto_mes": 6200,
         "saldo_acumulado_soles": 58658.20,
@@ -152,8 +152,8 @@
 
       {
         "mes": "Junio 2027",
-        "liz_ahorro_soles": 2000,
-        "josue_ahorro_soles": 1800,
+        "Persona_L_01_ahorro_soles": 2000,
+        "Persona_J_02_ahorro_soles": 1800,
         "gastos_soles": 3500,
         "saldo_neto_mes": 300,
         "saldo_acumulado_soles": 58958.20,
