@@ -342,11 +342,13 @@ elif pagina == "🎫 Bolsa Migratoria":
         nuevo_ahorro_jhon = st.number_input("Aporte promedio Persona_J_02 (S/)", value=250.0, step=50.0)
         
     aporte_mensual_total = nuevo_ahorro_liz + nuevo_ahorro_jhon
-    meta_faltante = objetivo.get('meta_soles', 60000) - progreso_bolsa["ahorrado_soles"]
+    meta_total = objetivo.get('meta_soles', 60000)
+    meta_faltante = meta_total - progreso_bolsa["ahorrado_soles"]
     
     if aporte_mensual_total > 0:
         meses_estimados = meta_faltante / aporte_mensual_total
-        st.success(f"💡 Con un aporte conjunto de S/ {aporte_mensual_total:,.2f} mensuales, te tomaría aproximadamente {meses_estimados:.1f} meses cubrir el saldo restante.")
+        anos_estimados = meses_estimados / 12  # Convertimos a años
+        st.success(f"💡 Con un aporte conjunto de S/ {aporte_mensual_total:,.2f} mensuales, te tomaría aproximadamente **{anos_estimados:.1f} años** ({meses_estimados:.1f} meses) cubrir el saldo restante.")
     else:
         st.warning("⚠️ Ingresa aportes mayores a cero para calcular la estimación.")
         
@@ -358,13 +360,14 @@ elif pagina == "🎫 Bolsa Migratoria":
     if proyeccion:
         df_proyeccion = pd.DataFrame(proyeccion)
         
-        # Sobrescribimos dinámicamente los valores de la tabla con lo que digitaste arriba
+        # Actualizamos valores de ahorro dinámicamente
         df_proyeccion["Persona_L_01_ahorro_soles"] = nuevo_ahorro_liz
         df_proyeccion["Persona_J_02_ahorro_soles"] = nuevo_ahorro_jhon
         
-        # Recalculamos el saldo neto y acumulado de forma dinámica para que la tabla refleje la realidad
+        # Recalculamos saldos y el porcentaje de progreso acumulado respecto a la meta total
         df_proyeccion["saldo_neto_mes"] = (df_proyeccion["Persona_L_01_ahorro_soles"] + df_proyeccion["Persona_J_02_ahorro_soles"]) - df_proyeccion["gastos_soles"]
-        df_proyeccion["saldo_acumulado_soles"] = df_proyeccion["saldo_neto_mes"].cumsum()
+        df_proyeccion["saldo_acumulado_soles"] = df_proyeccion["saldo_neto_mes"].cumsum() + progreso_bolsa["ahorrado_soles"]
+        df_proyeccion["progreso_pct"] = (df_proyeccion["saldo_acumulado_soles"] / meta_total) * 100
         
         df_proyeccion_display = df_proyeccion[[
             "mes", "Persona_L_01_ahorro_soles", "Persona_J_02_ahorro_soles", 
@@ -374,6 +377,10 @@ elif pagina == "🎫 Bolsa Migratoria":
         df_proyeccion_display.columns = [
             "Mes", "Persona_L_01 Ahorro", "Persona_J_02 Ahorro", "Gastos", "Saldo Acumulado", "Progreso %"
         ]
+        
+        # Formatear el progreso a un decimal con símbolo %
+        df_proyeccion_display["Progreso %"] = df_proyeccion_display["Progreso %"].apply(lambda x: f"{x:.2f}%")
+        
         st.dataframe(df_proyeccion_display, use_container_width=True)
 
 # ===== PÁGINA 5: TRAMITES Y MAPEO =====
