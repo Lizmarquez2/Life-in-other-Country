@@ -77,7 +77,12 @@ def obtener_bolsa_info(datos):
     return datos.get("bolsa_migracion", {}).get("bolsa_migracion", {})
 
 def guardar_datos_json(nombre_archivo, datos):
-    """Guarda el diccionario actualizado en el archivo JSON correspondiente."""
-    ruta = Path(__file__).parent.parent / nombre_archivo
-    with open(ruta, 'w', encoding='utf-8') as f:
-        json.dump(datos, f, ensure_ascii=False, indent=4)
+    """Guarda el diccionario actualizado en el archivo JSON correspondiente usando ruta absoluta."""
+    base_dir = Path(__file__).parent.parent
+    ruta = base_dir / nombre_archivo
+    try:
+        with open(ruta, 'w', encoding='utf-8') as f:
+            json.dump(datos, f, ensure_ascii=False, indent=4)
+        print(f"✅ Guardado exitoso en: {ruta}")
+    except Exception as e:
+        print(f"❌ Error al guardar en {ruta}: {e}")
