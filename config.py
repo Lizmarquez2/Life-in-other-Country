@@ -6,7 +6,7 @@ from datetime import datetime
 # ===== INFORMACIÓN DEL PROYECTO =====
 PROYECTO = {
     "nombre": "Migración Calgary 2026-2027",
-    "descripcion": "Dashboard de seguimiento para migración Liz + Josue a Calgary, Alberta, Canadá",
+    "descripcion": "Dashboard de seguimiento para migración Persona_L_01 + Persona_J_02 a Calgary, Alberta, Canadá",
     "versión": "1.0.0",
     "fecha_creación": "2026-08-01"
 }
@@ -14,20 +14,18 @@ PROYECTO = {
 # ===== PERSONAS =====
 PERSONAS = {
     "Persona_L_01": {
-        "nombre_completo": "Liz Esthefanny Márquez Panuera",
+        "nombre_completo": "Persona_L_01",
         "rol": "Contador Público",
         "experiencia_años": 7,
         "especialidad": "Costos Hospitalarios",
-        "perfil_migracion": "Profesional TEER 1",
-        "email": "esthef356@gmail.com"
+        "perfil_migracion": "Profesional TEER 1"
     },
     "Persona_J_02": {
-        "nombre_completo": "Josue (Esposo)",
+        "nombre_completo": "Persona_J_02 (Esposo)",
         "rol": "Técnico en Informática",
         "experiencia_años": 10,
         "especialidad": "IT Support (Linux/Windows)",
-        "perfil_migracion": "Técnico TEER 2",
-        "email": "esthef356@gmail.com"
+        "perfil_migracion": "Técnico TEER 2"
     }
 }
 
@@ -48,13 +46,13 @@ UBICACIONES = {
     }
 }
 
-# ===== TASAS DE CAMBIO (Actualizar regularmente) =====
+# ===== TASAS DE CAMBIO (ActuaPersona_L_01ar regularmente) =====
 TASAS_CAMBIO = {
     "sol_a_cad": 0.27,      # 1 S/ = 0.27 CAD
     "cad_a_sol": 3.70,      # 1 CAD = 3.70 S/
     "sol_a_usd": 0.20,      # 1 S/ = 0.20 USD
     "usd_a_cad": 1.35,      # 1 USD = 1.35 CAD
-    "fecha_actualizacion": "2026-08-01",
+    "fecha_actuaPersona_L_01acion": "2026-08-01",
     "fuente": "XE.com"
 }
 
@@ -109,7 +107,7 @@ COLORES = {
 
 # ===== MENSAJES =====
 MENSAJES = {
-    "bienvenida": "🚀 Dashboard de Migración Calgary | Liz + Josue",
+    "bienvenida": "🚀 Dashboard de Migración Calgary | Persona_L_01 + Persona_J_02",
     "objetivo": "Objetivo: Viajar a Calgary en Junio 2027",
     "cargando": "⏳ Cargando datos...",
     "error_datos": "❌ Error al cargar datos",
