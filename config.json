@@ -44,9 +44,9 @@
     "cad_a_sol": 3.70,
     "sol_a_usd": 0.20,
     "usd_a_cad": 1.35,
-    "fecha_actuaPersona_L_01acion": "2026-08-01",
+    "fecha_actualizacion": "2026-08-01",
     "fuente": "XE.com",
-    "nota": "ActuaPersona_L_01ar regularmente"
+    "nota": "Actualizar regularmente"
   },
 
   "fechas_clave": {
