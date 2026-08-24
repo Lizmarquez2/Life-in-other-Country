@@ -75,3 +75,9 @@ def obtener_saldo_persona(datos, persona):
 def obtener_bolsa_info(datos):
     """Retorna información de la bolsa migratoria."""
     return datos.get("bolsa_migracion", {}).get("bolsa_migracion", {})
+
+def guardar_datos_json(nombre_archivo, datos):
+    """Guarda el diccionario actualizado en el archivo JSON correspondiente."""
+    ruta = Path(__file__).parent.parent / nombre_archivo
+    with open(ruta, 'w', encoding='utf-8') as f:
+        json.dump(datos, f, ensure_ascii=False, indent=4)
