@@ -1,6 +1,6 @@
 # 🚀 Dashboard de Migración Calgary 2026-2027
 
-Dashboard interactivo para planificar y monitorear la migración de **Persona_L_01 Esthefanny Márquez Panuera + Persona_J_02** a Calgary, Alberta, Canadá.
+Dashboard interactivo para planificar y monitorear la migración de **Persona_L_01 + Persona_J_02** a Calgary, Alberta, Canadá.
 
 ## 📋 Descripción
 
@@ -139,7 +139,6 @@ Para agregar un movimiento, edita `data/movimientos.json`:
   "concepto": "Sueldo septiembre",
   "monto_original": 2500,
   "moneda_original": "PEN",
-  "fuente": "Clínica Adventista",
   "actividad": "Depósito",
   "observaciones": "Ahorro mes 2"
 }
@@ -217,14 +216,6 @@ Streamlit Cloud auto-actualiza cada vez que hagas push a `main` (en ~2 minutos).
 - **Canadá:** Gastos en dólares (CAD$)
 - Conversiones automáticas en dashboard
 
-## 🔐 Privacidad
-
-El repositorio es **PRIVADO**. Solo Persona_L_01, Persona_J_02 y colaboradores autorizados tienen acceso.
-
-Para agregar colaboradores:
-1. GitHub → Settings → Collaborators
-2. Agregar emails autorizados
-
 ## 🐛 Troubleshooting
 
 ### "Módulo no encontrado"
@@ -246,12 +237,6 @@ streamlit cache clear
 - Check logs: Settings → Deploy logs
 - Verifica que `requirements.txt` esté actualizado
 - Verifica que archivos JSON estén en `data/` folder
-
-## 📧 Contacto
-
-**Creado para:** Persona_L_01 Esthefanny Márquez Panuera + Persona_J_02  
-**Email:** esthef356@gmail.com  
-**GitHub:** https://github.com/Persona_L_01marquez2/Life-in-other-Country
 
 ## 📝 Notas Importantes
 
