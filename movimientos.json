@@ -8,7 +8,6 @@
       "concepto": "Sueldo agosto (50% a fondo migración)",
       "monto_original": 2500,
       "moneda_original": "PEN",
-      "fuente": "Clínica Adventista Good Hope",
       "actividad": "Depósito",
       "observaciones": "Ahorro mes 1",
       "completado": false
@@ -22,7 +21,6 @@
       "concepto": "Sueldo agosto (50% a fondo migración)",
       "monto_original": 2300,
       "moneda_original": "PEN",
-      "fuente": "Trabajo IT actual",
       "actividad": "Depósito",
       "observaciones": "Ahorro mes 1",
       "completado": false
