@@ -216,29 +216,40 @@ elif pagina == "💰 Ahorro & Gastos":
     
     # 1. Inicializamos la sesión si no existe
     if "movimientos_session" not in st.session_state:
-        movs_iniciales = datos.get("movimientos", {}).get("movimientos", [])
-        st.session_state.movimientos_session = movs_iniciales
+        st.session_state.movimientos_session = datos.get("movimientos", {}).get("movimientos", [])
 
-    # 2. SINCRONIZACIÓN CLAVE: Inyectamos los movimientos de la sesión en el diccionario 'datos' 
-    # para que las funciones de cálculo (como calcular_por_persona) lean los datos actualizados.
-    if "movimientos" not in datos:
-        datos["movimientos"] = {}
-    datos["movimientos"]["movimientos"] = st.session_state.movimientos_session
-    
-    # (Opcional) Si tu app calcula un resumen automático basado en la lista, puedes recalcularlo aquí o dejar que el sistema lo tome.
+    movimientos_actuales = st.session_state.movimientos_session
+
+    # 2. Función auxiliar directa para calcular totales por persona de forma dinámica
+    def calcular_totales_directos(movimientos, persona_id):
+        total_ahorrado = sum(
+            m.get("monto_original", 0) for m in movimientos 
+            if m.get("persona") == persona_id and m.get("tipo") == "AHORRO"
+        )
+        total_gastado = sum(
+            m.get("monto_original", 0) for m in movimientos 
+            if m.get("persona") == persona_id and m.get("tipo") == "GASTO"
+        )
+        saldo = total_ahorrado - total_gastado
+        return {
+            "total_ahorrado_soles": total_ahorrado,
+            "total_gastado_soles": total_gastado,
+            "saldo_soles": saldo
+        }
+
+    info_Persona_L_01 = calcular_totales_directos(movimientos_actuales, "Persona_L_01")
+    info_Persona_J_02 = calcular_totales_directos(movimientos_actuales, "Persona_J_02")
 
     col_a1, col_a2 = st.columns(2)
     
     with col_a1:
         st.subheader("👩‍💼 Persona_L_01")
-        info_Persona_L_01 = calcular_por_persona(datos, "Persona_L_01")
         st.metric("Ahorrado", formato_moneda_soles(info_Persona_L_01["total_ahorrado_soles"]))
         st.metric("Gastado", formato_moneda_soles(info_Persona_L_01["total_gastado_soles"]))
         st.metric("Saldo", formato_moneda_soles(info_Persona_L_01["saldo_soles"]))
     
     with col_a2:
         st.subheader("👨‍💻 Persona_J_02")
-        info_Persona_J_02 = calcular_por_persona(datos, "Persona_J_02")
         st.metric("Ahorrado", formato_moneda_soles(info_Persona_J_02["total_ahorrado_soles"]))
         st.metric("Gastado", formato_moneda_soles(info_Persona_J_02["total_gastado_soles"]))
         st.metric("Saldo", formato_moneda_soles(info_Persona_J_02["saldo_soles"]))
