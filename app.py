@@ -18,7 +18,7 @@ from modules.calculadora import (
     calcular_progreso_tiempo,
     calcular_dias_faltantes
 )
-from modules.conversiones import formato_moneda_soles, formato_moneda_cad, sol_a_cad
+from conversiones import formato_moneda_soles, formato_moneda_cad, sol_a_cad
 
 # ===== CONFIGURACIÓN STREAMLIT =====
 st.set_page_config(
