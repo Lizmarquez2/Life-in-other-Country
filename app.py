@@ -214,11 +214,18 @@ elif pagina == "📅 Línea de Tiempo":
 elif pagina == "💰 Ahorro & Gastos":
     st.header("💰 Registro de Ahorro & Gastos")
     
-    # Inicializamos la lista de movimientos en la sesión si no existe
+    # 1. Inicializamos la sesión si no existe
     if "movimientos_session" not in st.session_state:
-        # Intentamos cargar los iniciales del JSON si los hubiera, o lista vacía
         movs_iniciales = datos.get("movimientos", {}).get("movimientos", [])
         st.session_state.movimientos_session = movs_iniciales
+
+    # 2. SINCRONIZACIÓN CLAVE: Inyectamos los movimientos de la sesión en el diccionario 'datos' 
+    # para que las funciones de cálculo (como calcular_por_persona) lean los datos actualizados.
+    if "movimientos" not in datos:
+        datos["movimientos"] = {}
+    datos["movimientos"]["movimientos"] = st.session_state.movimientos_session
+    
+    # (Opcional) Si tu app calcula un resumen automático basado en la lista, puedes recalcularlo aquí o dejar que el sistema lo tome.
 
     col_a1, col_a2 = st.columns(2)
     
