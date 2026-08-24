@@ -1,14 +1,14 @@
 {
   "proyecto": {
     "nombre": "Migración Calgary 2026-2027",
-    "descripcion": "Plan de migración para Liz + Josue a Calgary, Alberta",
+    "descripcion": "Plan de migración para Persona_L_01 + Persona_J_02 a Calgary, Alberta",
     "version": "1.0.0",
     "fecha_creacion": "2026-08-01"
   },
 
   "personas": {
     "Persona_L_01": {
-      "nombre_completo": "Liz Esthefanny Márquez Panuera",
+      "nombre_completo": "Persona_L_01",
       "rol": "Contador Público",
       "experiencia_anos": 7,
       "especialidad": "Costos Hospitalarios",
@@ -44,9 +44,9 @@
     "cad_a_sol": 3.70,
     "sol_a_usd": 0.20,
     "usd_a_cad": 1.35,
-    "fecha_actualizacion": "2026-08-01",
+    "fecha_actuaPersona_L_01acion": "2026-08-01",
     "fuente": "XE.com",
-    "nota": "Actualizar regularmente"
+    "nota": "ActuaPersona_L_01ar regularmente"
   },
 
   "fechas_clave": {
