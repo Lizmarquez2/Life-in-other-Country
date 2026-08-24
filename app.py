@@ -175,9 +175,9 @@ elif pagina == "📅 Línea de Tiempo":
     
     with col_l1:
         st.subheader("👩‍💼 Persona_L_01")
-        liz_timeline = cronograma.get("linea_tiempo_persona", {}).get("Liz", [])
+        Persona_L_01_timeline = cronograma.get("linea_tiempo_persona", {}).get("Persona_L_01", [])
         
-        for item in liz_timeline:
+        for item in Persona_L_01_timeline:
             mes = item.get("mes", "")
             hito = item.get("hito", "")
             costo_soles = item.get("costo_soles", 0)
@@ -194,9 +194,9 @@ elif pagina == "📅 Línea de Tiempo":
             
     with col_l2:
         st.subheader("👨‍💻 Persona_J_02 (Técnico IT)")
-        jhon_timeline = cronograma.get("linea_tiempo_persona", {}).get("Jhon", [])
+        Persona_J_02_timeline = cronograma.get("linea_tiempo_persona", {}).get("Persona_J_02", [])
         
-        for item in jhon_timeline:
+        for item in Persona_J_02_timeline:
             mes = item.get("mes", "")
             hito = item.get("hito", "")
             costo_soles = item.get("costo_soles", 0)
