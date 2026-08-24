@@ -1,12 +1,48 @@
+import requests
+
+def obtener_tasas_api():
+    """Consulta una API gratuita para obtener tasas de cambio actualizadas frente al CAD y USD."""
+    try:
+        # Consultamos usando CAD como base para obtener la relación con PEN y USD
+        url = "https://api.frankfurter.app/latest?from=CAD&to=PEN,USD"
+        response = requests.get(url, timeout=5)
+        if response.status_code == 200:
+            data = response.json()
+            rates = data.get("rates", {})
+            cad_a_sol_val = rates.get("PEN", 3.70)
+            cad_a_usd_val = rates.get("USD", 0.74)
+            
+            # Calculamos las inversas necesarias para mantener la compatibilidad con tus funciones
+            return {
+                "cad_a_sol": cad_a_sol_val,
+                "sol_a_cad": 1.0 / cad_a_sol_val if cad_a_sol_val > 0 else 0.27,
+                "sol_a_usd": (1.0 / cad_a_sol_val) * cad_a_usd_val if cad_a_sol_val > 0 else 0.20,
+                "usd_a_cad": 1.0 / cad_a_usd_val if cad_a_usd_val > 0 else 1.35
+            }
+    except Exception:
+        pass
+    
+    # Valores de respaldo (fallback) si falla la conexión a internet o la API
+    return {
+        "sol_a_cad": 0.27,
+        "cad_a_sol": 3.70,
+        "sol_a_usd": 0.20,
+        "usd_a_cad": 1.35
+    }
+
 # modules/conversiones.py - Conversiones de moneda
 # modules/conversiones.py - Conversiones de moneda (Optimizado)
 
-def sol_a_cad(cantidad_soles, tasa):
-    """Convierte soles a CAD$."""
+def sol_a_cad(cantidad_soles, tasa=None):
+    """Convierte soles a CAD$ usando tasas de API o fijas."""
+    if not tasa:
+        tasa = obtener_tasas_api()
     return cantidad_soles * tasa.get("sol_a_cad", 0.27)
 
-def cad_a_sol(cantidad_cad, tasa):
-    """Convierte CAD$ a soles."""
+def cad_a_sol(cantidad_cad, tasa=None):
+    """Convierte CAD$ a soles usando tasas de API o fijas."""
+    if not tasa:
+        tasa = obtener_tasas_api()
     return cantidad_cad * tasa.get("cad_a_sol", 3.70)
 
 def sol_a_usd(cantidad_soles, tasa):
