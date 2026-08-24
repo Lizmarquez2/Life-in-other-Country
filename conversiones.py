@@ -1,4 +1,4 @@
-# modules/conversiones.py - Conversiones de moneda
+# modules/conversiones.py - Conversiones de moneda (Optimizado)
 
 def sol_a_cad(cantidad_soles, tasa):
     """Convierte soles a CAD$."""
@@ -32,13 +32,31 @@ def convertir_movimiento(movimiento, tasas):
     monto = movimiento.get("monto_original", 0)
     moneda = movimiento.get("moneda_original", "PEN")
     
-    resultado = {
-        "monto_original_soles": monto if moneda == "PEN" else sol_a_usd(monto, tasas) if moneda == "USD" else 0,
-        "monto_cad": sol_a_cad(monto, tasas) if moneda == "PEN" else usd_a_cad(monto, tasas) if moneda == "USD" else 0,
-        "monto_usd": sol_a_usd(monto, tasas) if moneda == "PEN" else monto if moneda == "USD" else 0
-    }
+    if moneda == "PEN":
+        monto_soles = monto
+        monto_cad = sol_a_cad(monto, tasas)
+        monto_usd = sol_a_usd(monto, tasas)
+    elif moneda == "USD":
+        # Convertir USD a Soles dividiendo entre la tasa sol_a_usd (o multiplicando por su equivalente)
+        tasa_sol_usd = tasas.get("sol_a_usd", 0.20)
+        monto_soles = monto / tasa_sol_usd if tasa_sol_usd > 0 else monto * 5
+        monto_cad = usd_a_cad(monto, tasas)
+        monto_usd = monto
+    elif moneda == "CAD":
+        tasa_cad_sol = tasas.get("cad_a_sol", 3.70)
+        monto_soles = monto * tasa_cad_sol
+        monto_cad = monto
+        monto_usd = monto_soles * tasas.get("sol_a_usd", 0.20)
+    else:
+        monto_soles = monto
+        monto_cad = 0
+        monto_usd = 0
     
-    return resultado
+    return {
+        "monto_original_soles": monto_soles,
+        "monto_cad": monto_cad,
+        "monto_usd": monto_usd
+    }
 
 def calcular_total_soles(movimientos, tasas):
     """Suma todos los montos convirtiéndolos a soles."""
@@ -52,8 +70,9 @@ def calcular_total_soles(movimientos, tasas):
         elif moneda == "CAD":
             total += cad_a_sol(monto, tasas)
         elif moneda == "USD":
-            total += (monto / tasas.get("sol_a_usd", 0.20))
-    
+            tasa_sol_usd = tasas.get("sol_a_usd", 0.20)
+            total += (monto / tasa_sol_usd) if tasa_sol_usd > 0 else (monto * 5)
+            
     return total
 
 def calcular_total_cad(movimientos, tasas):
@@ -69,5 +88,5 @@ def calcular_total_cad(movimientos, tasas):
             total += monto
         elif moneda == "USD":
             total += usd_a_cad(monto, tasas)
-    
+            
     return total
