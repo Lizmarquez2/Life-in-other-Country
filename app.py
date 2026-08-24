@@ -242,41 +242,41 @@ elif pagina == "💰 Ahorro & Gastos":
     else:
         st.info("Sin movimientos registrados aún.")
 
-st.subheader("➕ Registrar Nuevo Aporte")
-with st.form("form_nuevo_aporte", clear_on_submit=True):
-    col_f1, col_f2 = st.columns(2)
-    with col_f1:
-        persona_aporte = st.selectbox("¿Quién aporta?", ["Persona_L_01", "Persona_J_02"])
-        monto_aporte = st.number_input("Monto en Soles (S/)", min_value=0.0, step=10.0, format="%.2f")
-    with col_f2:
-        fecha_aporte = st.date_input("Fecha del aporte")
-        concepto_aporte = st.text_input("Concepto / Descripción", placeholder="Ej. Ahorro de sueldo mensual")
-    
-    submit_aporte = st.form_submit_button("Guardar Aporte")
-    
-    if submit_aporte:
-        # Estructura del nuevo registro
-        nuevo_registro = {
-            "fecha": str(fecha_aporte),
-            "persona": persona_aporte,
-            "monto_soles": monto_aporte,
-            "concepto": concepto_aporte
-        }
+    st.subheader("➕ Registrar Nuevo Aporte")
+    with st.form("form_nuevo_aporte", clear_on_submit=True):
+        col_f1, col_f2 = st.columns(2)
+        with col_f1:
+            persona_aporte = st.selectbox("¿Quién aporta?", ["Persona_L_01", "Persona_J_02"])
+            monto_aporte = st.number_input("Monto en Soles (S/)", min_value=0.0, step=10.0, format="%.2f")
+        with col_f2:
+            fecha_aporte = st.date_input("Fecha del aporte")
+            concepto_aporte = st.text_input("Concepto / Descripción", placeholder="Ej. Ahorro de sueldo mensual")
         
-        # Asegurarnos de que exista la llave de movimientos en tus datos
-        if "movimientos" not in datos:
-            datos["movimientos"] = []
+        submit_aporte = st.form_submit_button("Guardar Aporte")
+        
+        if submit_aporte:
+            # Estructura del nuevo registro
+            nuevo_registro = {
+                "fecha": str(fecha_aporte),
+                "persona": persona_aporte,
+                "monto_soles": monto_aporte,
+                "concepto": concepto_aporte
+            }
             
-        # Agregar a la lista de datos en memoria
-        datos["movimientos"].append(nuevo_registro)
-        
-        # Guardar en el archivo JSON correspondiente (ej. movimientos.json)
-        try:
-            guardar_datos_json("movimientos.json", {"movimientos": datos["movimientos"]})
-            st.success(f"¡Aporte de S/ {monto_aporte:.2f} registrado con éxito para {persona_aporte}!")
-            st.rerun() # Recarga la app para mostrar los cambios actualizados
-        except Exception as e:
-            st.error(f"Error al guardar el archivo: {e}")
+            # Asegurarnos de que exista la llave de movimientos en tus datos
+            if "movimientos" not in datos:
+                datos["movimientos"] = []
+                
+            # Agregar a la lista de datos en memoria
+            datos["movimientos"].append(nuevo_registro)
+            
+            # Guardar en el archivo JSON correspondiente (ej. movimientos.json)
+            try:
+                guardar_datos_json("movimientos.json", {"movimientos": datos["movimientos"]})
+                st.success(f"¡Aporte de S/ {monto_aporte:.2f} registrado con éxito para {persona_aporte}!")
+                st.rerun() # Recarga la app para mostrar los cambios actualizados
+            except Exception as e:
+                st.error(f"Error al guardar el archivo: {e}")
 
 # ===== PÁGINA 4: PRESUPUESTO =====
 elif pagina == "💵 Presupuesto":
