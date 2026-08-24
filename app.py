@@ -171,7 +171,7 @@ elif pagina == "📅 Línea de Tiempo":
     col_l1, col_l2 = st.columns(2)
     
     with col_l1:
-        st.subheader("👩‍💼 Liz")
+        st.subheader("👩‍💼 Persona_L_01")
         cronograma = datos.get("cronograma", {}).get("cronograma", {})
         liz_timeline = cronograma.get("linea_tiempo_persona", {}).get("Liz", [])
         
@@ -191,7 +191,7 @@ elif pagina == "📅 Línea de Tiempo":
                 st.write(f"**{mes}:** {hito}")
     
     with col_l2:
-        st.subheader("👨‍💻 Jhon (Técnico IT)")
+        st.subheader("👨‍💻 Persona_J_02 (Técnico IT)")
         jhon_timeline = cronograma.get("linea_tiempo_persona", {}).get("Jhon", [])
         
         for item in jhon_timeline:
@@ -216,18 +216,18 @@ elif pagina == "💰 Ahorro & Gastos":
     col_a1, col_a2 = st.columns(2)
     
     with col_a1:
-        st.subheader("👩‍💼 Liz")
-        info_liz = calcular_por_persona(datos, "Liz")
-        st.metric("Ahorrado", formato_moneda_soles(info_liz["total_ahorrado_soles"]))
-        st.metric("Gastado", formato_moneda_soles(info_liz["total_gastado_soles"]))
-        st.metric("Saldo", formato_moneda_soles(info_liz["saldo_soles"]))
+        st.subheader("👩‍💼 Persona_L_01")
+        info_liz = calcular_por_persona(datos, "Persona_L_01")
+        st.metric("Ahorrado", formato_moneda_soles(info_Persona_L_01["total_ahorrado_soles"]))
+        st.metric("Gastado", formato_moneda_soles(info_Persona_L_01["total_gastado_soles"]))
+        st.metric("Saldo", formato_moneda_soles(info_Persona_L_01["saldo_soles"]))
     
     with col_a2:
-        st.subheader("👨‍💻 Jhon")
-        info_jhon = calcular_por_persona(datos, "Jhon")
-        st.metric("Ahorrado", formato_moneda_soles(info_jhon["total_ahorrado_soles"]))
-        st.metric("Gastado", formato_moneda_soles(info_jhon["total_gastado_soles"]))
-        st.metric("Saldo", formato_moneda_soles(info_jhon["saldo_soles"]))
+        st.subheader("👨‍💻 Persona_J_02")
+        info_jhon = calcular_por_persona(datos, "Persona_J_02")
+        st.metric("Ahorrado", formato_moneda_soles(info_Persona_J_02["total_ahorrado_soles"]))
+        st.metric("Gastado", formato_moneda_soles(info_Persona_J_02["total_gastado_soles"]))
+        st.metric("Saldo", formato_moneda_soles(info_Persona_J_02["saldo_soles"]))
     
     st.markdown("---")
     
@@ -304,7 +304,7 @@ elif pagina == "🎫 Bolsa Migratoria":
             "gastos_soles", "saldo_acumulado_soles", "progreso_pct"
         ]].copy()
         df_proyeccion_display.columns = [
-            "Mes", "Liz Ahorro", "Jhon Ahorro", "Gastos", "Saldo Acumulado", "Progreso %"
+            "Mes", "Persona_L_01 Ahorro", "Persona_J_02 Ahorro", "Gastos", "Saldo Acumulado", "Progreso %"
         ]
         st.dataframe(df_proyeccion_display, use_container_width=True)
 
