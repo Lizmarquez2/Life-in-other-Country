@@ -28,7 +28,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ===== ESTILOS PERSONALIZADOS =====
+# ===== ESTILOS PERSONAPersona_L_01ADOS =====
 st.markdown("""
 <style>
     .main { padding: 1rem; }
@@ -50,7 +50,7 @@ datos = load_data()
 
 # ===== HEADER =====
 st.markdown("# 🚀 Dashboard de Migración Calgary 2026-2027")
-st.markdown("**Liz Esthefanny Márquez Panuera + Josue** | Objetivo: Junio 2027")
+st.markdown("**2 Personas** | Objetivo: Junio 2027")
 st.markdown("---")
 
 # ===== SIDEBAR =====
@@ -168,14 +168,14 @@ if pagina == "📊 Resumen Ejecutivo":
 elif pagina == "📅 Línea de Tiempo":
     st.header("📅 Línea de Tiempo del Proyecto")
     
-    col_liz, col_josue = st.columns(2)
+    Persona_L_01, Persona_J_02 = st.columns(2)
     
-    with col_liz:
-        st.subheader("👩‍💼 Liz Esthefanny Márquez Panuera")
+    with Persona_L_01:
+        st.subheader("👩‍💼 Persona_L_01")
         cronograma = datos.get("cronograma", {}).get("cronograma", {})
-        liz_timeline = cronograma.get("linea_tiempo_persona", {}).get("Persona_L_01", [])
+        Persona_L_01_timeline = cronograma.get("linea_tiempo_persona", {}).get("Persona_L_01", [])
         
-        for item in liz_timeline:
+        for item in Persona_L_01_timeline:
             mes = item.get("mes", "")
             hito = item.get("hito", "")
             costo_soles = item.get("costo_soles", 0)
@@ -190,11 +190,11 @@ elif pagina == "📅 Línea de Tiempo":
             else:
                 st.write(f"**{mes}:** {hito}")
     
-    with col_josue:
-        st.subheader("👨‍💻 Josue (Técnico IT)")
-        josue_timeline = cronograma.get("linea_tiempo_persona", {}).get("Persona_J_02", [])
+    with Persona_J_02:
+        st.subheader("👨‍💻 Persona_J_02 (Técnico IT)")
+        Persona_J_02_timeline = cronograma.get("linea_tiempo_persona", {}).get("Persona_J_02", [])
         
-        for item in josue_timeline:
+        for item in Persona_J_02_timeline:
             mes = item.get("mes", "")
             hito = item.get("hito", "")
             costo_soles = item.get("costo_soles", 0)
@@ -214,21 +214,21 @@ elif pagina == "💰 Ahorro & Gastos":
     st.header("💰 Registro de Ahorro & Gastos")
     
     # Comparación por persona
-    col_liz, col_josue = st.columns(2)
+    Persona_L_01, Persona_J_02 = st.columns(2)
     
-    with col_liz:
-        st.subheader("👩‍💼 Liz")
-        info_liz = calcular_por_persona(datos, "Persona_L_01")
-        st.metric("Ahorrado", formato_moneda_soles(info_liz["total_ahorrado_soles"]))
-        st.metric("Gastado", formato_moneda_soles(info_liz["total_gastado_soles"]))
-        st.metric("Saldo", formato_moneda_soles(info_liz["saldo_soles"]))
+    with Persona_L_01:
+        st.subheader("👩‍💼 Persona_L_01")
+        info_Persona_L_01 = calcular_por_persona(datos, "Persona_L_01")
+        st.metric("Ahorrado", formato_moneda_soles(info_Persona_L_01["total_ahorrado_soles"]))
+        st.metric("Gastado", formato_moneda_soles(info_Persona_L_01["total_gastado_soles"]))
+        st.metric("Saldo", formato_moneda_soles(info_Persona_L_01["saldo_soles"]))
     
-    with col_josue:
-        st.subheader("👨‍💻 Josue")
-        info_josue = calcular_por_persona(datos, "Persona_J_02")
-        st.metric("Ahorrado", formato_moneda_soles(info_josue["total_ahorrado_soles"]))
-        st.metric("Gastado", formato_moneda_soles(info_josue["total_gastado_soles"]))
-        st.metric("Saldo", formato_moneda_soles(info_josue["saldo_soles"]))
+    with Persona_J_02:
+        st.subheader("👨‍💻 Persona_J_02")
+        info_Persona_J_02 = calcular_por_persona(datos, "Persona_J_02")
+        st.metric("Ahorrado", formato_moneda_soles(info_Persona_J_02["total_ahorrado_soles"]))
+        st.metric("Gastado", formato_moneda_soles(info_Persona_J_02["total_gastado_soles"]))
+        st.metric("Saldo", formato_moneda_soles(info_Persona_J_02["saldo_soles"]))
     
     st.markdown("---")
     
@@ -307,11 +307,11 @@ elif pagina == "🎫 Bolsa Migratoria":
     if proyeccion:
         df_proyeccion = pd.DataFrame(proyeccion)
         df_proyeccion_display = df_proyeccion[[
-            "mes", "liz_ahorro_soles", "josue_ahorro_soles", 
+            "mes", "Persona_L_01_ahorro_soles", "Persona_J_02_ahorro_soles", 
             "gastos_soles", "saldo_acumulado_soles", "progreso_pct"
         ]].copy()
         df_proyeccion_display.columns = [
-            "Mes", "Liz Ahorro", "Josue Ahorro", "Gastos", "Saldo Acumulado", "Progreso %"
+            "Mes", "Persona_L_01 Ahorro", "Persona_J_02 Ahorro", "Gastos", "Saldo Acumulado", "Progreso %"
         ]
         st.dataframe(df_proyeccion_display, use_container_width=True)
 
@@ -342,7 +342,7 @@ elif pagina == "⚙️ Configuración":
     st.markdown("---")
     
     # Tasas de cambio
-    st.subheader("💱 Tasas de Cambio (Última actualización)")
+    st.subheader("💱 Tasas de Cambio (Última actuaPersona_L_01ación)")
     tasas = config.get("tasas_cambio", {})
     
     col_tasa1, col_tasa2, col_tasa3, col_tasa4 = st.columns(4)
@@ -356,7 +356,7 @@ elif pagina == "⚙️ Configuración":
     with col_tasa4:
         st.metric("USD → CAD$", tasas.get("usd_a_cad", 0))
     
-    st.write(f"**Fuente:** {tasas.get('fuente', '')} - {tasas.get('fecha_actualizacion', '')}")
+    st.write(f"**Fuente:** {tasas.get('fuente', '')} - {tasas.get('fecha_actuaPersona_L_01acion', '')}")
     
     st.markdown("---")
     
@@ -371,8 +371,8 @@ elif pagina == "⚙️ Configuración":
 st.markdown("---")
 st.markdown(
     "<p style='text-align: center; color: gray;'>"
-    "Dashboard de Migración Calgary | Última actualización: Agosto 2026 | "
-    "<a href='https://github.com/Lizmarquez2/Life-in-other-Country'>GitHub</a>"
+    "Dashboard de Migración Calgary | Última actuaPersona_L_01ación: Agosto 2026 | "
+    "<a href='https://github.com/Persona_L_01marquez2/Life-in-other-Country'>GitHub</a>"
     "</p>",
     unsafe_allow_html=True
 )
