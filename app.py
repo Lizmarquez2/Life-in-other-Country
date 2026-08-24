@@ -313,20 +313,22 @@ elif pagina == "💰 Ahorro & Gastos":
                 "observaciones": observaciones
             }
             
-            # 1. Asegurar que la estructura exista en el diccionario de movimientos
-            if "movimientos" not in datos.get("movimientos", {}):
-                if "movimientos" not in datos:
-                    datos["movimientos"] = {}
+            # Aseguramos que la estructura general sea un diccionario válido
+            if not isinstance(datos.get("movimientos"), dict):
+                datos["movimientos"] = {}
+                
+            # Aseguramos que exista la lista interna de movimientos
+            if "movimientos" not in datos["movimientos"]:
                 datos["movimientos"]["movimientos"] = []
                 
-            # 2. Agregar el nuevo registro a la lista en memoria
+            # Agregamos el nuevo registro
             datos["movimientos"]["movimientos"].append(nuevo_registro)
             
-            # 3. Guardar físicamente usando tu función del data_loader apuntando a su archivo correspondiente
+            # Guardamos en el archivo JSON correspondiente
             guardar_datos_json("data/movimientos.json", datos["movimientos"])
             
             st.success("¡Movimiento registrado y guardado con éxito!")
-            st.rerun() # Recarga la app para ver el cambio reflejado al instante
+            st.rerun()
 
 # ===== PÁGINA 4: PRESUPUESTO =====
 elif pagina == "💵 Presupuesto":
