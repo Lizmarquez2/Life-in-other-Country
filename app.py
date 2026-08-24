@@ -357,10 +357,20 @@ elif pagina == "🎫 Bolsa Migratoria":
     
     if proyeccion:
         df_proyeccion = pd.DataFrame(proyeccion)
+        
+        # Sobrescribimos dinámicamente los valores de la tabla con lo que digitaste arriba
+        df_proyeccion["Persona_L_01_ahorro_soles"] = nuevo_ahorro_liz
+        df_proyeccion["Persona_J_02_ahorro_soles"] = nuevo_ahorro_jhon
+        
+        # Recalculamos el saldo neto y acumulado de forma dinámica para que la tabla refleje la realidad
+        df_proyeccion["saldo_neto_mes"] = (df_proyeccion["Persona_L_01_ahorro_soles"] + df_proyeccion["Persona_J_02_ahorro_soles"]) - df_proyeccion["gastos_soles"]
+        df_proyeccion["saldo_acumulado_soles"] = df_proyeccion["saldo_neto_mes"].cumsum()
+        
         df_proyeccion_display = df_proyeccion[[
             "mes", "Persona_L_01_ahorro_soles", "Persona_J_02_ahorro_soles", 
             "gastos_soles", "saldo_acumulado_soles", "progreso_pct"
         ]].copy()
+        
         df_proyeccion_display.columns = [
             "Mes", "Persona_L_01 Ahorro", "Persona_J_02 Ahorro", "Gastos", "Saldo Acumulado", "Progreso %"
         ]
