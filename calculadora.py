@@ -1,6 +1,6 @@
-# modules/calculadora.py - Cálculos automáticos
+# modules/calculadora.py - Cálculos automáticos (Optimizado)
 
-from datetime import datetime, timedelta
+from datetime import datetime
 from modules.conversiones import sol_a_cad, cad_a_sol, calcular_total_soles, calcular_total_cad
 
 def calcular_totales_movimientos(datos):
@@ -17,7 +17,8 @@ def calcular_totales_movimientos(datos):
     
     total_ahorrado_cad = sol_a_cad(total_ahorrado_soles, tasas)
     total_gastado_cad = sol_a_cad(total_gastado_soles, tasas)
-    saldo_cad = saldo_soles * tasas.get("sol_a_cad", 0.27)
+    # Consistencia: Saldo en CAD como la diferencia entre ahorros y gastos en CAD
+    saldo_cad = total_ahorrado_cad - total_gastado_cad
     
     return {
         "total_ahorrado_soles": total_ahorrado_soles,
@@ -43,7 +44,7 @@ def calcular_progreso_bolsa(datos):
         "meta_soles": meta_soles,
         "ahorrado_soles": saldo,
         "falta_soles": falta,
-        "progreso_pct": min(100, progreso_pct),
+        "progreso_pct": min(100.0, max(0.0, progreso_pct)),
         "alcanza_meta": saldo >= meta_soles
     }
 
@@ -66,7 +67,7 @@ def calcular_por_persona(datos, persona):
         "total_ahorrado_soles": total_ahorrado,
         "total_gastado_soles": total_gastado,
         "saldo_soles": saldo,
-        "saldo_cad": saldo * tasas.get("sol_a_cad", 0.27),
+        "saldo_cad": sol_a_cad(saldo, tasas),
         "movimientos_count": len(movimientos_persona)
     }
 
@@ -80,7 +81,7 @@ def calcular_dias_faltantes(datos):
         hoy = datetime.now()
         dias_faltantes = (fecha_viaje - hoy).days
         return max(0, dias_faltantes)
-    except:
+    except (ValueError, TypeError):
         return 0
 
 def calcular_progreso_tiempo(datos):
@@ -104,9 +105,9 @@ def calcular_progreso_tiempo(datos):
             "dias_totales": dias_totales,
             "dias_transcurridos": dias_transcurridos,
             "dias_faltantes": max(0, (fin - hoy).days),
-            "progreso_pct": min(100, progreso_pct)
+            "progreso_pct": min(100.0, max(0.0, progreso_pct))
         }
-    except:
+    except (ValueError, TypeError):
         return {"dias_totales": 0, "dias_transcurridos": 0, "dias_faltantes": 0, "progreso_pct": 0}
 
 def obtener_tramites_por_estado(datos, estado):
