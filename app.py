@@ -491,7 +491,11 @@ elif pagina == "📋 Trámites y Mapeo":
     st.header("📋 Seguimiento de Trámites Migratorios")
     st.write("Gestiona y visualiza automáticamente el estado de tus documentos según los gastos registrados.")
     
-    lista_tramites = datos.get("tramites", {}).get("tramites", [])
+    # Aseguramos cargar los trámites desde la sesión o el archivo base
+    if "tramites_session" not in st.session_state:
+        st.session_state.tramites_session = datos.get("tramites", {}).get("tramites", [])
+    
+    lista_tramites = st.session_state.tramites_session
     movimientos_actuales = st.session_state.get("movimientos_session", [])
     
     if lista_tramites:
@@ -500,12 +504,16 @@ elif pagina == "📋 Trámites y Mapeo":
             costo_presupuestado = t.get('costo', 0.0)
             
             # --- DETECCIÓN INTELIGENTE POR PALABRA CLAVE ---
-            # Extraemos la raíz del nombre (ej. "pasaporte" de "Pasaportes (2 personas)")
-            palabra_clave = nombre_tramite.split(" ")[0].lower().replace("s", "") # Remueve plurales simples
+            # Limpiamos el nombre del trámite para buscar coincidencias flexibles
+            palabra_clave = nombre_tramite.split(" ")[0].lower().replace("s", "")
             
+            # Sumamos los gastos que coincidan con la palabra clave
             total_pagado = sum(
                 m.get("monto_original", 0) for m in movimientos_actuales 
-                if m.get("tipo") == "GASTO" and palabra_clave in m.get("concepto", "").lower()
+                if m.get("tipo") == "GASTO" and (
+                    palabra_clave in m.get("concepto", "").lower() or 
+                    m.get("concepto", "").lower() in nombre_tramite.lower()
+                )
             )
             
             # --- DEFINICIÓN DE ESTADOS ---
@@ -516,6 +524,7 @@ elif pagina == "📋 Trámites y Mapeo":
             else:
                 estado_calculado = "En Proceso"
             
+            # Actualizamos el estado en la sesión
             t['estado'] = estado_calculado
             
             # --- RENDERIZADO EN PANTALLA ---
@@ -534,15 +543,24 @@ elif pagina == "📋 Trámites y Mapeo":
                 else:
                     st.info("⏳ Pendiente")
             with col_t3:
-                pagadores = set(m.get("persona") for m in movimientos_actuales if m.get("tipo") == "GASTO" and palabra_clave in m.get("concepto", "").lower())
+                pagadores = set(
+                    m.get("persona") for m in movimientos_actuales 
+                    if m.get("tipo") == "GASTO" and (
+                        palabra_clave in m.get("concepto", "").lower() or 
+                        m.get("concepto", "").lower() in nombre_tramite.lower()
+                    )
+                )
                 if pagadores:
                     st.caption(f"Por: {', '.join(pagadores)}")
                 else:
                     st.caption("Sin pagos aún")
             
             st.markdown("---")
+            
+        # Guardamos la sesión actualizada de trámites
+        st.session_state.tramites_session = lista_tramites
     else:
-        st.info("No hay trámites registrados en el archivo de trámites.")
+        st.info("No hay trámites registrados.")
         
 # ===== PÁGINA 6: CONFIGURACIÓN =====
 elif pagina == "⚙️ Configuración":
