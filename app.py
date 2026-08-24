@@ -217,14 +217,14 @@ elif pagina == "💰 Ahorro & Gastos":
     
     with col_a1:
         st.subheader("👩‍💼 Persona_L_01")
-        info_liz = calcular_por_persona(datos, "Persona_L_01")
+        info_Persona_L_01 = calcular_por_persona(datos, "Persona_L_01")
         st.metric("Ahorrado", formato_moneda_soles(info_Persona_L_01["total_ahorrado_soles"]))
         st.metric("Gastado", formato_moneda_soles(info_Persona_L_01["total_gastado_soles"]))
         st.metric("Saldo", formato_moneda_soles(info_Persona_L_01["saldo_soles"]))
     
     with col_a2:
         st.subheader("👨‍💻 Persona_J_02")
-        info_jhon = calcular_por_persona(datos, "Persona_J_02")
+        info_Persona_J_02 = calcular_por_persona(datos, "Persona_J_02")
         st.metric("Ahorrado", formato_moneda_soles(info_Persona_J_02["total_ahorrado_soles"]))
         st.metric("Gastado", formato_moneda_soles(info_Persona_J_02["total_gastado_soles"]))
         st.metric("Saldo", formato_moneda_soles(info_Persona_J_02["saldo_soles"]))
