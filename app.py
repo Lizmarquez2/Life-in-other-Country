@@ -112,19 +112,26 @@ if pagina == "📊 Resumen Ejecutivo":
     
     with col4:
         progreso_bolsa = calcular_progreso_bolsa(datos)
-        meta_cumplida = progreso_bolsa["ahorrado_soles"] >= progreso_bolsa["meta_soles"]
+        falta_dinero = progreso_bolsa["falta_soles"] # O su equivalente manejado en tus kpis
         
-        if meta_cumplida:
-            st.metric(
-                "📅 Estado del Viaje",
-                "¡Meta Completa!",
-                "Listos para viajar ✈️"
-            )
-        else:
+        # Estimación basada en un ahorro neto promedio mensual (ej. 1,200 entre los dos)
+        ahorro_mensual_estimado = 1200.0 
+        
+        if progreso_bolsa["ahorrado_soles"] >= progreso_bolsa["meta_soles"]:
             st.metric(
                 "📅 Días para Viaje",
-                kpis["dias_faltantes"],
-                f"Falta meta: {formato_moneda_soles(progreso_bolsa['falta_soles'])}"
+                "¡Meta Cumplida!",
+                "Listos para Canadá ✈️"
+            )
+        else:
+            # Calculamos los días proyectados según el dinero faltante y el ritmo de ahorro
+            meses_faltantes = max(0.1, (progreso_bolsa["meta_soles"] - progreso_bolsa["ahorrado_soles"]) / ahorro_mensual_estimado)
+            dias_proyectados = int(meses_faltantes * 30)
+            
+            st.metric(
+                "📅 Días Proyectados",
+                f"{dias_proyectados} días",
+                f"Ritmo: ~{ahorro_mensual_estimado} al mes"
             )
     
     st.markdown("---")
