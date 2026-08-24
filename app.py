@@ -342,7 +342,7 @@ elif pagina == "⚙️ Configuración":
     st.markdown("---")
     
     # Tasas de cambio
-    st.subheader("💱 Tasas de Cambio (Última actuaPersona_L_01ación)")
+    st.subheader("💱 Tasas de Cambio (Última actualización)")
     tasas = config.get("tasas_cambio", {})
     
     col_tasa1, col_tasa2, col_tasa3, col_tasa4 = st.columns(4)
@@ -356,7 +356,7 @@ elif pagina == "⚙️ Configuración":
     with col_tasa4:
         st.metric("USD → CAD$", tasas.get("usd_a_cad", 0))
     
-    st.write(f"**Fuente:** {tasas.get('fuente', '')} - {tasas.get('fecha_actuaPersona_L_01acion', '')}")
+    st.write(f"**Fuente:** {tasas.get('fuente', '')} - {tasas.get('fecha_actualizacion', '')}")
     
     st.markdown("---")
     
@@ -371,8 +371,8 @@ elif pagina == "⚙️ Configuración":
 st.markdown("---")
 st.markdown(
     "<p style='text-align: center; color: gray;'>"
-    "Dashboard de Migración Calgary | Última actuaPersona_L_01ación: Agosto 2026 | "
-    "<a href='https://github.com/Persona_L_01marquez2/Life-in-other-Country'>GitHub</a>"
+    "Dashboard de Migración Calgary | Última actualización: Agosto 2026 | "
+    "<a href='https://github.com/Lizmarquez2/Life-in-other-Country'>GitHub</a>"
     "</p>",
     unsafe_allow_html=True
 )
