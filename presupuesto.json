@@ -46,28 +46,28 @@
       "moneda": "CAD",
       "items": [
         {
-          "nombre": "ECA - Liz",
+          "nombre": "ECA - Persona_L_01",
           "costo": 329,
           "tramite_id": 4,
           "estado": "Pendiente",
           "personas": ["Persona_L_01"]
         },
         {
-          "nombre": "ECA - Josue",
+          "nombre": "ECA - Persona_J_02",
           "costo": 329,
           "tramite_id": 5,
           "estado": "Pendiente",
           "personas": ["Persona_J_02"]
         },
         {
-          "nombre": "IELTS CLB 7 - Liz",
+          "nombre": "IELTS CLB 7 - Persona_L_01",
           "costo": 350,
           "tramite_id": 6,
           "estado": "Pendiente",
           "personas": ["Persona_L_01"]
         },
         {
-          "nombre": "IELTS CLB 7 - Josue",
+          "nombre": "IELTS CLB 7 - Persona_J_02",
           "costo": 350,
           "tramite_id": 7,
           "estado": "Pendiente",
