@@ -240,6 +240,30 @@ elif pagina == "💰 Ahorro & Gastos":
         df_display = df[["fecha", "persona", "tipo", "concepto", "monto_original", "moneda_original"]].copy()
         df_display.columns = ["Fecha", "Persona", "Tipo", "Concepto", "Monto", "Moneda"]
         st.dataframe(df_display, use_container_width=True)
+        
+        # --- SECCIÓN PARA ELIMINAR MOVIMIENTOS ERRÓNEOS ---
+        with st.expander("🗑️ Eliminar un movimiento equivocado"):
+            # Creamos una lista de opciones claras para identificar el registro a borrar
+            opciones_movimientos = [
+                f"#{i} - {m.get('fecha')} | {m.get('persona')} | {m.get('concepto')} | S/ {m.get('monto_original')}"
+                for i, m in enumerate(movimientos)
+            ]
+            
+            movimiento_a_borrar = st.selectbox("Selecciona el movimiento a eliminar", opciones_movimientos)
+            
+            if st.button("Eliminar Registro Seleccionado", type="primary"):
+                # Extraemos el índice del movimiento seleccionado
+                indice_a_borrar = int(movimiento_a_borrar.split(" - ")[0].replace("#", ""))
+                
+                # Eliminamos el elemento de la lista
+                movimientos.pop(indice_a_borrar)
+                datos["movimientos"]["movimientos"] = movimientos
+                
+                # Guardamos los cambios actualizados en el archivo JSON
+                guardar_datos_json("data/movimientos.json", datos["movimientos"])
+                
+                st.success("¡Movimiento eliminado con éxito!")
+                st.rerun()
     else:
         st.info("Sin movimientos registrados aún.")
 
