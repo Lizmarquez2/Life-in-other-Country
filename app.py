@@ -491,7 +491,6 @@ elif pagina == "📋 Trámites y Mapeo":
     st.header("📋 Seguimiento de Trámites Migratorios")
     st.write("Gestiona y visualiza automáticamente el estado de tus documentos según los gastos registrados.")
     
-    # Cargamos o inicializamos los trámites en la sesión
     if "tramites_session" not in st.session_state:
         st.session_state.tramites_session = datos.get("tramites", {}).get("tramites", [])
     
@@ -500,24 +499,36 @@ elif pagina == "📋 Trámites y Mapeo":
     
     if lista_tramites:
         for i, t in enumerate(lista_tramites):
-            nombre_tramite = t.get('nombre', '')
+            nombre_tramite = t.get('nombre', '').lower()
             costo_presupuestado = t.get('costo', 0.0)
             
-            # --- BÚSQUEDA FLEXIBLE POR PALABRA CLAVE ---
-            # Extraemos la raíz principal del nombre (ej. "pasaporte" de "Pasaportes (2 personas)")
-            palabra_clave = nombre_tramite.split(" ")[0].lower()
-            if palabra_clave.endswith("es"):
-                palabra_clave = palabra_clave[:-2] # Quita plurales para matchear con "pasaporte"
-            elif palabra_clave.endswith("s"):
-                palabra_clave = palabra_clave[:-1]
+            # --- DICCIONARIO DE PALABRAS CLAVE UNIVERSAL ---
+            # Asociamos cada trámite con las palabras clave que podrías escribir en tus gastos
+            filtro_claves = []
+            if "pasaporte" in nombre_tramite:
+                filtro_claves = ["pasaporte"]
+            elif "apostilla" in nombre_tramite:
+                filtro_claves = ["apostilla"]
+            elif "antecedente" in nombre_tramite:
+                filtro_claves = ["antecedente", "penal"]
+            elif "vuelo" in nombre_tramite:
+                filtro_claves = ["vuelo", "pasaje", "lima-calgary"]
+            elif "eca" in nombre_tramite:
+                filtro_claves = ["eca", "credencial"]
+            elif "ielts" in nombre_tramite:
+                filtro_claves = ["ielts", "clb"]
+            elif "express" in nombre_tramite:
+                filtro_claves = ["express", "entry"]
+            elif "seguro" in nombre_tramite:
+                filtro_claves = ["seguro", "médico"]
+            else:
+                # Si es otro, usa la primera palabra del trámite
+                filtro_claves = [nombre_tramite.split(" ")[0]]
             
-            # Sumamos todos los gastos de la sesión que contengan esa palabra clave
+            # --- SUMAR GASTOS QUE COINCIDAN CON CUALQUIER CLAVE ---
             total_pagado = sum(
                 m.get("monto_original", 0) for m in movimientos_actuales 
-                if m.get("tipo") == "GASTO" and (
-                    palabra_clave in m.get("concepto", "").lower() or
-                    m.get("concepto", "").lower() in nombre_tramite.lower()
-                )
+                if m.get("tipo") == "GASTO" and any(clave in m.get("concepto", "").lower() for clave in filtro_claves)
             )
             
             # --- DEFINICIÓN DE ESTADOS ---
@@ -528,13 +539,12 @@ elif pagina == "📋 Trámites y Mapeo":
             else:
                 estado_calculado = "En Proceso"
             
-            # Actualizamos el estado en el diccionario
             t['estado'] = estado_calculado
             
             # --- RENDERIZADO EN PANTALLA ---
             col_t1, col_t2, col_t3 = st.columns([2, 1, 1])
             with col_t1:
-                st.write(f"**{nombre_tramite}**")
+                st.write(f"**{t.get('nombre', '')}**")
                 if costo_presupuestado > 0:
                     st.caption(f"Pagado: S/ {total_pagado:.2f} / Meta: S/ {costo_presupuestado:.2f}")
                 else:
@@ -549,10 +559,7 @@ elif pagina == "📋 Trámites y Mapeo":
             with col_t3:
                 pagadores = set(
                     m.get("persona") for m in movimientos_actuales 
-                    if m.get("tipo") == "GASTO" and (
-                        palabra_clave in m.get("concepto", "").lower() or
-                        m.get("concepto", "").lower() in nombre_tramite.lower()
-                    )
+                    if m.get("tipo") == "GASTO" and any(clave in m.get("concepto", "").lower() for clave in filtro_claves)
                 )
                 if pagadores:
                     st.caption(f"Por: {', '.join(pagadores)}")
