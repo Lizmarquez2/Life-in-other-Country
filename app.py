@@ -497,23 +497,25 @@ elif pagina == "📋 Trámites y Mapeo":
     if lista_tramites:
         for i, t in enumerate(lista_tramites):
             nombre_tramite = t.get('nombre', '')
-            costo_presupuestado = t.get('costo', 0.0) # Asegúrate de que tu JSON de trámites tenga un campo 'costo' o adáptalo aquí
+            costo_presupuestado = t.get('costo', 0.0)
             
-            # --- CÁLCULO AUTOMÁTICO DEL ESTADO ---
-            # Sumamos lo gastado para este concepto específico en la sesión
+            # --- CÁLCULO AUTOMÁTICO FLEXIBLE ---
+            # Sumamos los gastos cuyo concepto incluya la palabra clave del trámite (ej. "Pasaporte")
+            palabra_clave = nombre_tramite.split(" ")[0].lower() # Toma la primera palabra (ej. "Pasaporte")
+            
             total_pagado = sum(
                 m.get("monto_original", 0) for m in movimientos_actuales 
-                if m.get("concepto") == nombre_tramite and m.get("tipo") == "GASTO"
+                if m.get("tipo") == "GASTO" and palabra_clave in m.get("concepto", "").lower()
             )
             
             if total_pagado <= 0:
                 estado_calculado = "Pendiente"
-            elif total_pagado >= costo_presupuestado and costo_presupuestado > 0:
+            elif costo_presupuestado > 0 and total_pagado >= costo_presupuestado:
                 estado_calculado = "Completado"
             else:
                 estado_calculado = "En Proceso"
             
-            # Actualizamos el estado automáticamente en el diccionario del trámite
+            # Actualizamos el estado automáticamente
             t['estado'] = estado_calculado
             
             # --- RENDERIZADO EN PANTALLA ---
@@ -522,8 +524,9 @@ elif pagina == "📋 Trámites y Mapeo":
                 st.write(f"**{nombre_tramite}**")
                 if costo_presupuestado > 0:
                     st.caption(f"Pagado: S/ {total_pagado:.2f} / Meta: S/ {costo_presupuestado:.2f}")
+                else:
+                    st.caption(f"Pagado: S/ {total_pagado:.2f}")
             with col_t2:
-                # Mostramos el estado calculado visualmente con insignias o texto claro
                 if estado_calculado == "Completado":
                     st.success("✅ Completado")
                 elif estado_calculado == "En Proceso":
@@ -531,16 +534,16 @@ elif pagina == "📋 Trámites y Mapeo":
                 else:
                     st.info("⏳ Pendiente")
             with col_t3:
-                # Opcional: Mostramos quién realizó los pagos recientes para este trámite si los hubiera
-                pagadores = set(m.get("persona") for m in movimientos_actuales if m.get("concepto") == nombre_tramite and m.get("tipo") == "GASTO")
+                pagadores = set(m.get("persona") for m in movimientos_actuales if m.get("tipo") == "GASTO" and palabra_clave in m.get("concepto", "").lower())
                 if pagadores:
-                    st.caption(f"Pagado por: {', '.join(pagadores)}")
+                    st.caption(f"Por: {', '.join(pagadores)}")
                 else:
                     st.caption("Sin pagos aún")
             
             st.markdown("---")
     else:
         st.info("No hay trámites registrados en el archivo de trámites.")
+        
 # ===== PÁGINA 6: CONFIGURACIÓN =====
 elif pagina == "⚙️ Configuración":
     st.header("⚙️ Configuración del Proyecto")
