@@ -112,26 +112,37 @@ if pagina == "📊 Resumen Ejecutivo":
     
     with col4:
         progreso_bolsa = calcular_progreso_bolsa(datos)
-        falta_dinero = progreso_bolsa["falta_soles"] # O su equivalente manejado en tus kpis
+        meta_total = progreso_bolsa["meta_soles"]
+        ahorrado_actual = progreso_bolsa["ahorrado_soles"]
+        falta_dinero = meta_total - ahorrado_actual
         
-        # Estimación basada en un ahorro neto promedio mensual (ej. 1,200 entre los dos)
+        # Ritmo de ahorro mensual estimado (puedes ajustarlo si prefieres 1,000 o 1,500)
         ahorro_mensual_estimado = 1200.0 
         
-        if progreso_bolsa["ahorrado_soles"] >= progreso_bolsa["meta_soles"]:
+        if ahorrado_actual >= meta_total:
             st.metric(
-                "📅 Días para Viaje",
+                "⏳ Tiempo para Viaje",
                 "¡Meta Cumplida!",
                 "Listos para Canadá ✈️"
             )
         else:
-            # Calculamos los días proyectados según el dinero faltante y el ritmo de ahorro
-            meses_faltantes = max(0.1, (progreso_bolsa["meta_soles"] - progreso_bolsa["ahorrado_soles"]) / ahorro_mensual_estimado)
-            dias_proyectados = int(meses_faltantes * 30)
+            # Calculamos los meses totales que faltan
+            meses_totales = max(0.1, falta_dinero / ahorro_mensual_estimado)
             
+            # Convertimos a años y meses enteros
+            anos = int(meses_totales // 12)
+            meses_restantes = int(meses_totales % 12)
+            
+            # Construimos el texto dinámico según el tiempo estimado
+            if anos > 0:
+                tiempo_texto = f"{anos} año{'s' if anos > 1 else ''} y {meses_restantes} mes{'es' if meses_restantes != 1 else ''}"
+            else:
+                tiempo_texto = f"{meses_restantes} mes{'es' if meses_restantes != 1 else ''}"
+                
             st.metric(
-                "📅 Días Proyectados",
-                f"{dias_proyectados} días",
-                f"Ritmo: ~{ahorro_mensual_estimado} al mes"
+                "⏳ Tiempo Proyectado",
+                tiempo_texto,
+                f"Faltan {formato_moneda_soles(falta_dinero)}"
             )
     
     st.markdown("---")
