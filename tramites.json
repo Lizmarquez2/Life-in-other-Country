@@ -33,7 +33,6 @@
         "responsable": "Ambos"
       }
     },
-
     {
       "id": 2,
       "nombre": "Apostillas - Títulos (2 personas)",
@@ -67,7 +66,6 @@
         "responsable": "Ambos"
       }
     },
-
     {
       "id": 3,
       "nombre": "Antecedentes Penales Apostillados (2 personas)",
@@ -101,7 +99,6 @@
         "responsable": "Ambos"
       }
     },
-
     {
       "id": 4,
       "nombre": "ECA - Persona_L_01 (Evaluación Credenciales)",
@@ -139,10 +136,9 @@
         "responsable": "Persona_L_01"
       }
     },
-
     {
       "id": 5,
-      "nombre": "ECA - Persona_P_02 (Evaluación Credenciales)",
+      "nombre": "ECA - Persona_J_02 (Evaluación Credenciales)",
       "descripcion": "World Education Services - Evaluación de diploma técnico",
       "categoria": "Evaluaciones Canadá",
       "personas_afectadas": ["Persona_J_02"],
@@ -177,7 +173,6 @@
         "responsable": "Persona_J_02"
       }
     },
-
     {
       "id": 6,
       "nombre": "IELTS CLB 7 - Persona_L_01",
@@ -215,10 +210,9 @@
         "responsable": "Persona_L_01"
       }
     },
-
     {
       "id": 7,
-      "nombre": "IELTS CLB 7 - Persona_P_02",
+      "nombre": "IELTS CLB 7 - Persona_J_02",
       "descripcion": "Examen de inglés (6.0 en cada sección)",
       "categoria": "Exámenes de Idioma",
       "personas_afectadas": ["Persona_J_02"],
@@ -253,11 +247,10 @@
         "responsable": "Persona_J_02"
       }
     },
-
     {
       "id": 8,
       "nombre": "Express Entry - Solicitud",
-      "descripcion": "Solicitud conjunta de Express Entry (Persona_L_01 principal, Persona_P_02 acompañante)",
+      "descripcion": "Solicitud conjunta de Express Entry (Persona_L_01 principal, Persona_J_02 acompañante)",
       "categoria": "Solicitud Inmigración",
       "personas_afectadas": ["Persona_L_01", "Persona_J_02"],
       "cantidad": 1,
@@ -292,7 +285,6 @@
         "responsable": "Ambos"
       }
     },
-
     {
       "id": 9,
       "nombre": "Seguro Médico de Viaje (3 meses)",
@@ -328,7 +320,6 @@
         "responsable": "Ambos"
       }
     },
-
     {
       "id": 10,
       "nombre": "Vuelos Lima → Calgary (2 personas)",
@@ -365,7 +356,6 @@
       }
     }
   ],
-
   "resumen_costos": {
     "total_soles": 12496.60,
     "total_cad": 3208,
