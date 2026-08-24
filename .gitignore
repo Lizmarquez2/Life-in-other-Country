@@ -23,8 +23,8 @@ wheels/
 .installed.cfg
 *.egg
 
-# Streamlit
-.streamlit/
+# Streamlit (Ignoramos secretos, pero permitimos config.toml si lo usas para diseño)
+.streamlit/secrets.toml
 *.streamlit.app
 .streamlit-cache/
 
