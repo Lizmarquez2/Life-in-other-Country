@@ -167,12 +167,14 @@ if pagina == "📊 Resumen Ejecutivo":
 # ===== PÁGINA 2: LÍNEA DE TIEMPO =====
 elif pagina == "📅 Línea de Tiempo":
     st.header("📅 Línea de Tiempo del Proyecto")
+    st.write("Seguimiento de hitos y etapas clave hacia nuestra llegada a Canadá.")
     
     col_l1, col_l2 = st.columns(2)
     
+    cronograma = datos.get("cronograma", {}).get("cronograma", {})
+    
     with col_l1:
         st.subheader("👩‍💼 Persona_L_01")
-        cronograma = datos.get("cronograma", {}).get("cronograma", {})
         liz_timeline = cronograma.get("linea_tiempo_persona", {}).get("Liz", [])
         
         for item in liz_timeline:
@@ -181,15 +183,15 @@ elif pagina == "📅 Línea de Tiempo":
             costo_soles = item.get("costo_soles", 0)
             costo_cad = item.get("costo_cad", 0)
             
+            # Mostramos el hito con un formato claro
+            st.markdown(f"📌 **{mes}**")
+            st.write(f"↳ {hito}")
             if costo_soles > 0:
-                st.write(f"**{mes}:** {hito}")
-                st.write(f"└─ Costo: {formato_moneda_soles(costo_soles)}")
+                st.caption(f"Costo: S/ {costo_soles:,.2f}")
             elif costo_cad > 0:
-                st.write(f"**{mes}:** {hito}")
-                st.write(f"└─ Costo: {formato_moneda_cad(costo_cad)}")
-            else:
-                st.write(f"**{mes}:** {hito}")
-    
+                st.caption(f"Costo: CAD $ {costo_cad:,.2f}")
+            st.markdown("---")
+            
     with col_l2:
         st.subheader("👨‍💻 Persona_J_02 (Técnico IT)")
         jhon_timeline = cronograma.get("linea_tiempo_persona", {}).get("Jhon", [])
@@ -200,14 +202,13 @@ elif pagina == "📅 Línea de Tiempo":
             costo_soles = item.get("costo_soles", 0)
             costo_cad = item.get("costo_cad", 0)
             
+            st.markdown(f"📌 **{mes}**")
+            st.write(f"↳ {hito}")
             if costo_soles > 0:
-                st.write(f"**{mes}:** {hito}")
-                st.write(f"└─ Costo: {formato_moneda_soles(costo_soles)}")
+                st.caption(f"Costo: S/ {costo_soles:,.2f}")
             elif costo_cad > 0:
-                st.write(f"**{mes}:** {hito}")
-                st.write(f"└─ Costo: {formato_moneda_cad(costo_cad)}")
-            else:
-                st.write(f"**{mes}:** {hito}")
+                st.caption(f"Costo: CAD $ {costo_cad:,.2f}")
+            st.markdown("---")
 
 # ===== PÁGINA 3: AHORRO & GASTOS =====
 elif pagina == "💰 Ahorro & Gastos":
