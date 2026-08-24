@@ -491,7 +491,7 @@ elif pagina == "📋 Trámites y Mapeo":
     st.header("📋 Seguimiento de Trámites Migratorios")
     st.write("Gestiona y visualiza automáticamente el estado de tus documentos según los gastos registrados.")
     
-    # Aseguramos cargar los trámites desde la sesión o el archivo base
+    # Cargamos o inicializamos los trámites en la sesión
     if "tramites_session" not in st.session_state:
         st.session_state.tramites_session = datos.get("tramites", {}).get("tramites", [])
     
@@ -503,15 +503,19 @@ elif pagina == "📋 Trámites y Mapeo":
             nombre_tramite = t.get('nombre', '')
             costo_presupuestado = t.get('costo', 0.0)
             
-            # --- DETECCIÓN INTELIGENTE POR PALABRA CLAVE ---
-            # Limpiamos el nombre del trámite para buscar coincidencias flexibles
-            palabra_clave = nombre_tramite.split(" ")[0].lower().replace("s", "")
+            # --- BÚSQUEDA FLEXIBLE POR PALABRA CLAVE ---
+            # Extraemos la raíz principal del nombre (ej. "pasaporte" de "Pasaportes (2 personas)")
+            palabra_clave = nombre_tramite.split(" ")[0].lower()
+            if palabra_clave.endswith("es"):
+                palabra_clave = palabra_clave[:-2] # Quita plurales para matchear con "pasaporte"
+            elif palabra_clave.endswith("s"):
+                palabra_clave = palabra_clave[:-1]
             
-            # Sumamos los gastos que coincidan con la palabra clave
+            # Sumamos todos los gastos de la sesión que contengan esa palabra clave
             total_pagado = sum(
                 m.get("monto_original", 0) for m in movimientos_actuales 
                 if m.get("tipo") == "GASTO" and (
-                    palabra_clave in m.get("concepto", "").lower() or 
+                    palabra_clave in m.get("concepto", "").lower() or
                     m.get("concepto", "").lower() in nombre_tramite.lower()
                 )
             )
@@ -524,7 +528,7 @@ elif pagina == "📋 Trámites y Mapeo":
             else:
                 estado_calculado = "En Proceso"
             
-            # Actualizamos el estado en la sesión
+            # Actualizamos el estado en el diccionario
             t['estado'] = estado_calculado
             
             # --- RENDERIZADO EN PANTALLA ---
@@ -546,7 +550,7 @@ elif pagina == "📋 Trámites y Mapeo":
                 pagadores = set(
                     m.get("persona") for m in movimientos_actuales 
                     if m.get("tipo") == "GASTO" and (
-                        palabra_clave in m.get("concepto", "").lower() or 
+                        palabra_clave in m.get("concepto", "").lower() or
                         m.get("concepto", "").lower() in nombre_tramite.lower()
                     )
                 )
@@ -557,7 +561,6 @@ elif pagina == "📋 Trámites y Mapeo":
             
             st.markdown("---")
             
-        # Guardamos la sesión actualizada de trámites
         st.session_state.tramites_session = lista_tramites
     else:
         st.info("No hay trámites registrados.")
