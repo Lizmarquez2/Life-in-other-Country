@@ -259,13 +259,18 @@ elif pagina == "💰 Ahorro & Gastos":
             "Concepto / Descripción", 
             [
                 "Sueldo / Ahorro mensual", 
-                "Bolsa de Viaje", 
-                "Pasaporte", 
-                "Traducciones oficiales", 
-                "Exámenes médicos (IRCC)", 
-                "Tasas de visado / Express Entry", 
+                "Pasaporte (Perú)", 
+                "Apostillas títulos (Perú)",
+                "Antecedentes penales (Perú)",
+                "ECA (Evaluación de Credenciales)", 
+                "IELTS (Examen de Inglés)", 
+                "Traducciones oficiales (Perú)", 
+                "Exámenes médicos IRCC (Perú)", 
+                "Tasas de visado / Express Entry (Pago online en CAD)", 
+                "Seguro médico",
                 "Pasajes aéreos Perú - Canadá",
-                "Gastos varios / Contingencia"
+                "Gastos varios / Contingencia",
+                "Bolsa de Viaje"
             ]
         )
         
