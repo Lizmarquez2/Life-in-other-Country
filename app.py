@@ -24,7 +24,7 @@ from modules.conversiones import formato_moneda_soles, formato_moneda_cad, sol_a
 # ===== CONFIGURACIÓN STREAMLIT =====
 st.set_page_config(
     page_title="Calgary Migration Dashboard",
-    page_icon="🚀",
+    page_icon="🍁",
     layout="wide",
     initial_sidebar_state="expanded"
 )
