@@ -70,16 +70,6 @@ pagina = st.sidebar.radio(
      "💵 Presupuesto", "🎫 Bolsa Migratoria", "📋 Trámites y Mapeo","⚙️ Configuración"]
 )
 
-st.sidebar.markdown("---")
-st.sidebar.markdown("**Estado del Proyecto**")
-
-progreso_tiempo = calcular_progreso_tiempo(datos)
-st.sidebar.progress(min(progreso_tiempo.get("progreso_pct", 0), 100) / 100)
-st.sidebar.metric(
-    "Tiempo Transcurrido",
-    progreso_tiempo.get("texto_transcurrido", "0 / 0 días")
-)
-
 # ===== PÁGINA 1: RESUMEN EJECUTIVO =====
 if pagina == "📊 Resumen Ejecutivo":
     st.header("📊 Resumen Ejecutivo")
