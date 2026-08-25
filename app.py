@@ -628,75 +628,72 @@ elif pagina == "🎫 Bolsa Migratoria":
         
         st.dataframe(df_proyeccion_display, use_container_width=True)
         
-# ===== PÁGINA 5: TRAMITES Y MAPEO =====
-elif pagina == "📋 Trámites y Mapeo":
-    st.header("📋 Seguimiento de Trámites Migratorios")
-    st.write("Gestiona y visualiza automáticamente el estado de tus documentos según los gastos registrados.")
-    
-    if "tramites_session" not in st.session_state:
-        st.session_state.tramites_session = datos.get("tramites", {}).get("tramites", [])
-    
-    lista_tramites = st.session_state.tramites_session
-    movimientos_actuales = st.session_state.get("movimientos_session", [])
-    
-    if lista_tramites:
-        for i, t in enumerate(lista_tramites):
-            nombre_tramite = t.get('nombre', '').strip()
-            costo_presupuestado = t.get('costo', 0.0)
+# ===== PÁGINA: TRÁMITES Y SEGUIMIENTO =====
+elif pagina == "📋 Trámites":
+    st.header("📋 Seguimiento de Trámites")
+    st.write("Estado actual de los trámites sincronizado automáticamente con tu presupuesto.")
+
+    # Inicializar un diccionario de estados global si no existe
+    if "estado_tramites_general" not in st.session_state:
+        st.session_state.estado_tramites_general = {}
+
+    st.subheader("💱 Trámites en Soles")
+    # Verificamos que exista el presupuesto en el session_state
+    if "presupuesto_soles_detallado" in st.session_state:
+        for idx, grupo in enumerate(st.session_state.presupuesto_soles_detallado):
+            nombre_tramite = grupo["tramite_principal"]
             
-            # --- TRAZABILIDAD EXACTA POR NOMBRE DE CONCEPTO ---
-            # Suma el gasto si el concepto de la tabla de ahorros es idéntico o contiene el nombre base del trámite
-            total_pagado = sum(
-                m.get("monto_original", 0) for m in movimientos_actuales 
-                if m.get("tipo") == "GASTO" and (
-                    m.get("concepto", "").strip().lower() == nombre_tramite.lower() or
-                    nombre_tramite.lower() in m.get("concepto", "").strip().lower()
-                )
-            )
+            # Estado por defecto si no ha sido alterado
+            if nombre_tramite not in st.session_state.estado_tramites_general:
+                st.session_state.estado_tramites_general[nombre_tramite] = "En proceso"
             
-            # Definición del estado automático con tolerancia por redondeo de céntimos (±1 sol)
-            if total_pagado <= 0:
-                estado_calculado = "Pendiente"
-            elif costo_presupuestado > 0 and total_pagado >= (costo_presupuestado - 1.0):
-                estado_calculado = "Completado"
-            else:
-                estado_calculado = "En Proceso"
-            
-            t['estado'] = estado_calculado
-            
-            # --- RENDERIZADO EN PANTALLA ---
-            col_t1, col_t2, col_t3 = st.columns([2, 1, 1])
+            col_t1, col_t2, col_t3 = st.columns([3, 2, 2])
             with col_t1:
-                st.write(f"**{nombre_tramite}**")
-                if costo_presupuestado > 0:
-                    st.caption(f"Pagado: S/ {total_pagado:.2f} / Meta: S/ {costo_presupuestado:.2f}")
-                else:
-                    st.caption(f"Pagado: S/ {total_pagado:.2f}")
+                st.markdown(f"**{nombre_tramite}**")
+                # Mostrar los subitems dinámicamente desde el presupuesto
+                for sub in grupo["desglose"]:
+                    if sub["cantidad"] > 0:
+                        st.caption(f"  - {sub['subitem']} (Cant: {sub['cantidad']})")
             with col_t2:
-                if estado_calculado == "Completado":
-                    st.success("✅ Completado")
-                elif estado_calculado == "En Proceso":
-                    st.warning("🔄 En Proceso")
-                else:
-                    st.info("⏳ Pendiente")
+                # Costo total calculado directamente desde el presupuesto
+                st.text(f"S/ {grupo['costo_total_base']:,.2f}")
             with col_t3:
-                pagadores = set(
-                    m.get("persona") for m in movimientos_actuales 
-                    if m.get("tipo") == "GASTO" and (
-                        m.get("concepto", "").strip().lower() == nombre_tramite.lower() or
-                        nombre_tramite.lower() in m.get("concepto", "").strip().lower()
-                    )
+                nuevo_estado = st.selectbox(
+                    "Estado",
+                    ["En proceso", "Completado", "Pendiente"],
+                    index=["En proceso", "Completado", "Pendiente"].index(st.session_state.estado_tramites_general[nombre_tramite]),
+                    key=f"estado_soles_{idx}",
+                    label_visibility="collapsed"
                 )
-                if pagadores:
-                    st.caption(f"Por: {', '.join(pagadores)}")
-                else:
-                    st.caption("Sin pagos aún")
-            
+                st.session_state.estado_tramites_general[nombre_tramite] = nuevo_estado
             st.markdown("---")
+
+    st.subheader("🍁 Trámites en CAD$")
+    if "presupuesto_cad_detallado" in st.session_state:
+        for idx, grupo in enumerate(st.session_state.presupuesto_cad_detallado):
+            nombre_tramite = grupo["tramite_principal"]
             
-        st.session_state.tramites_session = lista_tramites
-    else:
-        st.info("No hay trámites registrados.")
+            if nombre_tramite not in st.session_state.estado_tramites_general:
+                st.session_state.estado_tramites_general[nombre_tramite] = "En proceso"
+            
+            col_c1, col_c2, col_c3 = st.columns([3, 2, 2])
+            with col_c1:
+                st.markdown(f"**{nombre_tramite}**")
+                for sub in grupo["desglose"]:
+                    if sub["cantidad"] > 0:
+                        st.caption(f"  - {sub['subitem']} (Cant: {sub['cantidad']})")
+            with col_c2:
+                st.text(f"CAD $ {grupo['costo_total_base']:,.2f}")
+            with col_c3:
+                nuevo_estado_cad = st.selectbox(
+                    "Estado CAD",
+                    ["En proceso", "Completado", "Pendiente"],
+                    index=["En proceso", "Completado", "Pendiente"].index(st.session_state.estado_tramites_general[nombre_tramite]),
+                    key=f"estado_cad_{idx}",
+                    label_visibility="collapsed"
+                )
+                st.session_state.estado_tramites_general[nombre_tramite] = nuevo_estado_cad
+            st.markdown("---")
         
 # ===== PÁGINA 6: CONFIGURACIÓN =====
 elif pagina == "⚙️ Configuración":
