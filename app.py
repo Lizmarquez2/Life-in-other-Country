@@ -499,36 +499,17 @@ elif pagina == "📋 Trámites y Mapeo":
     
     if lista_tramites:
         for i, t in enumerate(lista_tramites):
-            nombre_tramite = t.get('nombre', '').lower()
+            nombre_tramite = t.get('nombre', '').strip()
             costo_presupuestado = t.get('costo', 0.0)
             
-            # --- DICCIONARIO DE PALABRAS CLAVE UNIVERSAL ---
-            # Asociamos cada trámite con las palabras clave que podrías escribir en tus gastos
-            filtro_claves = []
-            if "pasaporte" in nombre_tramite:
-                filtro_claves = ["pasaporte"]
-            elif "apostilla" in nombre_tramite:
-                filtro_claves = ["apostilla"]
-            elif "antecedente" in nombre_tramite:
-                filtro_claves = ["antecedente", "penal"]
-            elif "vuelo" in nombre_tramite:
-                filtro_claves = ["vuelo", "pasaje", "lima-calgary"]
-            elif "eca" in nombre_tramite:
-                filtro_claves = ["eca", "credencial"]
-            elif "ielts" in nombre_tramite:
-                filtro_claves = ["ielts", "clb"]
-            elif "express" in nombre_tramite:
-                filtro_claves = ["express", "entry"]
-            elif "seguro" in nombre_tramite:
-                filtro_claves = ["seguro", "médico"]
-            else:
-                # Si es otro, usa la primera palabra del trámite
-                filtro_claves = [nombre_tramite.split(" ")[0]]
-            
-            # --- SUMAR GASTOS QUE COINCIDAN CON CUALQUIER CLAVE ---
+            # --- TRAZABILIDAD EXACTA POR NOMBRE DE CONCEPTO ---
+            # Suma el gasto si el concepto de la tabla de ahorros es idéntico o contiene el nombre base del trámite
             total_pagado = sum(
                 m.get("monto_original", 0) for m in movimientos_actuales 
-                if m.get("tipo") == "GASTO" and any(clave in m.get("concepto", "").lower() for clave in filtro_claves)
+                if m.get("tipo") == "GASTO" and (
+                    m.get("concepto", "").strip().lower() == nombre_tramite.lower() or
+                    nombre_tramite.lower() in m.get("concepto", "").strip().lower()
+                )
             )
             
             # --- DEFINICIÓN DE ESTADOS ---
@@ -544,7 +525,7 @@ elif pagina == "📋 Trámites y Mapeo":
             # --- RENDERIZADO EN PANTALLA ---
             col_t1, col_t2, col_t3 = st.columns([2, 1, 1])
             with col_t1:
-                st.write(f"**{t.get('nombre', '')}**")
+                st.write(f"**{nombre_tramite}**")
                 if costo_presupuestado > 0:
                     st.caption(f"Pagado: S/ {total_pagado:.2f} / Meta: S/ {costo_presupuestado:.2f}")
                 else:
@@ -559,7 +540,10 @@ elif pagina == "📋 Trámites y Mapeo":
             with col_t3:
                 pagadores = set(
                     m.get("persona") for m in movimientos_actuales 
-                    if m.get("tipo") == "GASTO" and any(clave in m.get("concepto", "").lower() for clave in filtro_claves)
+                    if m.get("tipo") == "GASTO" and (
+                        m.get("concepto", "").strip().lower() == nombre_tramite.lower() or
+                        nombre_tramite.lower() in m.get("concepto", "").strip().lower()
+                    )
                 )
                 if pagadores:
                     st.caption(f"Por: {', '.join(pagadores)}")
