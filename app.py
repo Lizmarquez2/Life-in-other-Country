@@ -304,35 +304,44 @@ elif pagina == "💰 Ahorro & Gastos":
         df_display.columns = ["Fecha", "Persona", "Tipo", "Concepto", "Monto", "Moneda"]
         st.dataframe(df_display, use_container_width=True)
         
-        # --- SECCIÓN PARA ELIMINAR MOVIMIENTOS ERRÓNEOS ---
+        # --- SECCIÓN DE ELIMINACIÓN DE MOVIMIENTOS ---
         with st.expander("🗑️ Eliminar un movimiento equivocado"):
-            opciones_movimientos = [
-                f"#{i} - {m.get('fecha')} | {m.get('persona')} | {m.get('concepto')} | S/ {m.get('monto_original')}"
-                for i, m in enumerate(movimientos_actuales)
-            ]
+            movimientos_actuales = st.session_state.get("movimientos_session", [])
             
-            movimiento_a_borrar = st.selectbox("Selecciona el movimiento a eliminar", opciones_movimientos)
-            
-            if st.button("Eliminar Registro Seleccionado", type="primary"):
-                indice_a_borrar = opciones_dict[movimiento_seleccionado]
-                st.session_state.movimientos_session.pop(indice_a_borrar)
+            if movimientos_actuales:
+                # 1. Creamos el diccionario de opciones mapeando el texto legible con su índice real
+                opciones_dict = {}
+                for idx, m in enumerate(movimientos_actuales):
+                    texto_opcion = f"#{idx} - {m.get('fecha')} | {m.get('persona')} | {m.get('concepto')} | {m.get('moneda_original')} {m.get('monto_original')}"
+                    opciones_dict[texto_opcion] = idx
                 
-                # Armamos la estructura actualizada
-                estructura_movimientos = {
-                    "movimientos": st.session_state.movimientos_session,
-                    "resumen_por_persona": datos.get("resumen_por_persona", {}),
-                    "totales": datos.get("totales", {})
-                }
+                movimiento_seleccionado = st.selectbox(
+                    "Selecciona el movimiento a eliminar", 
+                    options=list(opciones_dict.keys())
+                )
                 
-                # Guardamos pasando la ruta correcta
-                guardar_datos_json("data/movimientos.json", estructura_movimientos)
-                
-                # Limpiamos la caché y recargamos
-                st.cache_data.clear()
-                st.success("¡Movimiento eliminado con éxito!")
-                st.rerun()
-    else:
-        st.info("Sin movimientos registrados aún.")
+                if st.button("Eliminar Registro Seleccionado", type="primary"):
+                    if movimiento_seleccionado in opciones_dict:
+                        indice_a_borrar = opciones_dict[movimiento_seleccionado]
+                        
+                        # Borramos de la sesión
+                        st.session_state.movimientos_session.pop(indice_a_borrar)
+                        
+                        # Actualizamos la estructura para el archivo JSON
+                        estructura_movimientos = {
+                            "movimientos": st.session_state.movimientos_session,
+                            "resumen_por_persona": datos.get("resumen_por_persona", {}),
+                            "totales": datos.get("totales", {})
+                        }
+                        
+                        # Guardamos y limpiamos caché
+                        guardar_datos_json("data/movimientos.json", estructura_movimientos)
+                        st.cache_data.clear()
+                        
+                        st.success("¡Movimiento eliminado con éxito!")
+                        st.rerun()
+            else:
+                st.info("No hay movimientos registrados para eliminar.")
 
     st.subheader("📝 Registrar Nuevo Movimiento")
 
