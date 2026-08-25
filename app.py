@@ -652,13 +652,13 @@ elif pagina == "🎫 Bolsa Migratoria":
         df_proyeccion_display["Progreso %"] = df_proyeccion_display["Progreso %"].apply(lambda x: f"{x:.2f}%")
         
         st.dataframe(df_proyeccion_display, use_container_width=True)
-        
+
+
 # ===== PÁGINA: TRÁMITES Y MAPEO =====
 elif pagina == "📋 Trámites y Mapeo":
     st.header("📋 Seguimiento, Mapeo y Trazabilidad")
     st.write("El estado de cada trámite se actualiza automáticamente según los gastos reales registrados en **Ahorro & Gastos** en comparación con el **Presupuesto**.")
 
-    # Función auxiliar para determinar el estado automático basado en el gasto registrado vs esperado
     def calcular_estado_tramite(gasto_registrado, costo_esperado):
         if costo_esperado <= 0:
             return "Pendiente"
@@ -668,11 +668,10 @@ elif pagina == "📋 Trámites y Mapeo":
             return "En proceso"
         else:
             return "Pendiente"
-
-    # Nota: Asegúrate de reemplazar 'st.session_state.gastos_registrados' con la variable 
-    # o estructura exacta que uses en tu página de Ahorro & Gastos para sumar los gastos por concepto.
-    # Si guardas los gastos en una lista, puedes sumar por nombre de trámite.
     
+    # Obtenemos todos los movimientos registrados en la sesión actual
+    movimientos_actuales = st.session_state.get("movimientos_session", [])
+
     # 💱 Trámites en Soles
     if "presupuesto_soles_detallado" in st.session_state and st.session_state.presupuesto_soles_detallado:
         st.subheader("💱 Trazabilidad en Soles (Ahorro/Gastos vs Presupuesto)")
@@ -681,19 +680,17 @@ elif pagina == "📋 Trámites y Mapeo":
             nombre_tramite = grupo.get("tramite_principal", "Trámite sin nombre")
             costo_esperado = grupo.get("costo_total_base", 0.0)
             
-            # Simulamos o leemos el gasto real acumulado en Ahorro & Gastos para este concepto.
-            # (Aquí puedes conectar la variable o diccionario donde Ahorro & Gastos guarda los gastos por trámite)
-            # Ejemplo: buscando en un registro de gastos de session_state
+            # Sumamos los gastos reales desde st.session_state.movimientos_session filtrando por concepto y moneda PEN
             gasto_en_ahorro = sum(
-                item.get("monto", 0) for item in st.session_state.get("lista_gastos_soles", []) 
-                if item.get("concepto") == nombre_tramite
+                item.get("monto_original", 0) for item in movimientos_actuales 
+                if item.get("tipo") == "GASTO" 
+                and item.get("concepto") == nombre_tramite
+                and item.get("moneda_original") == "PEN"
             )
-            # O si prefieres una alternativa directa por si el usuario edita un acumulador:
-            # gasto_en_ahorro = grupo.get("gasto_registrado_actual", 0.0) 
 
             # Cálculo automático del estado
             estado_calculado = calcular_estado_tramite(gasto_en_ahorro, costo_esperado)
-            grupo["estado"] = estado_calculado  # Actualizamos el estado de manera unificada
+            grupo["estado"] = estado_calculado
 
             # Renderizado visual en columnas
             col_t1, col_t2, col_t3, col_t4 = st.columns([2.5, 1.5, 1.5, 1.5])
@@ -707,7 +704,6 @@ elif pagina == "📋 Trámites y Mapeo":
             with col_t3:
                 st.text(f"Gastado (Ahorro):\nS/ {gasto_en_ahorro:,.2f}")
             with col_t4:
-                # Mostrar el estado con un color o indicador visual según corresponda
                 if estado_calculado == "Completado":
                     st.success(f"🟢 {estado_calculado}")
                 elif estado_calculado == "En proceso":
@@ -726,10 +722,12 @@ elif pagina == "📋 Trámites y Mapeo":
             nombre_tramite = grupo.get("tramite_principal", "Trámite sin nombre")
             costo_esperado_cad = grupo.get("costo_total_base", 0.0)
             
-            # Gasto acumulado en CAD desde Ahorro & Gastos
+            # Sumamos los gastos reales filtrando por concepto y moneda CAD
             gasto_en_ahorro_cad = sum(
-                item.get("monto", 0) for item in st.session_state.get("lista_gastos_cad", []) 
-                if item.get("concepto") == nombre_tramite
+                item.get("monto_original", 0) for item in movimientos_actuales 
+                if item.get("tipo") == "GASTO" 
+                and item.get("concepto") == nombre_tramite
+                and item.get("moneda_original") == "CAD"
             )
 
             estado_calculado_cad = calcular_estado_tramite(gasto_en_ahorro_cad, costo_esperado_cad)
