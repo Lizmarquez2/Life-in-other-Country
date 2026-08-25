@@ -29,16 +29,16 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ===== ESTILOS CSS DEFINITIVOS (ANCHO FLUIDO SIN DESBORDES) =====
+# ===== ESTILOS CSS DEFINITIVOS (BLOQUEO DE DESBORDE HORIZONTAL) =====
 st.markdown("""
 <style>
-    /* Forzar que la aplicación completa no genere scroll horizontal */
-    .stApp {
-        background-color: #F8FAFC;
+    /* Bloquear scroll horizontal en toda la app y la ventana */
+    html, body, [data-testid="stAppViewContainer"], .stApp {
         overflow-x: hidden !important;
+        max-width: 100vw !important;
     }
     
-    /* Anular los anchos fijos y márgenes exagerados del contenedor principal de Streamlit */
+    /* Forzar que el contenedor principal respete los límites de la pantalla */
     .main .block-container {
         max-width: 100% !important;
         width: 100% !important;
@@ -46,7 +46,12 @@ st.markdown("""
         padding-right: 2rem !important;
         padding-top: 2rem !important;
         padding-bottom: 2rem !important;
-        margin: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Forzar que cualquier gráfico o elemento multimedia se adapte al contenedor */
+    iframe, img, div[data-testid="stPlotlyChart"] {
+        max-width: 100% !important;
     }
 
     /* Sidebar moderna y elegante (Azul pizarra oscuro) */
