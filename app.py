@@ -544,7 +544,6 @@ elif pagina == "💵 Presupuesto":
             formato_moneda_soles(subtotal_cad_en_soles), 
             help=f"Tipo de cambio API: 1 CAD = {tipo_cambio_cad} PEN"
         )
-        )
 
 # ===== PÁGINA 5: BOLSA MIGRATORIA =====
 elif pagina == "🎫 Bolsa Migratoria":
