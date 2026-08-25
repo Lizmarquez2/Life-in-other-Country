@@ -630,80 +630,104 @@ elif pagina == "🎫 Bolsa Migratoria":
         
 # ===== PÁGINA: TRÁMITES Y MAPEO =====
 elif pagina == "📋 Trámites y Mapeo":
-    st.header("📋 Seguimiento de Trámites")
-    st.write("Estado actual de los trámites sincronizado automáticamente con tu presupuesto.")
+    st.header("📋 Seguimiento, Mapeo y Trazabilidad")
+    st.write("El estado de cada trámite se actualiza automáticamente según los gastos reales registrados en **Ahorro & Gastos** en comparación con el **Presupuesto**.")
 
-    # Inicializar el diccionario de estados global si no existe
-    if "estado_tramites_general" not in st.session_state:
-        st.session_state.estado_tramites_general = {}
+    # Función auxiliar para determinar el estado automático basado en el gasto registrado vs esperado
+    def calcular_estado_tramite(gasto_registrado, costo_esperado):
+        if costo_esperado <= 0:
+            return "Pendiente"
+        elif gasto_registrado >= costo_esperado:
+            return "Completado"
+        elif gasto_registrado > 0:
+            return "En proceso"
+        else:
+            return "Pendiente"
 
-    # Validar si el presupuesto en soles existe en la sesión
+    # Nota: Asegúrate de reemplazar 'st.session_state.gastos_registrados' con la variable 
+    # o estructura exacta que uses en tu página de Ahorro & Gastos para sumar los gastos por concepto.
+    # Si guardas los gastos en una lista, puedes sumar por nombre de trámite.
+    
+    # 💱 Trámites en Soles
     if "presupuesto_soles_detallado" in st.session_state and st.session_state.presupuesto_soles_detallado:
-        st.subheader("💱 Trámites en Soles")
+        st.subheader("💱 Trazabilidad en Soles (Ahorro/Gastos vs Presupuesto)")
+        
         for idx, grupo in enumerate(st.session_state.presupuesto_soles_detallado):
             nombre_tramite = grupo.get("tramite_principal", "Trámite sin nombre")
+            costo_esperado = grupo.get("costo_total_base", 0.0)
             
-            if nombre_tramite not in st.session_state.estado_tramites_general:
-                st.session_state.estado_tramites_general[nombre_tramite] = "En proceso"
-            
-            col_t1, col_t2, col_t3 = st.columns([3, 2, 2])
+            # Simulamos o leemos el gasto real acumulado en Ahorro & Gastos para este concepto.
+            # (Aquí puedes conectar la variable o diccionario donde Ahorro & Gastos guarda los gastos por trámite)
+            # Ejemplo: buscando en un registro de gastos de session_state
+            gasto_en_ahorro = sum(
+                item.get("monto", 0) for item in st.session_state.get("lista_gastos_soles", []) 
+                if item.get("concepto") == nombre_tramite
+            )
+            # O si prefieres una alternativa directa por si el usuario edita un acumulador:
+            # gasto_en_ahorro = grupo.get("gasto_registrado_actual", 0.0) 
+
+            # Cálculo automático del estado
+            estado_calculado = calcular_estado_tramite(gasto_en_ahorro, costo_esperado)
+            grupo["estado"] = estado_calculado  # Actualizamos el estado de manera unificada
+
+            # Renderizado visual en columnas
+            col_t1, col_t2, col_t3, col_t4 = st.columns([2.5, 1.5, 1.5, 1.5])
             with col_t1:
                 st.markdown(f"**{nombre_tramite}**")
                 for sub in grupo.get("desglose", []):
                     if sub.get("cantidad", 0) > 0:
-                        st.caption(f"  - {sub.get('subitem', '')} (Cant: {sub.get('cantidad', 0)})")
+                        st.caption(f"  - {sub.get('subitem', '')} (S/ {sub.get('costo_unitario', 0):,.2f} c/u)")
             with col_t2:
-                st.text(f"S/ {grupo.get('costo_total_base', 0):,.2f}")
+                st.text(f"Presupuesto:\nS/ {costo_esperado:,.2f}")
             with col_t3:
-                estados_posibles = ["En proceso", "Completado", "Pendiente"]
-                estado_actual = st.session_state.estado_tramites_general[nombre_tramite]
-                indice_actual = estados_posibles.index(estado_actual) if estado_actual in estados_posibles else 0
-                
-                nuevo_estado = st.selectbox(
-                    "Estado",
-                    estados_posibles,
-                    index=indice_actual,
-                    key=f"estado_soles_{idx}",
-                    label_visibility="collapsed"
-                )
-                st.session_state.estado_tramites_general[nombre_tramite] = nuevo_estado
+                st.text(f"Gastado (Ahorro):\nS/ {gasto_en_ahorro:,.2f}")
+            with col_t4:
+                # Mostrar el estado con un color o indicador visual según corresponda
+                if estado_calculado == "Completado":
+                    st.success(f"🟢 {estado_calculado}")
+                elif estado_calculado == "En proceso":
+                    st.warning(f"🟡 {estado_calculado}")
+                else:
+                    st.info(f"⚪ {estado_calculado}")
             st.markdown("---")
     else:
-        st.info("💡 Visita primero la sección de **Presupuesto** para inicializar los datos en soles.")
+        st.info("💡 Visita primero la sección de **Presupuesto** para inicializar los datos.")
 
-    # Validar si el presupuesto en CAD existe en la sesión
+    # 🍁 Trámites en CAD
     if "presupuesto_cad_detallado" in st.session_state and st.session_state.presupuesto_cad_detallado:
-        st.subheader("🍁 Trámites en CAD$")
+        st.subheader("🍁 Trazabilidad en CAD$ (Ahorro/Gastos vs Presupuesto)")
+        
         for idx, grupo in enumerate(st.session_state.presupuesto_cad_detallado):
             nombre_tramite = grupo.get("tramite_principal", "Trámite sin nombre")
+            costo_esperado_cad = grupo.get("costo_total_base", 0.0)
             
-            if nombre_tramite not in st.session_state.estado_tramites_general:
-                st.session_state.estado_tramites_general[nombre_tramite] = "En proceso"
-            
-            col_c1, col_c2, col_c3 = st.columns([3, 2, 2])
+            # Gasto acumulado en CAD desde Ahorro & Gastos
+            gasto_en_ahorro_cad = sum(
+                item.get("monto", 0) for item in st.session_state.get("lista_gastos_cad", []) 
+                if item.get("concepto") == nombre_tramite
+            )
+
+            estado_calculado_cad = calcular_estado_tramite(gasto_en_ahorro_cad, costo_esperado_cad)
+            grupo["estado"] = estado_calculado_cad
+
+            col_c1, col_c2, col_c3, col_c4 = st.columns([2.5, 1.5, 1.5, 1.5])
             with col_c1:
                 st.markdown(f"**{nombre_tramite}**")
                 for sub in grupo.get("desglose", []):
                     if sub.get("cantidad", 0) > 0:
-                        st.caption(f"  - {sub.get('subitem', '')} (Cant: {sub.get('cantidad', 0)})")
+                        st.caption(f"  - {sub.get('subitem', '')} (CAD $ {sub.get('costo_unitario', 0):,.2f} c/u)")
             with col_c2:
-                st.text(f"CAD $ {grupo.get('costo_total_base', 0):,.2f}")
+                st.text(f"Presupuesto:\nCAD $ {costo_esperado_cad:,.2f}")
             with col_c3:
-                estados_posibles = ["En proceso", "Completado", "Pendiente"]
-                estado_actual = st.session_state.estado_tramites_general[nombre_tramite]
-                indice_actual = estados_posibles.index(estado_actual) if estado_actual in estados_posibles else 0
-                
-                nuevo_estado_cad = st.selectbox(
-                    "Estado CAD",
-                    estados_posibles,
-                    index=indice_actual,
-                    key=f"estado_cad_{idx}",
-                    label_visibility="collapsed"
-                )
-                st.session_state.estado_tramites_general[nombre_tramite] = nuevo_estado_cad
+                st.text(f"Gastado (Ahorro):\nCAD $ {gasto_en_ahorro_cad:,.2f}")
+            with col_c4:
+                if estado_calculado_cad == "Completado":
+                    st.success(f"🟢 {estado_calculado_cad}")
+                elif estado_calculado_cad == "En proceso":
+                    st.warning(f"🟡 {estado_calculado_cad}")
+                else:
+                    st.info(f"⚪ {estado_calculado_cad}")
             st.markdown("---")
-    else:
-        st.info("💡 Visita primero la sección de **Presupuesto** para inicializar los datos en CAD.")
         
 # ===== PÁGINA 6: CONFIGURACIÓN =====
 elif pagina == "⚙️ Configuración":
