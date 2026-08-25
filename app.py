@@ -628,50 +628,54 @@ elif pagina == "🎫 Bolsa Migratoria":
         
         st.dataframe(df_proyeccion_display, use_container_width=True)
         
-# ===== PÁGINA: TRÁMITES Y SEGUIMIENTO =====
-elif pagina == "📋 Trámites":
+# ===== PÁGINA: TRÁMITES Y MAPEO =====
+elif pagina == "📋 Trámites y Mapeo":
     st.header("📋 Seguimiento de Trámites")
     st.write("Estado actual de los trámites sincronizado automáticamente con tu presupuesto.")
 
-    # Inicializar un diccionario de estados global si no existe
+    # Inicializar el diccionario de estados global si no existe
     if "estado_tramites_general" not in st.session_state:
         st.session_state.estado_tramites_general = {}
 
-    st.subheader("💱 Trámites en Soles")
-    # Verificamos que exista el presupuesto en el session_state
-    if "presupuesto_soles_detallado" in st.session_state:
+    # Validar si el presupuesto en soles existe en la sesión
+    if "presupuesto_soles_detallado" in st.session_state and st.session_state.presupuesto_soles_detallado:
+        st.subheader("💱 Trámites en Soles")
         for idx, grupo in enumerate(st.session_state.presupuesto_soles_detallado):
-            nombre_tramite = grupo["tramite_principal"]
+            nombre_tramite = grupo.get("tramite_principal", "Trámite sin nombre")
             
-            # Estado por defecto si no ha sido alterado
             if nombre_tramite not in st.session_state.estado_tramites_general:
                 st.session_state.estado_tramites_general[nombre_tramite] = "En proceso"
             
             col_t1, col_t2, col_t3 = st.columns([3, 2, 2])
             with col_t1:
                 st.markdown(f"**{nombre_tramite}**")
-                # Mostrar los subitems dinámicamente desde el presupuesto
-                for sub in grupo["desglose"]:
-                    if sub["cantidad"] > 0:
-                        st.caption(f"  - {sub['subitem']} (Cant: {sub['cantidad']})")
+                for sub in grupo.get("desglose", []):
+                    if sub.get("cantidad", 0) > 0:
+                        st.caption(f"  - {sub.get('subitem', '')} (Cant: {sub.get('cantidad', 0)})")
             with col_t2:
-                # Costo total calculado directamente desde el presupuesto
-                st.text(f"S/ {grupo['costo_total_base']:,.2f}")
+                st.text(f"S/ {grupo.get('costo_total_base', 0):,.2f}")
             with col_t3:
+                estados_posibles = ["En proceso", "Completado", "Pendiente"]
+                estado_actual = st.session_state.estado_tramites_general[nombre_tramite]
+                indice_actual = estados_posibles.index(estado_actual) if estado_actual in estados_posibles else 0
+                
                 nuevo_estado = st.selectbox(
                     "Estado",
-                    ["En proceso", "Completado", "Pendiente"],
-                    index=["En proceso", "Completado", "Pendiente"].index(st.session_state.estado_tramites_general[nombre_tramite]),
+                    estados_posibles,
+                    index=indice_actual,
                     key=f"estado_soles_{idx}",
                     label_visibility="collapsed"
                 )
                 st.session_state.estado_tramites_general[nombre_tramite] = nuevo_estado
             st.markdown("---")
+    else:
+        st.info("💡 Visita primero la sección de **Presupuesto** para inicializar los datos en soles.")
 
-    st.subheader("🍁 Trámites en CAD$")
-    if "presupuesto_cad_detallado" in st.session_state:
+    # Validar si el presupuesto en CAD existe en la sesión
+    if "presupuesto_cad_detallado" in st.session_state and st.session_state.presupuesto_cad_detallado:
+        st.subheader("🍁 Trámites en CAD$")
         for idx, grupo in enumerate(st.session_state.presupuesto_cad_detallado):
-            nombre_tramite = grupo["tramite_principal"]
+            nombre_tramite = grupo.get("tramite_principal", "Trámite sin nombre")
             
             if nombre_tramite not in st.session_state.estado_tramites_general:
                 st.session_state.estado_tramites_general[nombre_tramite] = "En proceso"
@@ -679,21 +683,27 @@ elif pagina == "📋 Trámites":
             col_c1, col_c2, col_c3 = st.columns([3, 2, 2])
             with col_c1:
                 st.markdown(f"**{nombre_tramite}**")
-                for sub in grupo["desglose"]:
-                    if sub["cantidad"] > 0:
-                        st.caption(f"  - {sub['subitem']} (Cant: {sub['cantidad']})")
+                for sub in grupo.get("desglose", []):
+                    if sub.get("cantidad", 0) > 0:
+                        st.caption(f"  - {sub.get('subitem', '')} (Cant: {sub.get('cantidad', 0)})")
             with col_c2:
-                st.text(f"CAD $ {grupo['costo_total_base']:,.2f}")
+                st.text(f"CAD $ {grupo.get('costo_total_base', 0):,.2f}")
             with col_c3:
+                estados_posibles = ["En proceso", "Completado", "Pendiente"]
+                estado_actual = st.session_state.estado_tramites_general[nombre_tramite]
+                indice_actual = estados_posibles.index(estado_actual) if estado_actual in estados_posibles else 0
+                
                 nuevo_estado_cad = st.selectbox(
                     "Estado CAD",
-                    ["En proceso", "Completado", "Pendiente"],
-                    index=["En proceso", "Completado", "Pendiente"].index(st.session_state.estado_tramites_general[nombre_tramite]),
+                    estados_posibles,
+                    index=indice_actual,
                     key=f"estado_cad_{idx}",
                     label_visibility="collapsed"
                 )
                 st.session_state.estado_tramites_general[nombre_tramite] = nuevo_estado_cad
             st.markdown("---")
+    else:
+        st.info("💡 Visita primero la sección de **Presupuesto** para inicializar los datos en CAD.")
         
 # ===== PÁGINA 6: CONFIGURACIÓN =====
 elif pagina == "⚙️ Configuración":
