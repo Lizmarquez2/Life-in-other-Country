@@ -336,8 +336,6 @@ elif pagina == "💰 Ahorro & Gastos":
         concepto = st.selectbox(
             "Concepto / Descripción", 
             [
-                "Sueldo / Ahorro mensual", 
-                "Bolsa de Viaje", 
                 "Pasaportes (2 personas)",
                 "Apostillas títulos (2 personas)",
                 "Antecedentes penales (2 personas)",
@@ -348,7 +346,8 @@ elif pagina == "💰 Ahorro & Gastos":
                 "IELTS CLB 7 - Persona_J_02",
                 "Express Entry (pareja)",
                 "Seguro médico (3 meses)",
-                "Gastos varios / Contingencia"
+                "Gastos varios / Contingencia",
+                "Bolsa de Viaje"
             ]
         )
         
