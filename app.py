@@ -29,16 +29,55 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ===== ESTILOS CSS =====
+# ===== ESTILOS CSS UNISEX Y DISEÑO MODERNO =====
 st.markdown("""
 <style>
+    /* Estilo general y tipografía limpia */
+    .stApp {
+        background-color: #F8F9FA;
+    }
     .main { padding: 1rem; }
-    .metric-card { background-color: #f0f2f6; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; }
-    h1 { color: #667eea; }
-    h2 { color: #764ba2; }
+    
+    /* Sidebar moderna y elegante (Azul pizarra oscuro, unisex) */
+    [data-testid="stSidebar"] {
+        background-color: #1E293B;
+        color: #FFFFFF;
+    }
+    
+    /* Textos, títulos y etiquetas dentro del Sidebar */
+    [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3, [data-testid="stSidebar"] label {
+        color: #F1F5F9 !important;
+    }
+    
+    /* Elementos de radio button en el menú lateral */
+    [data-testid="stSidebar"] .stRadio label {
+        color: #E2E8F0 !important;
+        font-weight: 500;
+    }
+
+    /* Tarjetas y métricas */
+    .metric-card { 
+        background-color: #FFFFFF; 
+        padding: 1rem; 
+        border-radius: 0.5rem; 
+        margin-bottom: 1rem; 
+        border: 1px solid #E2E8F0;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    h1 { color: #1E293B; }
+    h2 { color: #334155; }
+    
     .success { color: #10b981; font-weight: bold; }
     .danger { color: #ef4444; font-weight: bold; }
     .warning { color: #f59e0b; font-weight: bold; }
+    
+    /* Botones principales con un tono moderno */
+    .stButton>button {
+        border-radius: 8px;
+        font-weight: 600;
+        border: none;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -62,7 +101,19 @@ st.markdown("# 🚀 Dashboard de Migración Calgary 2026-2027")
 st.markdown("**2 Personas** | Objetivo: Junio 2027")
 st.markdown("---")
 
-# ===== SIDEBAR =====
+# ===== SIDEBAR CON DISEÑO Y NAVEGACIÓN =====
+st.sidebar.markdown(
+    """
+    <div style="text-align: center; padding: 10px 0px 20px 0px;">
+        <span style="font-size: 35px;">🍁</span>
+        <h3 style="color: #F1F5F9; margin: 0; font-size: 20px;">Proyecto Migración</h3>
+        <p style="color: #94A3B8; font-size: 12px; margin: 0;">Calgary 2026-2027</p>
+    </div>
+    """, 
+    unsafe_allow_html=True
+)
+
+st.sidebar.markdown("---")
 st.sidebar.title("📌 Navegación")
 pagina = st.sidebar.radio(
     "Selecciona una sección:",
