@@ -85,30 +85,47 @@ def calcular_dias_faltantes(datos):
         return 0
 
 def calcular_progreso_tiempo(datos):
-    """Calcula progreso de tiempo en el proyecto."""
+    """Calcula progreso de tiempo en el proyecto, ajustándose al primer ahorro registrado si existe."""
     fechas = datos.get("config", {}).get("fechas_clave", {})
     
     inicio_str = fechas.get("fecha_inicio_proyecto", "2026-08-01")
     fin_str = fechas.get("fecha_objetivo_viaje", "2027-06-15")
     
+    # Buscamos si hay movimientos registrados para ajustar la fecha de inicio al primer ahorro real
+    movimientos = datos.get("movimientos", {}).get("movimientos", [])
+    if movimientos:
+        fechas_movs = sorted([m.get("fecha") for m in movimientos if m.get("fecha")])
+        if fechas_movs:
+            inicio_str = fechas_movs[0] # El primer movimiento marca el inicio real
+
     try:
         inicio = datetime.strptime(inicio_str, "%Y-%m-%d")
         fin = datetime.strptime(fin_str, "%Y-%m-%d")
         hoy = datetime.now()
         
-        dias_totales = (fin - inicio).days
-        dias_transcurridos = (hoy - inicio).days
+        dias_totales = max((fin - inicio).days, 1)
+        dias_transcurridos = max((hoy - inicio).days, 0)
+        dias_restantes = max(0, (fin - hoy).days)
         
         progreso_pct = (dias_transcurridos / dias_totales * 100) if dias_totales > 0 else 0
+        
+        # Transición inteligente: Mostrar en Meses si falta tiempo, o en Días si estamos cerca de la recta final (< 90 días)
+        if dias_restantes > 90:
+            meses_totales = round(dias_totales / 30.44, 1)
+            meses_transcurridos = round(dias_transcurridos / 30.44, 1)
+            texto_transcurrido = f"{meses_transcurridos} / {meses_totales} meses"
+        else:
+            texto_transcurrido = f"{dias_transcurridos} / {dias_totales} días"
         
         return {
             "dias_totales": dias_totales,
             "dias_transcurridos": dias_transcurridos,
-            "dias_faltantes": max(0, (fin - hoy).days),
-            "progreso_pct": min(100.0, max(0.0, progreso_pct))
+            "dias_faltantes": dias_restantes,
+            "progreso_pct": min(100.0, max(0.0, progreso_pct)),
+            "texto_transcurrido": texto_transcurrido
         }
     except (ValueError, TypeError):
-        return {"dias_totales": 0, "dias_transcurridos": 0, "dias_faltantes": 0, "progreso_pct": 0}
+        return {"dias_totales": 0, "dias_transcurridos": 0, "dias_faltantes": 0, "progreso_pct": 0, "texto_transcurrido": "0 / 0 días"}
 
 def obtener_tramites_por_estado(datos, estado):
     """Retorna trámites filtrados por estado."""
