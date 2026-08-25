@@ -72,11 +72,12 @@ pagina = st.sidebar.radio(
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("**Estado del Proyecto**")
+
 progreso_tiempo = calcular_progreso_tiempo(datos)
 st.sidebar.progress(min(progreso_tiempo.get("progreso_pct", 0), 100) / 100)
 st.sidebar.metric(
     "Tiempo Transcurrido",
-    f"{progreso_tiempo.get('dias_transcurridos', 0)} / {progreso_tiempo.get('dias_totales', 0)} días"
+    progreso_tiempo.get("texto_transcurrido", "0 / 0 días")
 )
 
 # ===== PÁGINA 1: RESUMEN EJECUTIVO =====
