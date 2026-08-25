@@ -29,24 +29,14 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ===== ESTILOS CSS CORREGIDOS (TEXTOS CLAROS Y TARJETAS PARA LAS SECCIONES) =====
+# ===== ESTILOS CSS CORREGIDOS (DISEÑO LIMPIO Y SIN DESBORDES) =====
 st.markdown("""
 <style>
     /* Estilo general del fondo principal */
     .stApp {
-        background-color: #F1F5F9;
+        background-color: #F8FAFC;
     }
-    .main { padding: 1.5rem; }
-    
-    /* Contenedor visual tipo "tarjeta" para las secciones principales (las hojas) */
-    .block-container {
-        background-color: #FFFFFF;
-        padding: 2.5rem;
-        border-radius: 16px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        margin-top: 1rem;
-        margin-bottom: 2rem;
-    }
+    .main { padding: 1rem 2rem; }
 
     /* Sidebar moderna y elegante (Azul pizarra oscuro) */
     [data-testid="stSidebar"] {
@@ -54,7 +44,7 @@ st.markdown("""
         color: #FFFFFF;
     }
     
-    /* Forzar visibilidad de todos los textos, títulos y subtítulos en el Sidebar */
+    /* Forzar visibilidad de textos y etiquetas en el Sidebar */
     [data-testid="stSidebar"] h1, 
     [data-testid="stSidebar"] h2, 
     [data-testid="stSidebar"] h3, 
@@ -64,21 +54,21 @@ st.markdown("""
         color: #F1F5F9 !important;
     }
     
-    /* Asegurar que las opciones del menú lateral (radio buttons) se vean claramente en blanco */
+    /* Asegurar que las opciones del menú lateral se vean claramente en blanco */
     [data-testid="stSidebar"] .stRadio div label p {
         color: #FFFFFF !important;
         font-weight: 500;
         font-size: 15px;
     }
 
-    /* Tarjetas y métricas internas */
+    /* Tarjetas y métricas internas estilizadas */
     .metric-card { 
-        background-color: #F8FAFC; 
-        padding: 1rem; 
-        border-radius: 0.5rem; 
+        background-color: #FFFFFF; 
+        padding: 1.2rem; 
+        border-radius: 12px; 
         margin-bottom: 1rem; 
         border: 1px solid #E2E8F0;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
     
     h1 { color: #1E293B; }
