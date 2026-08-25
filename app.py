@@ -29,35 +29,51 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ===== ESTILOS CSS UNISEX Y DISEÑO MODERNO =====
+# ===== ESTILOS CSS CORREGIDOS (TEXTOS CLAROS Y TARJETAS PARA LAS SECCIONES) =====
 st.markdown("""
 <style>
-    /* Estilo general y tipografía limpia */
+    /* Estilo general del fondo principal */
     .stApp {
-        background-color: #F8F9FA;
+        background-color: #F1F5F9;
     }
-    .main { padding: 1rem; }
+    .main { padding: 1.5rem; }
     
-    /* Sidebar moderna y elegante (Azul pizarra oscuro, unisex) */
+    /* Contenedor visual tipo "tarjeta" para las secciones principales (las hojas) */
+    .block-container {
+        background-color: #FFFFFF;
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    /* Sidebar moderna y elegante (Azul pizarra oscuro) */
     [data-testid="stSidebar"] {
         background-color: #1E293B;
         color: #FFFFFF;
     }
     
-    /* Textos, títulos y etiquetas dentro del Sidebar */
-    [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3, [data-testid="stSidebar"] label {
+    /* Forzar visibilidad de todos los textos, títulos y subtítulos en el Sidebar */
+    [data-testid="stSidebar"] h1, 
+    [data-testid="stSidebar"] h2, 
+    [data-testid="stSidebar"] h3, 
+    [data-testid="stSidebar"] label,
+    [data-testid="stSidebar"] span,
+    [data-testid="stSidebar"] p {
         color: #F1F5F9 !important;
     }
     
-    /* Elementos de radio button en el menú lateral */
-    [data-testid="stSidebar"] .stRadio label {
-        color: #E2E8F0 !important;
+    /* Asegurar que las opciones del menú lateral (radio buttons) se vean claramente en blanco */
+    [data-testid="stSidebar"] .stRadio div label p {
+        color: #FFFFFF !important;
         font-weight: 500;
+        font-size: 15px;
     }
 
-    /* Tarjetas y métricas */
+    /* Tarjetas y métricas internas */
     .metric-card { 
-        background-color: #FFFFFF; 
+        background-color: #F8FAFC; 
         padding: 1rem; 
         border-radius: 0.5rem; 
         margin-bottom: 1rem; 
@@ -72,7 +88,7 @@ st.markdown("""
     .danger { color: #ef4444; font-weight: bold; }
     .warning { color: #f59e0b; font-weight: bold; }
     
-    /* Botones principales con un tono moderno */
+    /* Botones modernos */
     .stButton>button {
         border-radius: 8px;
         font-weight: 600;
