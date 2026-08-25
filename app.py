@@ -338,16 +338,16 @@ elif pagina == "💰 Ahorro & Gastos":
             [
                 "Sueldo / Ahorro mensual", 
                 "Bolsa de Viaje", 
-                "Pasaporte (Perú)", 
-                "Apostillas títulos (Perú)",
-                "Antecedentes penales (Perú)",
-                "ECA (Evaluación de Credenciales)", 
-                "IELTS (Examen de Inglés)", 
-                "Traducciones oficiales (Perú)", 
-                "Exámenes médicos IRCC (Perú)", 
-                "Tasas de visado / Express Entry (Pago online en CAD)", 
-                "Seguro médico",
-                "Pasajes aéreos Perú - Canadá",
+                "Pasaportes (2 personas)",
+                "Apostillas títulos (2 personas)",
+                "Antecedentes penales (2 personas)",
+                "Vuelos Lima-Calgary (2 personas)",
+                "ECA - Persona_L_01",
+                "ECA - Persona_J_02",
+                "IELTS CLB 7 - Persona_L_01",
+                "IELTS CLB 7 - Persona_J_02",
+                "Express Entry (pareja)",
+                "Seguro médico (3 meses)",
                 "Gastos varios / Contingencia"
             ]
         )
