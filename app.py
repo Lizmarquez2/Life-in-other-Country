@@ -379,27 +379,57 @@ elif pagina == "💵 Presupuesto":
     
     presupuesto = datos.get("presupuesto", {}).get("presupuesto", {})
     
+    # 💱 GASTOS EN SOLES
     st.subheader("💱 Gastos en Soles (Perú)")
     gastos_soles = presupuesto.get("gastos_en_soles", {}).get("items", [])
     
     if gastos_soles:
         df_soles = pd.DataFrame(gastos_soles)
-        df_soles_display = df_soles[["nombre", "costo"]].copy()
-        df_soles_display.columns = ["Trámite", "Costo (S/)"]
-        st.dataframe(df_soles_display, use_container_width=True)
-        st.metric("Subtotal S/", formato_moneda_soles(presupuesto.get("gastos_en_soles", {}).get("subtotal_soles", 0)))
+        
+        # Verificamos si los datos tienen cantidad y costo unitario, o si usaban el campo antiguo 'costo'
+        if "costo_unitario" not in df_soles.columns and "costo" in df_soles.columns:
+            df_soles["costo_unitario"] = df_soles["costo"]
+            df_soles["cantidad"] = 1
+            
+        df_soles["costo_total"] = df_soles["costo_unitario"] * df_soles["cantidad"]
+        
+        df_soles_display = df_soles[["nombre", "costo_unitario", "cantidad", "costo_total"]].copy()
+        df_soles_display.columns = ["Trámite", "Costo Unitario (S/)", "Cantidad", "Costo Total (S/)"]
+        
+        # Formateo visual de moneda
+        df_soles_display["Costo Unitario (S/)"] = df_soles_display["Costo Unitario (S/)"].apply(lambda x: f"S/ {x:,.2f}")
+        df_soles_display["Costo Total (S/)"] = df_soles_display["Costo Total (S/)"].apply(lambda x: f"S/ {x:,.2f}")
+        
+        st.dataframe(df_soles_display, use_container_width=True, hide_index=True)
+        
+        subtotal_soles_calculado = df_soles["costo_total"].sum()
+        st.metric("Subtotal S/", formato_moneda_soles(subtotal_soles_calculado))
     
     st.markdown("---")
     
+    # 🍁 GASTOS EN CAD
     st.subheader("🍁 Gastos en CAD$ (Canadá)")
     gastos_cad = presupuesto.get("gastos_en_cad", {}).get("items", [])
     
     if gastos_cad:
         df_cad = pd.DataFrame(gastos_cad)
-        df_cad_display = df_cad[["nombre", "costo"]].copy()
-        df_cad_display.columns = ["Trámite", "Costo (CAD$)"]
-        st.dataframe(df_cad_display, use_container_width=True)
-        st.metric("Subtotal CAD$", formato_moneda_cad(presupuesto.get("gastos_en_cad", {}).get("subtotal_cad", 0)))
+        
+        if "costo_unitario" not in df_cad.columns and "costo" in df_cad.columns:
+            df_cad["costo_unitario"] = df_cad["costo"]
+            df_cad["cantidad"] = 1
+            
+        df_cad["costo_total"] = df_cad["costo_unitario"] * df_cad["cantidad"]
+        
+        df_cad_display = df_cad[["nombre", "costo_unitario", "cantidad", "costo_total"]].copy()
+        df_cad_display.columns = ["Trámite", "Costo Unitario (CAD$)", "Cantidad", "Costo Total (CAD$)"]
+        
+        df_cad_display["Costo Unitario (CAD$)"] = df_cad_display["Costo Unitario (CAD$)"].apply(lambda x: f"CAD $ {x:,.2f}")
+        df_cad_display["Costo Total (CAD$)"] = df_cad_display["Costo Total (CAD$)"].apply(lambda x: f"CAD $ {x:,.2f}")
+        
+        st.dataframe(df_cad_display, use_container_width=True, hide_index=True)
+        
+        subtotal_cad_calculado = df_cad["costo_total"].sum()
+        st.metric("Subtotal CAD$", formato_moneda_cad(subtotal_cad_calculado))
 
 # ===== PÁGINA 5: BOLSA MIGRATORIA =====
 elif pagina == "🎫 Bolsa Migratoria":
@@ -432,11 +462,11 @@ elif pagina == "🎫 Bolsa Migratoria":
     
     col_s1, col_s2 = st.columns(2)
     with col_s1:
-        nuevo_ahorro_liz = st.number_input("Aporte mensual Persona_L_01 (S/)", value=700.0, step=50.0)
+        nuevo_ahorro_Persona_L_01 = st.number_input("Aporte mensual Persona_L_01 (S/)", value=700.0, step=50.0)
     with col_s2:
-        nuevo_ahorro_jhon = st.number_input("Aporte mensual Persona_J_02 (S/)", value=250.0, step=50.0)
+        nuevo_ahorro_Persona_J_02 = st.number_input("Aporte mensual Persona_J_02 (S/)", value=250.0, step=50.0)
         
-    aporte_mensual_total = nuevo_ahorro_liz + nuevo_ahorro_jhon
+    aporte_mensual_total = nuevo_ahorro_Persona_L_01 + nuevo_ahorro_Persona_J_02
     meta_total = objetivo.get('meta_soles', 60000)
     meta_faltante = meta_total - progreso_bolsa["ahorrado_soles"]
     
