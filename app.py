@@ -465,8 +465,8 @@ elif pagina == "🎫 Bolsa Migratoria":
             })
             
         # Asignamos los aportes limpios
-        df_proyeccion["Persona_L_01_ahorro_soles"] = nuevo_ahorro_liz
-        df_proyeccion["Persona_J_02_ahorro_soles"] = nuevo_ahorro_jhon
+        df_proyeccion["Persona_L_01_ahorro_soles"] = nuevo_ahorro_Persona_L_01
+        df_proyeccion["Persona_J_02_ahorro_soles"] = nuevo_ahorro_Persona_J_02
         
         # El saldo neto mensual es 100% el ahorro conjunto (sin restar gastos)
         df_proyeccion["saldo_neto_mes"] = df_proyeccion["Persona_L_01_ahorro_soles"] + df_proyeccion["Persona_J_02_ahorro_soles"]
@@ -512,10 +512,10 @@ elif pagina == "📋 Trámites y Mapeo":
                 )
             )
             
-            # --- DEFINICIÓN DE ESTADOS ---
+            # Definición del estado automático con tolerancia por redondeo de céntimos (±1 sol)
             if total_pagado <= 0:
                 estado_calculado = "Pendiente"
-            elif costo_presupuestado > 0 and total_pagado >= costo_presupuestado:
+            elif costo_presupuestado > 0 and total_pagado >= (costo_presupuestado - 1.0):
                 estado_calculado = "Completado"
             else:
                 estado_calculado = "En Proceso"
