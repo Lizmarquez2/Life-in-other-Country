@@ -29,22 +29,24 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ===== ESTILOS CSS DEFINITIVOS (CONTROL DE ANCHO Y DESBORDES) =====
+# ===== ESTILOS CSS DEFINITIVOS (ANCHO FLUIDO SIN DESBORDES) =====
 st.markdown("""
 <style>
-    /* Evitar desbordes horizontales en toda la aplicación */
+    /* Forzar que la aplicación completa no genere scroll horizontal */
     .stApp {
         background-color: #F8FAFC;
-        overflow-x: hidden;
+        overflow-x: hidden !important;
     }
     
-    /* Contenedor principal adaptable */
+    /* Anular los anchos fijos y márgenes exagerados del contenedor principal de Streamlit */
     .main .block-container {
         max-width: 100% !important;
-        padding-top: 2rem;
-        padding-right: 2rem;
-        padding-left: 2rem;
-        padding-bottom: 2rem;
+        width: 100% !important;
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+        margin: 0 !important;
     }
 
     /* Sidebar moderna y elegante (Azul pizarra oscuro) */
