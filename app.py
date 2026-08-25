@@ -317,12 +317,18 @@ elif pagina == "💰 Ahorro & Gastos":
                 indice_a_borrar = opciones_dict[movimiento_seleccionado]
                 st.session_state.movimientos_session.pop(indice_a_borrar)
                 
-                datos["movimientos"]["movimientos"] = st.session_state.movimientos_session
-                guardar_datos_json(datos)
+                # Armamos la estructura actualizada
+                estructura_movimientos = {
+                    "movimientos": st.session_state.movimientos_session,
+                    "resumen_por_persona": datos.get("resumen_por_persona", {}),
+                    "totales": datos.get("totales", {})
+                }
                 
-                # 🧹 Limpiamos la caché aquí también
+                # Guardamos pasando la ruta correcta
+                guardar_datos_json("data/movimientos.json", estructura_movimientos)
+                
+                # Limpiamos la caché y recargamos
                 st.cache_data.clear()
-                
                 st.success("¡Movimiento eliminado con éxito!")
                 st.rerun()
     else:
@@ -374,15 +380,21 @@ elif pagina == "💰 Ahorro & Gastos":
                 "observaciones": observaciones
             }
             
-           # Al guardar un movimiento:
+            # 1. Agregamos el registro a la sesión actual
             st.session_state.movimientos_session.append(nuevo_registro)
-            datos["movimientos"]["movimientos"] = st.session_state.movimientos_session
             
-            guardar_datos_json(datos)
+            # 2. Armamos la estructura que requiere movimientos.json
+            estructura_movimientos = {
+                "movimientos": st.session_state.movimientos_session,
+                "resumen_por_persona": datos.get("resumen_por_persona", {}),
+                "totales": datos.get("totales", {})
+            }
             
-            # 🧹 Limpiamos la caché de Streamlit para obligarlo a leer el nuevo JSON la próxima vez
+            # 3. Guardamos pasando la ruta correcta como primer parámetro
+            guardar_datos_json("data/movimientos.json", estructura_movimientos)
+            
+            # 4. Limpiamos la caché y recargamos
             st.cache_data.clear()
-            
             st.success("¡Movimiento registrado y guardado con éxito!")
             st.rerun()
 
