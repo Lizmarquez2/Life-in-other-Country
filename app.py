@@ -53,7 +53,6 @@ datos = load_data()
 if "movimientos_session" not in st.session_state:
     st.session_state.movimientos_session = datos.get("movimientos", {}).get("movimientos", [])
 
-# Inyectamos los movimientos actuales al diccionario global para que todas las páginas y KPIs los lean
 if "movimientos" not in datos:
     datos["movimientos"] = {}
 datos["movimientos"]["movimientos"] = st.session_state.movimientos_session
@@ -318,9 +317,11 @@ elif pagina == "💰 Ahorro & Gastos":
                 indice_a_borrar = opciones_dict[movimiento_seleccionado]
                 st.session_state.movimientos_session.pop(indice_a_borrar)
                 
-                # Actualizamos y guardamos en el JSON usando tu función existente
-                datos["movimientos"] = st.session_state.movimientos_session
+                datos["movimientos"]["movimientos"] = st.session_state.movimientos_session
                 guardar_datos_json(datos)
+                
+                # 🧹 Limpiamos la caché aquí también
+                st.cache_data.clear()
                 
                 st.success("¡Movimiento eliminado con éxito!")
                 st.rerun()
@@ -373,14 +374,14 @@ elif pagina == "💰 Ahorro & Gastos":
                 "observaciones": observaciones
             }
             
-            # 1. Agregamos el registro a la sesión actual
+           # Al guardar un movimiento:
             st.session_state.movimientos_session.append(nuevo_registro)
+            datos["movimientos"]["movimientos"] = st.session_state.movimientos_session
             
-            # 2. Actualizamos el diccionario general de datos con la nueva lista
-            datos["movimientos"] = st.session_state.movimientos_session
+            guardar_datos_json(datos)
             
-            # 3. Guardamos de forma persistente usando tu función existente
-            guardar_datos_json(datos) # Asegúrate de pasarle el diccionario actualizado
+            # 🧹 Limpiamos la caché de Streamlit para obligarlo a leer el nuevo JSON la próxima vez
+            st.cache_data.clear()
             
             st.success("¡Movimiento registrado y guardado con éxito!")
             st.rerun()
