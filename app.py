@@ -375,73 +375,110 @@ elif pagina == "💰 Ahorro & Gastos":
 
 # ===== PÁGINA 4: PRESUPUESTO =====
 elif pagina == "💵 Presupuesto":
-    st.header("💵 Presupuesto Detallado")
+    st.header("💵 Presupuesto Detallado y Desglose de Trámites")
+    st.write("Puedes ajustar la cantidad de cada documento según tus necesidades; el presupuesto se recalculará al instante.")
     
-    presupuesto = datos.get("presupuesto", {}).get("presupuesto", {})
-    
-    # Obtenemos el tipo de cambio de la configuración o datos generales
-    # (Asumiendo que se almacena en datos["configuracion"]["tipo_cambio_cad"] o similar, ajusta la ruta si es necesario)
+    # Obtenemos el tipo de cambio de la configuración
     configuracion = datos.get("configuracion", {})
-    tipo_cambio_cad = configuracion.get("tipo_cambio_cad", datos.get("tipo_cambio", 2.75)) # Valor por defecto de respaldo
+    tipo_cambio_cad = configuracion.get("tipo_cambio_cad", datos.get("tipo_cambio", 2.75))
     
-    # 💱 GASTOS EN SOLES
-    st.subheader("💱 Gastos en Soles (Perú)")
-    gastos_soles = presupuesto.get("gastos_en_soles", {}).get("items", [])
+    # 💱 GASTOS EN SOLES (Con desglose detallado de documentos)
+    st.subheader("💱 Gastos en Soles (Perú) - Trámites y Documentos")
     
-    if gastos_soles:
-        df_soles = pd.DataFrame(gastos_soles)
-        
-        if "costo_unitario" not in df_soles.columns and "costo" in df_soles.columns:
-            df_soles["costo_unitario"] = df_soles["costo"]
-            df_soles["cantidad"] = 1
+    # Inicializamos o recuperamos los ítems en el session_state para que sean interactivos
+    if "gastos_soles_editables" not in st.session_state:
+        st.session_state.gastos_soles_editables = [
+            {"nombre": "Pasaportes (Emisión / Renovación)", "costo_unitario": 120.90, "cantidad": 2},
+            {"nombre": "Apostilla - Título Universitario", "costo_unitario": 46.00, "cantidad": 2},
+            {"nombre": "Apostilla - Grado / Bachiller", "costo_unitario": 46.00, "cantidad": 2},
+            {"nombre": "Apostilla - Certificados de Estudios", "costo_unitario": 46.00, "cantidad": 2},
+            {"nombre": "Antecedentes Penales", "costo_unitario": 81.40, "cantidad": 2},
+            {"nombre": "Antecedentes Policiales y Judiciales", "costo_unitario": 30.00, "cantidad": 2},
+            {"nombre": "Traducciones Oficiales (Por documento)", "costo_unitario": 50.00, "cantidad": 6},
+            {"nombre": "Vuelos Lima-Calgary", "costo_unitario": 6000.00, "cantidad": 2}
+        ]
+
+    # Creamos una tabla interactiva para modificar cantidades
+    items_soles_actualizados = []
+    subtotal_soles_calculado = 0
+    
+    for i, item in enumerate(st.session_state.gastos_soles_editables):
+        col_n, col_cu, col_cant, col_tot = st.columns([3, 1.5, 1.2, 1.8])
+        with col_n:
+            st.write(f"**{item['nombre']}**")
+        with col_cu:
+            st.text(f"S/ {item['costo_unitario']:,.2f}")
+        with col_cant:
+            # Campo interactivo para modificar la cantidad
+            nueva_cantidad = st.number_input(
+                "Cant.", 
+                min_value=0, 
+                value=item["cantidad"], 
+                step=1, 
+                key=f"soles_cant_{i}",
+                label_visibility="collapsed"
+            )
+            item["cantidad"] = nueva_cantidad
+        with col_tot:
+            total_item = item["costo_unitario"] * item["cantidad"]
+            subtotal_soles_calculado += total_item
+            st.text(f"S/ {total_item:,.2f}")
             
-        df_soles["costo_total"] = df_soles["costo_unitario"] * df_soles["cantidad"]
-        
-        df_soles_display = df_soles[["nombre", "costo_unitario", "cantidad", "costo_total"]].copy()
-        df_soles_display.columns = ["Trámite", "Costo Unitario (S/)", "Cantidad", "Costo Total (S/)"]
-        
-        df_soles_display["Costo Unitario (S/)"] = df_soles_display["Costo Unitario (S/)"].apply(lambda x: f"S/ {x:,.2f}")
-        df_soles_display["Costo Total (S/)"] = df_soles_display["Costo Total (S/)"].apply(lambda x: f"S/ {x:,.2f}")
-        
-        st.dataframe(df_soles_display, use_container_width=True, hide_index=True)
-        
-        subtotal_soles_calculado = df_soles["costo_total"].sum()
-        st.metric("Subtotal S/", formato_moneda_soles(subtotal_soles_calculado))
+    st.markdown("---")
+    st.metric("Subtotal S/", formato_moneda_soles(subtotal_soles_calculado))
     
     st.markdown("---")
     
-    # 🍁 GASTOS EN CAD
-    st.subheader("🍁 Gastos en CAD$ (Canadá)")
-    gastos_cad = presupuesto.get("gastos_en_cad", {}).get("items", [])
+    # 🍁 GASTOS EN CAD (Con desglose y editables)
+    st.subheader("🍁 Gastos en CAD$ (Canadá) - Tasas y Servicios")
     
-    if gastos_cad:
-        df_cad = pd.DataFrame(gastos_cad)
+    if "gastos_cad_editables" not in st.session_state:
+        st.session_state.gastos_cad_editables = [
+            {"nombre": "ECA (Evaluación de Credenciales - WES/ICES)", "costo_unitario": 329.00, "cantidad": 1},
+            {"nombre": "IELTS General Training (Examen de Inglés)", "costo_unitario": 350.00, "cantidad": 1},
+            {"nombre": "Tasas de Visado / Express Entry (Pago online)", "costo_unitario": 1250.00, "cantidad": 1},
+            {"nombre": "Seguro Médico (Cobertura inicial 3 meses)", "costo_unitario": 200.00, "cantidad": 3}
+        ]
         
-        if "costo_unitario" not in df_cad.columns and "costo" in df_cad.columns:
-            df_cad["costo_unitario"] = df_cad["costo"]
-            df_cad["cantidad"] = 1
+    subtotal_cad_calculado = 0
+    subtotal_cad_en_soles = 0
+    
+    for i, item in enumerate(st.session_state.gastos_cad_editables):
+        col_nc, col_cuc, col_cantc, col_totc, col_tots = st.columns([2.5, 1.2, 1, 1.5, 1.5])
+        with col_nc:
+            st.write(f"**{item['nombre']}**")
+        with col_cuc:
+            st.text(f"CAD $ {item['costo_unitario']:,.2f}")
+        with col_cantc:
+            nueva_cantidad_cad = st.number_input(
+                "Cant.", 
+                min_value=0, 
+                value=item["cantidad"], 
+                step=1, 
+                key=f"cad_cant_{i}",
+                label_visibility="collapsed"
+            )
+            item["cantidad"] = nueva_cantidad_cad
+        with col_totc:
+            total_item_cad = item["costo_unitario"] * item["cantidad"]
+            subtotal_cad_calculado += total_item_cad
+            st.text(f"CAD $ {total_item_cad:,.2f}")
+        with col_tots:
+            total_item_soles = total_item_cad * tipo_cambio_cad
+            subtotal_cad_en_soles += total_item_soles
+            st.text(f"S/ {total_item_soles:,.2f}")
             
-        df_cad["costo_total_cad"] = df_cad["costo_unitario"] * df_cad["cantidad"]
-        # Convertimos el costo total de CAD a Soles usando el tipo de cambio de la configuración
-        df_cad["costo_total_soles"] = df_cad["costo_total_cad"] * tipo_cambio_cad
-        
-        df_cad_display = df_cad[["nombre", "costo_unitario", "cantidad", "costo_total_cad", "costo_total_soles"]].copy()
-        df_cad_display.columns = ["Trámite", "Costo Unitario (CAD$)", "Cantidad", "Costo Total (CAD$)", "Costo Total (S/.)"]
-        
-        df_cad_display["Costo Unitario (CAD$)"] = df_cad_display["Costo Unitario (CAD$)"].apply(lambda x: f"CAD $ {x:,.2f}")
-        df_cad_display["Costo Total (CAD$)"] = df_cad_display["Costo Total (CAD$)"].apply(lambda x: f"CAD $ {x:,.2f}")
-        df_cad_display["Costo Total (S/.)"] = df_cad_display["Costo Total (S/.)"].apply(lambda x: f"S/ {x:,.2f}")
-        
-        st.dataframe(df_cad_display, use_container_width=True, hide_index=True)
-        
-        subtotal_cad_calculado = df_cad["costo_total_cad"].sum()
-        subtotal_cad_en_soles = df_cad["costo_total_soles"].sum()
-        
-        col_m1, col_m2 = st.columns(2)
-        with col_m1:
-            st.metric("Subtotal CAD$", formato_moneda_cad(subtotal_cad_calculado))
-        with col_m2:
-            st.metric("Subtotal Equivalente en Soles", formato_moneda_soles(subtotal_cad_en_soles), help=f"Tipo de cambio API: 1 CAD = {tipo_cambio_cad} PEN")
+    st.markdown("---")
+    
+    col_m1, col_m2 = st.columns(2)
+    with col_m1:
+        st.metric("Subtotal CAD$", formato_moneda_cad(subtotal_cad_calculado))
+    with col_m2:
+        st.metric(
+            "Subtotal Equivalente en Soles", 
+            formato_moneda_soles(subtotal_cad_en_soles), 
+            help=f"Tipo de cambio API: 1 CAD = {tipo_cambio_cad} PEN"
+        )
 
 # ===== PÁGINA 5: BOLSA MIGRATORIA =====
 elif pagina == "🎫 Bolsa Migratoria":
