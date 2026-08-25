@@ -29,14 +29,23 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ===== ESTILOS CSS CORREGIDOS (DISEÑO LIMPIO Y SIN DESBORDES) =====
+# ===== ESTILOS CSS DEFINITIVOS (CONTROL DE ANCHO Y DESBORDES) =====
 st.markdown("""
 <style>
-    /* Estilo general del fondo principal */
+    /* Evitar desbordes horizontales en toda la aplicación */
     .stApp {
         background-color: #F8FAFC;
+        overflow-x: hidden;
     }
-    .main { padding: 1rem 2rem; }
+    
+    /* Contenedor principal adaptable */
+    .main .block-container {
+        max-width: 100% !important;
+        padding-top: 2rem;
+        padding-right: 2rem;
+        padding-left: 2rem;
+        padding-bottom: 2rem;
+    }
 
     /* Sidebar moderna y elegante (Azul pizarra oscuro) */
     [data-testid="stSidebar"] {
