@@ -379,6 +379,11 @@ elif pagina == "💵 Presupuesto":
     
     presupuesto = datos.get("presupuesto", {}).get("presupuesto", {})
     
+    # Obtenemos el tipo de cambio de la configuración o datos generales
+    # (Asumiendo que se almacena en datos["configuracion"]["tipo_cambio_cad"] o similar, ajusta la ruta si es necesario)
+    configuracion = datos.get("configuracion", {})
+    tipo_cambio_cad = configuracion.get("tipo_cambio_cad", datos.get("tipo_cambio", 2.75)) # Valor por defecto de respaldo
+    
     # 💱 GASTOS EN SOLES
     st.subheader("💱 Gastos en Soles (Perú)")
     gastos_soles = presupuesto.get("gastos_en_soles", {}).get("items", [])
@@ -386,7 +391,6 @@ elif pagina == "💵 Presupuesto":
     if gastos_soles:
         df_soles = pd.DataFrame(gastos_soles)
         
-        # Verificamos si los datos tienen cantidad y costo unitario, o si usaban el campo antiguo 'costo'
         if "costo_unitario" not in df_soles.columns and "costo" in df_soles.columns:
             df_soles["costo_unitario"] = df_soles["costo"]
             df_soles["cantidad"] = 1
@@ -396,7 +400,6 @@ elif pagina == "💵 Presupuesto":
         df_soles_display = df_soles[["nombre", "costo_unitario", "cantidad", "costo_total"]].copy()
         df_soles_display.columns = ["Trámite", "Costo Unitario (S/)", "Cantidad", "Costo Total (S/)"]
         
-        # Formateo visual de moneda
         df_soles_display["Costo Unitario (S/)"] = df_soles_display["Costo Unitario (S/)"].apply(lambda x: f"S/ {x:,.2f}")
         df_soles_display["Costo Total (S/)"] = df_soles_display["Costo Total (S/)"].apply(lambda x: f"S/ {x:,.2f}")
         
@@ -418,18 +421,27 @@ elif pagina == "💵 Presupuesto":
             df_cad["costo_unitario"] = df_cad["costo"]
             df_cad["cantidad"] = 1
             
-        df_cad["costo_total"] = df_cad["costo_unitario"] * df_cad["cantidad"]
+        df_cad["costo_total_cad"] = df_cad["costo_unitario"] * df_cad["cantidad"]
+        # Convertimos el costo total de CAD a Soles usando el tipo de cambio de la configuración
+        df_cad["costo_total_soles"] = df_cad["costo_total_cad"] * tipo_cambio_cad
         
-        df_cad_display = df_cad[["nombre", "costo_unitario", "cantidad", "costo_total"]].copy()
-        df_cad_display.columns = ["Trámite", "Costo Unitario (CAD$)", "Cantidad", "Costo Total (CAD$)"]
+        df_cad_display = df_cad[["nombre", "costo_unitario", "cantidad", "costo_total_cad", "costo_total_soles"]].copy()
+        df_cad_display.columns = ["Trámite", "Costo Unitario (CAD$)", "Cantidad", "Costo Total (CAD$)", "Costo Total (S/.)"]
         
         df_cad_display["Costo Unitario (CAD$)"] = df_cad_display["Costo Unitario (CAD$)"].apply(lambda x: f"CAD $ {x:,.2f}")
         df_cad_display["Costo Total (CAD$)"] = df_cad_display["Costo Total (CAD$)"].apply(lambda x: f"CAD $ {x:,.2f}")
+        df_cad_display["Costo Total (S/.)"] = df_cad_display["Costo Total (S/.)"].apply(lambda x: f"S/ {x:,.2f}")
         
         st.dataframe(df_cad_display, use_container_width=True, hide_index=True)
         
-        subtotal_cad_calculado = df_cad["costo_total"].sum()
-        st.metric("Subtotal CAD$", formato_moneda_cad(subtotal_cad_calculado))
+        subtotal_cad_calculado = df_cad["costo_total_cad"].sum()
+        subtotal_cad_en_soles = df_cad["costo_total_soles"].sum()
+        
+        col_m1, col_m2 = st.columns(2)
+        with col_m1:
+            st.metric("Subtotal CAD$", formato_moneda_cad(subtotal_cad_calculado))
+        with col_m2:
+            st.metric("Subtotal Equivalente en Soles", formato_moneda_soles(subtotal_cad_en_soles), help=f"Tipo de cambio API: 1 CAD = {tipo_cambio_cad} PEN")
 
 # ===== PÁGINA 5: BOLSA MIGRATORIA =====
 elif pagina == "🎫 Bolsa Migratoria":
