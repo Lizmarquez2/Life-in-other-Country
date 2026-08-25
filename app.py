@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import json
 import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime
@@ -314,8 +315,13 @@ elif pagina == "💰 Ahorro & Gastos":
             movimiento_a_borrar = st.selectbox("Selecciona el movimiento a eliminar", opciones_movimientos)
             
             if st.button("Eliminar Registro Seleccionado", type="primary"):
-                indice_a_borrar = int(movimiento_a_borrar.split(" - ")[0].replace("#", ""))
+                indice_a_borrar = opciones_dict[movimiento_seleccionado]
                 st.session_state.movimientos_session.pop(indice_a_borrar)
+                
+                # Actualizamos y guardamos en el JSON usando tu función existente
+                datos["movimientos"] = st.session_state.movimientos_session
+                guardar_datos_json(datos)
+                
                 st.success("¡Movimiento eliminado con éxito!")
                 st.rerun()
     else:
@@ -367,10 +373,16 @@ elif pagina == "💰 Ahorro & Gastos":
                 "observaciones": observaciones
             }
             
-            # Guardamos el registro directamente en la memoria de la sesión
+            # 1. Agregamos el registro a la sesión actual
             st.session_state.movimientos_session.append(nuevo_registro)
             
-            st.success("¡Movimiento registrado con éxito!")
+            # 2. Actualizamos el diccionario general de datos con la nueva lista
+            datos["movimientos"] = st.session_state.movimientos_session
+            
+            # 3. Guardamos de forma persistente usando tu función existente
+            guardar_datos_json(datos) # Asegúrate de pasarle el diccionario actualizado
+            
+            st.success("¡Movimiento registrado y guardado con éxito!")
             st.rerun()
 
 # ===== PÁGINA 4: PRESUPUESTO =====
