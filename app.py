@@ -385,7 +385,6 @@ elif pagina == "💵 Presupuesto":
     st.subheader("💱 Gastos en Soles (Perú)")
     st.write("Presupuesto base y desglose detallado para el seguimiento de trámites.")
     
-    # Definimos la estructura con concepto principal (para trazabilidad) y su desglose editable
     if "presupuesto_soles_detallado" not in st.session_state:
         st.session_state.presupuesto_soles_detallado = [
             {
@@ -426,7 +425,6 @@ elif pagina == "💵 Presupuesto":
     for idx, grupo in enumerate(st.session_state.presupuesto_soles_detallado):
         st.markdown(f"### 📌 {grupo['tramite_principal']}")
         
-        # Tabla o campos interactivos para el desglose
         subtotal_grupo = 0
         for sub_idx, item in enumerate(grupo["desglose"]):
             col_d1, col_d2, col_d3, col_d4 = st.columns([3, 1.5, 1, 1.5])
@@ -435,7 +433,6 @@ elif pagina == "💵 Presupuesto":
             with col_d2:
                 st.text(f"S/ {item['costo_unitario']:,.2f}")
             with col_d3:
-                # Campo interactivo para modificar la cantidad
                 nueva_cant = st.number_input(
                     "Cant", 
                     min_value=0, 
@@ -450,7 +447,6 @@ elif pagina == "💵 Presupuesto":
                 subtotal_grupo += total_sub
                 st.text(f"S/ {total_sub:,.2f}")
                 
-        # Actualizamos el total base del grupo según el desglose interactivo
         grupo["costo_total_base"] = subtotal_grupo
         subtotal_soles_general += subtotal_grupo
         st.caption(f"Subtotal para **{grupo['tramite_principal']}**: S/ {subtotal_grupo:,.2f}")
@@ -458,7 +454,7 @@ elif pagina == "💵 Presupuesto":
 
     st.metric("Subtotal S/", formato_moneda_soles(subtotal_soles_general))
     
-    st.markdown("=" * 40)
+    st.markdown("---")
     
     # 🍁 GASTOS EN CAD$ (Canadá)
     st.subheader("🍁 Gastos en CAD$ (Canadá)")
@@ -494,7 +490,9 @@ elif pagina == "💵 Presupuesto":
             {
                 "tramite_principal": "Seguro médico (3 meses)",
                 "costo_total_base": 600.00,
-                "desglose": [{"subitem": "Cobertura inicial de salud", "costo_unitario": 200.00, "cantidad": 3}]
+                "desglose": [
+                    {"subitem": "Cobertura inicial de salud (2 personas x 3 meses)", "costo_unitario": 100.00, "cantidad": 6}
+                ]
             }
         ]
 
