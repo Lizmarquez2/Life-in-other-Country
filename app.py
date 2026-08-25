@@ -375,109 +375,175 @@ elif pagina == "💰 Ahorro & Gastos":
 
 # ===== PÁGINA 4: PRESUPUESTO =====
 elif pagina == "💵 Presupuesto":
-    st.header("💵 Presupuesto Detallado y Desglose de Trámites")
-    st.write("Puedes ajustar la cantidad de cada documento según tus necesidades; el presupuesto se recalculará al instante.")
+    st.header("💵 Presupuesto Detallado")
     
     # Obtenemos el tipo de cambio de la configuración
     configuracion = datos.get("configuracion", {})
     tipo_cambio_cad = configuracion.get("tipo_cambio_cad", datos.get("tipo_cambio", 2.75))
     
-    # 💱 GASTOS EN SOLES (Con desglose detallado de documentos)
-    st.subheader("💱 Gastos en Soles (Perú) - Trámites y Documentos")
+    # 💱 GASTOS EN SOLES (Perú)
+    st.subheader("💱 Gastos en Soles (Perú)")
+    st.write("Presupuesto base y desglose detallado para el seguimiento de trámites.")
     
-    # Inicializamos o recuperamos los ítems en el session_state para que sean interactivos
-    if "gastos_soles_editables" not in st.session_state:
-        st.session_state.gastos_soles_editables = [
-            {"nombre": "Pasaportes (Emisión / Renovación)", "costo_unitario": 120.90, "cantidad": 2},
-            {"nombre": "Apostilla - Título Universitario", "costo_unitario": 46.00, "cantidad": 2},
-            {"nombre": "Apostilla - Grado / Bachiller", "costo_unitario": 46.00, "cantidad": 2},
-            {"nombre": "Apostilla - Certificados de Estudios", "costo_unitario": 46.00, "cantidad": 2},
-            {"nombre": "Antecedentes Penales", "costo_unitario": 81.40, "cantidad": 2},
-            {"nombre": "Antecedentes Policiales y Judiciales", "costo_unitario": 30.00, "cantidad": 2},
-            {"nombre": "Traducciones Oficiales (Por documento)", "costo_unitario": 50.00, "cantidad": 6},
-            {"nombre": "Vuelos Lima-Calgary", "costo_unitario": 6000.00, "cantidad": 2}
+    # Definimos la estructura con concepto principal (para trazabilidad) y su desglose editable
+    if "presupuesto_soles_detallado" not in st.session_state:
+        st.session_state.presupuesto_soles_detallado = [
+            {
+                "tramite_principal": "Pasaportes (2 personas)",
+                "costo_total_base": 241.80,
+                "desglose": [
+                    {"subitem": "Pasaporte Persona_L_01", "costo_unitario": 120.90, "cantidad": 1},
+                    {"subitem": "Pasaporte Persona_J_02", "costo_unitario": 120.90, "cantidad": 1}
+                ]
+            },
+            {
+                "tramite_principal": "Apostillas títulos (2 personas)",
+                "costo_total_base": 92.00,
+                "desglose": [
+                    {"subitem": "Título Universitario", "costo_unitario": 46.00, "cantidad": 2},
+                    {"subitem": "Título Técnico", "costo_unitario": 46.00, "cantidad": 0},
+                    {"subitem": "Certificados de Estudios", "costo_unitario": 46.00, "cantidad": 0}
+                ]
+            },
+            {
+                "tramite_principal": "Antecedentes penales (2 personas)",
+                "costo_total_base": 162.80,
+                "desglose": [
+                    {"subitem": "Certificado Antecedentes Penales", "costo_unitario": 81.40, "cantidad": 2}
+                ]
+            },
+            {
+                "tramite_principal": "Vuelos Lima-Calgary (2 personas)",
+                "costo_total_base": 12000.00,
+                "desglose": [
+                    {"subitem": "Pasajes Aéreos Lima-Calgary", "costo_unitario": 6000.00, "cantidad": 2}
+                ]
+            }
         ]
 
-    # Creamos una tabla interactiva para modificar cantidades
-    items_soles_actualizados = []
-    subtotal_soles_calculado = 0
-    
-    for i, item in enumerate(st.session_state.gastos_soles_editables):
-        col_n, col_cu, col_cant, col_tot = st.columns([3, 1.5, 1.2, 1.8])
-        with col_n:
-            st.write(f"**{item['nombre']}**")
-        with col_cu:
-            st.text(f"S/ {item['costo_unitario']:,.2f}")
-        with col_cant:
-            # Campo interactivo para modificar la cantidad
-            nueva_cantidad = st.number_input(
-                "Cant.", 
-                min_value=0, 
-                value=item["cantidad"], 
-                step=1, 
-                key=f"soles_cant_{i}",
-                label_visibility="collapsed"
-            )
-            item["cantidad"] = nueva_cantidad
-        with col_tot:
-            total_item = item["costo_unitario"] * item["cantidad"]
-            subtotal_soles_calculado += total_item
-            st.text(f"S/ {total_item:,.2f}")
-            
-    st.markdown("---")
-    st.metric("Subtotal S/", formato_moneda_soles(subtotal_soles_calculado))
-    
-    st.markdown("---")
-    
-    # 🍁 GASTOS EN CAD (Con desglose y editables)
-    st.subheader("🍁 Gastos en CAD$ (Canadá) - Tasas y Servicios")
-    
-    if "gastos_cad_editables" not in st.session_state:
-        st.session_state.gastos_cad_editables = [
-            {"nombre": "ECA (Evaluación de Credenciales - WES/ICES)", "costo_unitario": 329.00, "cantidad": 1},
-            {"nombre": "IELTS General Training (Examen de Inglés)", "costo_unitario": 350.00, "cantidad": 1},
-            {"nombre": "Tasas de Visado / Express Entry (Pago online)", "costo_unitario": 1250.00, "cantidad": 1},
-            {"nombre": "Seguro Médico (Cobertura inicial 3 meses)", "costo_unitario": 200.00, "cantidad": 3}
-        ]
+    subtotal_soles_general = 0
+
+    for idx, grupo in enumerate(st.session_state.presupuesto_soles_detallado):
+        st.markdown(f"### 📌 {grupo['tramite_principal']}")
         
-    subtotal_cad_calculado = 0
+        # Tabla o campos interactivos para el desglose
+        subtotal_grupo = 0
+        for sub_idx, item in enumerate(grupo["desglose"]):
+            col_d1, col_d2, col_d3, col_d4 = st.columns([3, 1.5, 1, 1.5])
+            with col_d1:
+                st.write(f"• {item['subitem']}")
+            with col_d2:
+                st.text(f"S/ {item['costo_unitario']:,.2f}")
+            with col_d3:
+                # Campo interactivo para modificar la cantidad
+                nueva_cant = st.number_input(
+                    "Cant", 
+                    min_value=0, 
+                    value=item["cantidad"], 
+                    step=1, 
+                    key=f"soles_{idx}_{sub_idx}",
+                    label_visibility="collapsed"
+                )
+                item["cantidad"] = nueva_cant
+            with col_d4:
+                total_sub = item["costo_unitario"] * item["cantidad"]
+                subtotal_grupo += total_sub
+                st.text(f"S/ {total_sub:,.2f}")
+                
+        # Actualizamos el total base del grupo según el desglose interactivo
+        grupo["costo_total_base"] = subtotal_grupo
+        subtotal_soles_general += subtotal_grupo
+        st.caption(f"Subtotal para **{grupo['tramite_principal']}**: S/ {subtotal_grupo:,.2f}")
+        st.markdown("---")
+
+    st.metric("Subtotal S/", formato_moneda_soles(subtotal_soles_general))
+    
+    st.markdown("=" * 40)
+    
+    # 🍁 GASTOS EN CAD$ (Canadá)
+    st.subheader("🍁 Gastos en CAD$ (Canadá)")
+    st.write("Manteniendo la estructura de trazabilidad inicial con sus desgloses correspondientes.")
+    
+    if "presupuesto_cad_detallado" not in st.session_state:
+        st.session_state.presupuesto_cad_detallado = [
+            {
+                "tramite_principal": "ECA - Persona_L_01",
+                "costo_total_base": 329.00,
+                "desglose": [{"subitem": "Evaluación WES/ICES - L", "costo_unitario": 329.00, "cantidad": 1}]
+            },
+            {
+                "tramite_principal": "ECA - Persona_J_02",
+                "costo_total_base": 329.00,
+                "desglose": [{"subitem": "Evaluación WES/ICES - J", "costo_unitario": 329.00, "cantidad": 1}]
+            },
+            {
+                "tramite_principal": "IELTS CLB 7 - Persona_L_01",
+                "costo_total_base": 350.00,
+                "desglose": [{"subitem": "Examen IELTS General - L", "costo_unitario": 350.00, "cantidad": 1}]
+            },
+            {
+                "tramite_principal": "IELTS CLB 7 - Persona_J_02",
+                "costo_total_base": 350.00,
+                "desglose": [{"subitem": "Examen IELTS General - J", "costo_unitario": 350.00, "cantidad": 1}]
+            },
+            {
+                "tramite_principal": "Express Entry (pareja)",
+                "costo_total_base": 1250.00,
+                "desglose": [{"subitem": "Tasas de Visado / Portal Online", "costo_unitario": 1250.00, "cantidad": 1}]
+            },
+            {
+                "tramite_principal": "Seguro médico (3 meses)",
+                "costo_total_base": 600.00,
+                "desglose": [{"subitem": "Cobertura inicial de salud", "costo_unitario": 200.00, "cantidad": 3}]
+            }
+        ]
+
+    subtotal_cad_general = 0
     subtotal_cad_en_soles = 0
-    
-    for i, item in enumerate(st.session_state.gastos_cad_editables):
-        col_nc, col_cuc, col_cantc, col_totc, col_tots = st.columns([2.5, 1.2, 1, 1.5, 1.5])
-        with col_nc:
-            st.write(f"**{item['nombre']}**")
-        with col_cuc:
-            st.text(f"CAD $ {item['costo_unitario']:,.2f}")
-        with col_cantc:
-            nueva_cantidad_cad = st.number_input(
-                "Cant.", 
-                min_value=0, 
-                value=item["cantidad"], 
-                step=1, 
-                key=f"cad_cant_{i}",
-                label_visibility="collapsed"
-            )
-            item["cantidad"] = nueva_cantidad_cad
-        with col_totc:
-            total_item_cad = item["costo_unitario"] * item["cantidad"]
-            subtotal_cad_calculado += total_item_cad
-            st.text(f"CAD $ {total_item_cad:,.2f}")
-        with col_tots:
-            total_item_soles = total_item_cad * tipo_cambio_cad
-            subtotal_cad_en_soles += total_item_soles
-            st.text(f"S/ {total_item_soles:,.2f}")
-            
-    st.markdown("---")
-    
+
+    for idx, grupo in enumerate(st.session_state.presupuesto_cad_detallado):
+        st.markdown(f"### 📌 {grupo['tramite_principal']}")
+        
+        subtotal_grupo_cad = 0
+        for sub_idx, item in enumerate(grupo["desglose"]):
+            col_c1, col_c2, col_c3, col_c4, col_c5 = st.columns([2.5, 1.2, 1, 1.3, 1.3])
+            with col_c1:
+                st.write(f"• {item['subitem']}")
+            with col_c2:
+                st.text(f"CAD $ {item['costo_unitario']:,.2f}")
+            with col_c3:
+                nueva_cant_cad = st.number_input(
+                    "Cant", 
+                    min_value=0, 
+                    value=item["cantidad"], 
+                    step=1, 
+                    key=f"cad_{idx}_{sub_idx}",
+                    label_visibility="collapsed"
+                )
+                item["cantidad"] = nueva_cant_cad
+            with col_c4:
+                total_sub_cad = item["costo_unitario"] * item["cantidad"]
+                subtotal_grupo_cad += total_sub_cad
+                st.text(f"CAD $ {total_sub_cad:,.2f}")
+            with col_c5:
+                total_sub_soles = total_sub_cad * tipo_cambio_cad
+                st.text(f"S/ {total_sub_soles:,.2f}")
+                
+        grupo["costo_total_base"] = subtotal_grupo_cad
+        subtotal_cad_general += subtotal_grupo_cad
+        subtotal_cad_en_soles += (subtotal_grupo_cad * tipo_cambio_cad)
+        st.caption(f"Subtotal para **{grupo['tramite_principal']}**: CAD $ {subtotal_grupo_cad:,.2f} (≈ S/ {subtotal_grupo_cad * tipo_cambio_cad:,.2f})")
+        st.markdown("---")
+
     col_m1, col_m2 = st.columns(2)
     with col_m1:
-        st.metric("Subtotal CAD$", formato_moneda_cad(subtotal_cad_calculado))
+        st.metric("Subtotal CAD$", formato_moneda_cad(subtotal_cad_general))
     with col_m2:
         st.metric(
             "Subtotal Equivalente en Soles", 
             formato_moneda_soles(subtotal_cad_en_soles), 
             help=f"Tipo de cambio API: 1 CAD = {tipo_cambio_cad} PEN"
+        )
         )
 
 # ===== PÁGINA 5: BOLSA MIGRATORIA =====
