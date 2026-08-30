@@ -294,7 +294,7 @@ elif pagina == "📅 Línea de Tiempo":
             st.markdown("---")
             
     with col_l2:
-        st.subheader("👨‍💻 Persona_J_02 (Técnico IT)")
+        st.subheader("👨‍💻 Persona_J_02")
         Persona_J_02_timeline = cronograma.get("linea_tiempo_persona", {}).get("Persona_J_02", [])
         
         for item in Persona_J_02_timeline:
